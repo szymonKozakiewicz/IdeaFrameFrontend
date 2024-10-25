@@ -1,0 +1,22 @@
+.blueButton{
+    
+    background-color: #77B6EA;
+}
+.blueButton:hover{
+ 
+    background-color: #6ea7d6;
+}
+
+.blueEmpty{
+    
+    background-color: #f0d2d179;
+
+}
+.blueEmpty:hover{
+    background-color: #F0D2D1;
+    border-color: #F0D2D1;
+}
+
+.btnLarge{
+    font-size: 1.4rem;
+}
