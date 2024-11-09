@@ -5,10 +5,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { LogoComponent } from './logo/logo.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { LoginComponent } from './welcome/login/login.component';
+import { FormFrameRegisterLoginComponent } from './welcome/form-frame-register-login/form-frame-register-login.component';
+import { RegisterComponent } from './welcome/register/register.component';
 
 
 @NgModule({
-  declarations: [AppComponent,LogoComponent,WelcomeComponent],
+  declarations: [AppComponent,LogoComponent,WelcomeComponent,LoginComponent, FormFrameRegisterLoginComponent, RegisterComponent],
   imports: [BrowserModule,AppRoutingModule],
   bootstrap:[AppComponent]
 })
