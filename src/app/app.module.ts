@@ -8,11 +8,12 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './welcome/login/login.component';
 import { FormFrameRegisterLoginComponent } from './welcome/form-frame-register-login/form-frame-register-login.component';
 import { RegisterComponent } from './welcome/register/register.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [AppComponent,LogoComponent,WelcomeComponent,LoginComponent, FormFrameRegisterLoginComponent, RegisterComponent],
-  imports: [BrowserModule,AppRoutingModule],
+  imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule],
   bootstrap:[AppComponent]
 })
 export class AppModule { }
