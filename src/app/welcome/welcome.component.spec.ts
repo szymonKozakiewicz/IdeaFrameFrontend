@@ -1,6 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WelcomeComponent } from './welcome.component';
+import { AppComponent } from '../app.component';
+import { LogoComponent } from '../logo/logo.component';
+import { LoginComponent } from './login/login.component';
+import { FormFrameRegisterLoginComponent } from './form-frame-register-login/form-frame-register-login.component';
+import { RegisterComponent } from './register/register.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from '../app-routing/app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
@@ -8,7 +16,8 @@ describe('WelcomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WelcomeComponent]
+      declarations: [LogoComponent,WelcomeComponent,LoginComponent, FormFrameRegisterLoginComponent, RegisterComponent],
+      imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule],
     })
     .compileComponents();
 
