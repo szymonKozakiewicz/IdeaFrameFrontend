@@ -1,3 +1,6 @@
+import { ComponentFixture } from "@angular/core/testing";
+import { LoginComponent } from "./login.component";
+
 export function getStatusOfInputsRequiredErrorsAndInputsBorders(loginError: any, passwordError: any, passwordInput: HTMLElement, loginInput: HTMLElement) {
   const loginErrorStatus: string = loginError ? 'P' : 'N';
   const passwordErrorStatus: string = passwordError ? 'P' : 'N';
@@ -5,4 +8,11 @@ export function getStatusOfInputsRequiredErrorsAndInputsBorders(loginError: any,
   const loginInputBorderStatus: string = loginInput.classList.contains('is-invalid') ? 'P' : 'N';
   const result: string = loginErrorStatus + passwordErrorStatus + loginInputBorderStatus + passwordInputBorderStatus;
   return result;
+}
+export function GetPasswordRequiredError(fixture: ComponentFixture<LoginComponent>): any {
+  return fixture.debugElement.nativeElement.querySelector('[data-testid="passwordRequiredError"]');
+}
+
+export function GetLoginRequiredError(fixture: ComponentFixture<LoginComponent>): any {
+  return fixture.debugElement.nativeElement.querySelector('[data-testid="loginRequiredError"]');
 }

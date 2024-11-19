@@ -7,15 +7,15 @@ import { RegisterComponent } from '../register/register.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from 'src/app/app-routing/app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { getStatusOfInputsRequiredErrorsAndInputsBorders } from './testHelpers';
+import { getStatusOfInputsRequiredErrorsAndInputsBorders,GetLoginRequiredError,GetPasswordRequiredError } from './testHelpers';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let loginError: any;
   let passwordError: any;
-  let loginInput:HTMLElement
-  let passwordInput:HTMLElement
+  let loginInput:HTMLInputElement
+  let passwordInput:HTMLInputElement
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,11 +28,12 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
 
     loginInput = fixture.debugElement.nativeElement.querySelector('[data-testid="loginInput"]');
+
     passwordInput = fixture.debugElement.nativeElement.querySelector('[data-testid="passwordInput"]');
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
@@ -43,8 +44,8 @@ describe('LoginComponent', () => {
     });
     it('no input touched, error messages shouldnt be visible, border of inputs shouldnt be red', () => {
       //act
-      loginError = fixture.debugElement.nativeElement.querySelector('[data-testid="loginRequiredError"]');
-      passwordError = fixture.debugElement.nativeElement.querySelector('[data-testid="passwordRequiredError"]');
+      loginError = GetLoginRequiredError(fixture);
+      passwordError = GetPasswordRequiredError(fixture);
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
       expect("NNNN").toEqual(result);
@@ -57,8 +58,8 @@ describe('LoginComponent', () => {
       //act
       loginInput.dispatchEvent(new Event("blur"));
       fixture.detectChanges();
-      loginError = fixture.debugElement.nativeElement.querySelector('[data-testid="loginRequiredError"]');
-      passwordError = fixture.debugElement.nativeElement.querySelector('[data-testid="passwordRequiredError"]');
+      loginError = GetLoginRequiredError(fixture);
+      passwordError = GetPasswordRequiredError(fixture);
       
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
@@ -72,8 +73,8 @@ describe('LoginComponent', () => {
       //act
       passwordInput.dispatchEvent(new Event("blur"));
       fixture.detectChanges();
-      loginError = fixture.debugElement.nativeElement.querySelector('[data-testid="loginRequiredError"]');
-      passwordError = fixture.debugElement.nativeElement.querySelector('[data-testid="passwordRequiredError"]');
+      loginError = GetLoginRequiredError(fixture);
+      passwordError = GetPasswordRequiredError(fixture);
       
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
@@ -88,8 +89,8 @@ describe('LoginComponent', () => {
       passwordInput.dispatchEvent(new Event("blur"));
       loginInput.dispatchEvent(new Event("blur"));
       fixture.detectChanges();
-      loginError = fixture.debugElement.nativeElement.querySelector('[data-testid="loginRequiredError"]');
-      passwordError = fixture.debugElement.nativeElement.querySelector('[data-testid="passwordRequiredError"]');
+      loginError = GetLoginRequiredError(fixture);
+      passwordError = GetPasswordRequiredError(fixture);
       
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
@@ -97,6 +98,60 @@ describe('LoginComponent', () => {
 
     });
   })
+  describe("data in password, no data in login",()=>
+  {
+    beforeEach(async () => {
+      passwordInput.value="testPassword"
+
+      passwordInput.dispatchEvent(new Event('input'));
+    });
+    it("password and login inputs touched, error messages should be visible only in case of login input, only border of login input should be red", () => {
+      //arrange
+
+      
+      //act
+      console.log(passwordInput.value)
+      passwordInput.dispatchEvent(new Event("blur"));
+      loginInput.dispatchEvent(new Event("blur"));
+      fixture.detectChanges();
+      loginError = GetLoginRequiredError(fixture);
+      passwordError = GetPasswordRequiredError(fixture);
+      
+      //assert
+      const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
+      expect("PNPN").toEqual(result);
+
+    });
+  })
+  describe("data in login, no data in password",()=>
+  {
+    beforeEach(async () => {
+      loginInput.value="testLogin"
+
+      loginInput.dispatchEvent(new Event('input'));
+    });
+    it("password and login inputs touched, error messages should be visible only in case of login input, only border of login input should be red", () => {
+      //arrange
+
+      
+      //act
+      console.log(passwordInput.value)
+      passwordInput.dispatchEvent(new Event("blur"));
+      loginInput.dispatchEvent(new Event("blur"));
+      fixture.detectChanges();
+      loginError = GetLoginRequiredError(fixture);
+      passwordError = GetPasswordRequiredError(fixture);
+      
+      //assert
+      const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
+      expect("NPNP").toEqual(result);
+
+    });
+  })
 
 });
+
+
+
+
 
