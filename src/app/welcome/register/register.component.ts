@@ -37,6 +37,11 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.errors?.[validatorName];
   }
 
+  isRepeatPasswordInvalid()
+  {
+    return this.isInputInvalidAndTouched('repeatPassword') || this.isFormInvalidWithValidator('mustMatch')
+  }
+
 
   repeatPasswordValidation(form: AbstractControl): ValidationErrors | null {
 

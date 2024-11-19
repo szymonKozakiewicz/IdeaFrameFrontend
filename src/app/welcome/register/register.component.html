@@ -15,11 +15,11 @@
     <form [formGroup]="registerForm" (ngSubmit)="registerNewUser()" class="d-flex flex-column w-100 mt-5">
         <div class="form-group">
             <label for="login">Login</label>
-            <input [ngClass]="{'is-invalid':isInputInvalidAndTouched('login')}" type="text" formControlName="login" class="form-control darkControl mt-1" id="login" placeholder="Login">
+            <input [ngClass]="{'is-invalid':isInputInvalidAndTouched('login')}" data-testid="loginInput" type="text" formControlName="login" class="form-control darkControl mt-1" id="login" placeholder="Login">
         
             <div *ngIf="isInputInvalidAndTouched('login')"
             >
-               <small class="text-danger" *ngIf="isInputInvalidWithValidator('login','required')">
+               <small data-testid="loginRequiredError" class="text-danger" *ngIf="isInputInvalidWithValidator('login','required')">
                 Login is required
                </small>
            
@@ -27,14 +27,14 @@
         </div>
         <div class="form-group mt-3">
             <label for="password">Password</label>
-            <input [ngClass]="{'is-invalid':isInputInvalidAndTouched('password')}" type="password" formControlName="password" class="form-control darkControl mt-1" id="password" placeholder="Password">
+            <input [ngClass]="{'is-invalid':isInputInvalidAndTouched('password')}" data-testid="passwordInput" type="password" formControlName="password" class="form-control darkControl mt-1" id="password" placeholder="Password">
         
             <div class="d-flex flex-column" *ngIf="isInputInvalidAndTouched('password')">
-                <small class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'required'); else minlengthError">
+                <small data-testid="passwordRequiredError" class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'required'); else minlengthError">
                   Password is required
                 </small>
                 <ng-template #minlengthError>
-                  <small class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'minlength')">
+                  <small data-testid="minPasswordLenghtError" class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'minlength')">
                     Password needs to have minimum 6 characters
                   </small>
                 </ng-template>
@@ -42,14 +42,14 @@
         </div>
         <div class="form-group mt-3">
             <label for="repeatPassword">Repeat password</label>
-            <input [ngClass]="{'is-invalid':isInputInvalidAndTouched('repeatPassword')}" type="password" formControlName="repeatPassword" class="form-control darkControl mt-1" id="repeatPassword" placeholder="Repeat password">
+            <input data-testid="repeatPasswordInput" [ngClass]="{'is-invalid':isRepeatPasswordInvalidAndTouched()}" type="password" formControlName="repeatPassword" class="form-control darkControl mt-1" id="repeatPassword" placeholder="Repeat password">
             
             <div class="d-flex flex-column" *ngIf="isRepeatPasswordInvalidAndTouched()">
-                <small class="text-danger" *ngIf="isInputInvalidWithValidator('repeatPassword','required') else repeatpasswordMatchError">
+                <small data-testid="repeatPasswordRequiredError" class="text-danger" *ngIf="isInputInvalidWithValidator('repeatPassword','required') else repeatpasswordMatchError">
                     Repeat password is required
                 </small>
                 <ng-template #repeatpasswordMatchError>
-                    <small class="text-danger" *ngIf="isFormInvalidWithValidator('mustMatch');">
+                    <small data-testid="repeatPasswordMatchError" class="text-danger" *ngIf="isFormInvalidWithValidator('mustMatch');">
                         Repeated password doesn't match with password!
                     </small>
                 </ng-template>

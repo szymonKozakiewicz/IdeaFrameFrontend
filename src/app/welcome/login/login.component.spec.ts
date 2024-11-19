@@ -7,7 +7,9 @@ import { RegisterComponent } from '../register/register.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from 'src/app/app-routing/app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { getStatusOfInputsRequiredErrorsAndInputsBorders,GetLoginRequiredError,GetPasswordRequiredError } from './testHelpers';
+import { getStatusOfInputsRequiredErrorsAndInputsBorders } from './loginTestHelpers';
+import { getLoginRequiredError, getPasswordRequiredError } from '../registerLoginTestHelpers';
+
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -44,8 +46,8 @@ describe('LoginComponent', () => {
     });
     it('no input touched, error messages shouldnt be visible, border of inputs shouldnt be red', () => {
       //act
-      loginError = GetLoginRequiredError(fixture);
-      passwordError = GetPasswordRequiredError(fixture);
+      loginError = getLoginRequiredError(fixture);
+      passwordError = getPasswordRequiredError(fixture);
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
       expect("NNNN").toEqual(result);
@@ -58,8 +60,8 @@ describe('LoginComponent', () => {
       //act
       loginInput.dispatchEvent(new Event("blur"));
       fixture.detectChanges();
-      loginError = GetLoginRequiredError(fixture);
-      passwordError = GetPasswordRequiredError(fixture);
+      loginError = getLoginRequiredError(fixture);
+      passwordError = getPasswordRequiredError(fixture);
       
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
@@ -73,8 +75,8 @@ describe('LoginComponent', () => {
       //act
       passwordInput.dispatchEvent(new Event("blur"));
       fixture.detectChanges();
-      loginError = GetLoginRequiredError(fixture);
-      passwordError = GetPasswordRequiredError(fixture);
+      loginError = getLoginRequiredError(fixture);
+      passwordError = getPasswordRequiredError(fixture);
       
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
@@ -89,8 +91,8 @@ describe('LoginComponent', () => {
       passwordInput.dispatchEvent(new Event("blur"));
       loginInput.dispatchEvent(new Event("blur"));
       fixture.detectChanges();
-      loginError = GetLoginRequiredError(fixture);
-      passwordError = GetPasswordRequiredError(fixture);
+      loginError = getLoginRequiredError(fixture);
+      passwordError = getPasswordRequiredError(fixture);
       
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
@@ -110,12 +112,12 @@ describe('LoginComponent', () => {
 
       
       //act
-      console.log(passwordInput.value)
+
       passwordInput.dispatchEvent(new Event("blur"));
       loginInput.dispatchEvent(new Event("blur"));
       fixture.detectChanges();
-      loginError = GetLoginRequiredError(fixture);
-      passwordError = GetPasswordRequiredError(fixture);
+      loginError = getLoginRequiredError(fixture);
+      passwordError = getPasswordRequiredError(fixture);
       
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
@@ -135,12 +137,12 @@ describe('LoginComponent', () => {
 
       
       //act
-      console.log(passwordInput.value)
+
       passwordInput.dispatchEvent(new Event("blur"));
       loginInput.dispatchEvent(new Event("blur"));
       fixture.detectChanges();
-      loginError = GetLoginRequiredError(fixture);
-      passwordError = GetPasswordRequiredError(fixture);
+      loginError = getLoginRequiredError(fixture);
+      passwordError = getPasswordRequiredError(fixture);
       
       //assert
       const result: string = getStatusOfInputsRequiredErrorsAndInputsBorders(loginError, passwordError, passwordInput, loginInput);
