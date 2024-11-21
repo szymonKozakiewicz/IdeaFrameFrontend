@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WelcomeComponent } from './welcome.component';
-import { AppComponent } from '../app.component';
 import { LogoComponent } from '../logo/logo.component';
 import { LoginComponent } from './login/login.component';
 import { FormFrameRegisterLoginComponent } from './form-frame-register-login/form-frame-register-login.component';

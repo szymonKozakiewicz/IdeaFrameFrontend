@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginComponent } from './login.component';
-import { LogoComponent } from 'src/app/logo/logo.component';
+import { LogoComponent } from 'src/app/presentation/logo/logo.component';
 import { FormFrameRegisterLoginComponent } from '../form-frame-register-login/form-frame-register-login.component';
 import { RegisterComponent } from '../register/register.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from 'src/app/app-routing/app-routing.module';
+import { AppRoutingModule } from 'src/app/presentation/app-routing/app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getStatusOfInputsRequiredErrorsAndInputsBorders } from './loginTestHelpers';
 import { getLoginRequiredError, getPasswordRequiredError } from '../registerLoginTestHelpers';

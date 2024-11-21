@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormFrameRegisterLoginComponent } from './form-frame-register-login.component';
-import { LogoComponent } from 'src/app/logo/logo.component';
-import { LoginComponent } from '../login/login.component';
+import { LogoComponent } from 'src/app/presentation/logo/logo.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from 'src/app/app-routing/app-routing.module';
+import { AppRoutingModule } from 'src/app/presentation/app-routing/app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('FormFrameRegisterLoginComponent', () => {

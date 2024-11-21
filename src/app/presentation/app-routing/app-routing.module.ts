@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import {routes as appRoutes} from "../app.routes"
+import {routes as appRoutes} from "../../app.routes"
 
 @NgModule({
   declarations: [],
