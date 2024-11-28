@@ -1,0 +1,23 @@
+<div class="d-flex flex-column ">
+    <div class="d-flex justify-content-center mb-5">
+        <logo></logo>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="whitePanel ps-4 pe-4 p-5 p-sm-5 ">
+         
+            <div *ngIf="!isOperationInProgress()" class="d-flex flex-column justify-content-start align-items-center w-100 h-100">
+                <h1>Success!</h1>
+                <div class="text-muted">{{operationDescription}}</div>
+                <div class="h-100 d-flex flex-column justify-content-center">
+                    <i  class="bi bi-check2-circle successCircle "></i>
+                </div>
+                <a [routerLink]="buttonLink" class="btn btnmedium blueButton mt-4 wideRoundedButton">{{buttonText}}</a>
+            </div>
+            <div *ngIf="isOperationInProgress()" class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+                <div class="spinner-border blue-spinner" role="status"></div>
+                <div class="mt-2 loading">Loading..</div>
+            </div>
+        </div>
+    </div>
+</div>
+

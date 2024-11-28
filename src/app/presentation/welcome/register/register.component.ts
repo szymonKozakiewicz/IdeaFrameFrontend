@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Route, Router } from '@angular/router';
+import { UserRegisterLoginDTO } from 'src/app/core/dto/user-register-login.dto';
+import { RegisterService } from 'src/app/core/services/register.service';
 
 @Component({
   selector: 'app-register',
@@ -9,6 +12,10 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 export class RegisterComponent implements OnInit {
   registerForm!:FormGroup
 
+  constructor(private router:Router,private registerService:RegisterService)
+  {
+
+  }
   ngOnInit(): void {
     this.registerForm=new FormGroup({
         login:new FormControl('',Validators.required),
@@ -19,9 +26,35 @@ export class RegisterComponent implements OnInit {
     )
 
   }
+
+
+  registerNewUser()
+  {
+    const formInvalid = this.registerForm.invalid;
+
+    if(formInvalid)
+    {
+      this.markAllInputsAsTouched();
+      return;
+    }
+
+    const newUser:UserRegisterLoginDTO=this.getObjectFromForm();
+    this.registerService.register(newUser);
+
+    this.router.navigate(['/registerOperationResult'])
+
+  }
+  getObjectFromForm():UserRegisterLoginDTO
+  {
+    const login:string=this.registerForm.get("login")?.value;
+    const password=this.registerForm.get("password")?.value;
+    let newUser:UserRegisterLoginDTO=new UserRegisterLoginDTO(login,password);
+    return newUser;
+  }
     
   isInputInvalidAndTouched(inputName:string)
   {
+
     return this.registerForm.get(inputName)?.invalid && this.registerForm.get(inputName)?.touched
   }
   isRepeatPasswordInvalidAndTouched()
@@ -49,7 +82,7 @@ export class RegisterComponent implements OnInit {
     
     const password = form?.get("password")?.value;
     const repeatPassword = form?.get("repeatPassword")?.value;
-
+    
     if (password !== repeatPassword) {
       
       return { mustMatch: true };
@@ -58,15 +91,6 @@ export class RegisterComponent implements OnInit {
     
   }
 
-  registerNewUser()
-  {
-    const formInvalid = this.registerForm.invalid;
-    if(formInvalid)
-    {
-      this.markAllInputsAsTouched();
-      return;
-    }
-  }
 
   private markAllInputsAsTouched() {
     this.registerForm.get("password")?.markAsTouched();
@@ -74,3 +98,5 @@ export class RegisterComponent implements OnInit {
     this.registerForm.get("login")?.markAsTouched();
   }
 }
+
+

@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getStatusOfInputsRequiredErrorsAndInputsBorders } from '../login/loginTestHelpers';
 import { getLoginRequiredError, getPasswordRequiredError, getTagByTestId } from '../registerLoginTestHelpers';
 import { getStatusOfPasswordInputBorderAndErrors, getStatusOfRepeatPasswordInputBorderAndErrors } from './registerTestHelpers';
+import { Router } from '@angular/router';
+
 
 
 describe('RegisterComponent', () => {
@@ -20,6 +22,9 @@ describe('RegisterComponent', () => {
   let loginInput:HTMLInputElement
   let passwordInput:HTMLInputElement
   let repeatPasswordInput:HTMLInputElement
+  let registerSubmitButton:HTMLElement
+  let registerForm:HTMLElement;
+  let router:Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,6 +41,9 @@ describe('RegisterComponent', () => {
     passwordInput = fixture.debugElement.nativeElement.querySelector('[data-testid="passwordInput"]');
     
     repeatPasswordInput = fixture.debugElement.nativeElement.querySelector('[data-testid="repeatPasswordInput"]');
+    
+    registerSubmitButton = fixture.debugElement.nativeElement.querySelector('[data-testid="registerSubmitButton"]');
+    registerForm = fixture.debugElement.nativeElement.querySelector('[data-testid="registerForm"]');
     fixture.detectChanges();
   });
 
@@ -155,7 +163,7 @@ describe('RegisterComponent', () => {
     });
   })
 
-    describe("repeat password tests",()=>
+    describe("repeat password validation tests",()=>
     {
         beforeEach(async () => {
 
@@ -233,7 +241,7 @@ describe('RegisterComponent', () => {
       });
     })
 
-    describe("password tests",()=>
+    describe("password validation tests",()=>
     {
         beforeEach(async () => {
 
@@ -274,7 +282,70 @@ describe('RegisterComponent', () => {
 
   });
   })
+  describe("register test",()=>
+  {
+    beforeEach(async () => {
+      router = TestBed.inject(Router);
+    });
 
+    it("testing if after register button is clicked and form is valid then link to operation result page is activated", () => {
+    {  
+
+      //arrange
+      passwordInput.value="testPassword";
+      passwordInput.dispatchEvent(new Event("input"));
+      repeatPasswordInput.value="testPassword";
+      repeatPasswordInput.dispatchEvent(new Event("input"));
+      loginInput.value="tesLogin"
+      loginInput.dispatchEvent(new Event("input"));
+      fixture.detectChanges();
+      
+
+      //act
+      spyOn(router, 'navigate');
+      registerForm.dispatchEvent(new Event("submit"));
+      fixture.detectChanges();
+
+
+      //assert
+      
+      expect(router.navigate).toHaveBeenCalledWith(['/operationResult']); 
+
+      
+    }
+    
+
+  });
+
+  it("testing if after register button is clicked and form is invalid then link to operation result page isn't activated", () => {
+    {  
+
+      //arrange
+      passwordInput.value="testPassword";
+      passwordInput.dispatchEvent(new Event("input"));
+      repeatPasswordInput.value="testPassword2";
+      repeatPasswordInput.dispatchEvent(new Event("input"));
+      loginInput.value="tesLogin"
+      loginInput.dispatchEvent(new Event("input"));
+      fixture.detectChanges();
+      
+
+      //act
+      spyOn(router, 'navigate');
+      registerForm.dispatchEvent(new Event("submit"));
+      fixture.detectChanges();
+
+
+      //assert
+      
+      expect(router.navigate).not.toHaveBeenCalled(); 
+
+      
+    }
+    
+
+  });
+  })
 
 });
 

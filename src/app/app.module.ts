@@ -9,10 +9,22 @@ import { LoginComponent } from './presentation/welcome/login/login.component';
 import { FormFrameRegisterLoginComponent } from './presentation/welcome/form-frame-register-login/form-frame-register-login.component';
 import { RegisterComponent } from './presentation/welcome/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OperationResultComponent } from './presentation/operations-results/operation-result/operation-result.component';
+import { RegisterOperationResultComponent } from './presentation/operations-results/register-operation-result/register-operation-result.component';
+import { RegisterServiceInterface } from './core/servicesContracts/register-service.interface';
+import { RegisterService } from './core/services/register.service';
+
 
 
 @NgModule({
-  declarations: [AppComponent,LogoComponent,WelcomeComponent,LoginComponent, FormFrameRegisterLoginComponent, RegisterComponent],
+  declarations: [OperationResultComponent,
+    AppComponent,
+    LogoComponent,
+    WelcomeComponent,
+    LoginComponent, 
+    FormFrameRegisterLoginComponent, 
+    RegisterComponent,
+    RegisterOperationResultComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule],
   bootstrap:[AppComponent]
 })

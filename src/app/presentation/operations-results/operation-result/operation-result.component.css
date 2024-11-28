@@ -1,0 +1,25 @@
+
+@import "../../../../styles/buttonStyles.css";
+.whitePanel{
+    background-color: #FFFFFF;
+    max-width: 27rem;
+    min-height: 30rem;
+    width: 100vw;
+    border-radius: 1.8rem;
+    
+}
+
+.successCircle{
+    color: #77B6EA;
+    font-size: 6rem;
+
+}
+
+.blue-spinner{
+    color: #77B6EA;
+}
+
+.loading{
+    color: rgba(0, 0, 0, 0.53);
+    letter-spacing: 0.08rem;
+}
