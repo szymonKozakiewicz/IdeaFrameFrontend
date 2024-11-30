@@ -11,10 +11,11 @@ export class OperationResultComponent {
     @Input("buttonText") buttonText="";
     @Input("buttonLink")buttonLink="";
     @Input("operationStatus")operationStatus:OperationStatus=OperationStatus.IN_PROGRESS;
-    
+    @Input("operationStatusName")operationStatusName:string="Success!"
     isOperationInProgress():boolean
     {
       return this.operationStatus==OperationStatus.IN_PROGRESS;
     }
+    
 
 }

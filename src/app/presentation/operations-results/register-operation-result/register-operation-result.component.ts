@@ -13,7 +13,7 @@ export class RegisterOperationResultComponent implements OnInit {
     buttonText:string="";
     buttonLink:string="";
     operationStatus:OperationStatus=OperationStatus.IN_PROGRESS;
-
+    operationStatusName:string="Success";
     constructor(private registerService:RegisterService)
     {
 
@@ -31,6 +31,7 @@ export class RegisterOperationResultComponent implements OnInit {
     this.operationDescription = "Failed to create new user";
     this.buttonLink = "/register";
     this.buttonText = "Try again";
+    this.operationStatusName="Fail!";
     this.operationStatus = OperationStatus.FAILURE;
   }
 
@@ -38,6 +39,7 @@ export class RegisterOperationResultComponent implements OnInit {
     this.operationDescription = "New user created";
     this.buttonLink = "/login";
     this.buttonText = "Go to login";
+    this.operationStatusName="Success!";
     this.operationStatus = OperationStatus.SUCCESS;
   }
 }

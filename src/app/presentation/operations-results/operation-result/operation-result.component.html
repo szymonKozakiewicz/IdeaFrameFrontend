@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-center">
         <div class="whitePanel ps-4 pe-4 p-5 p-sm-5 ">
          
-            <div *ngIf="!isOperationInProgress()" class="d-flex flex-column justify-content-start align-items-center w-100 h-100">
+            <div data-testid="resultPage" *ngIf="!isOperationInProgress()" class="d-flex flex-column justify-content-start align-items-center w-100 h-100">
                 <h1>Success!</h1>
                 <div class="text-muted">{{operationDescription}}</div>
                 <div class="h-100 d-flex flex-column justify-content-center">
@@ -13,7 +13,7 @@
                 </div>
                 <a [routerLink]="buttonLink" class="btn btnmedium blueButton mt-4 wideRoundedButton">{{buttonText}}</a>
             </div>
-            <div *ngIf="isOperationInProgress()" class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+            <div data-testid="progressPage" *ngIf="isOperationInProgress()" class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
                 <div class="spinner-border blue-spinner" role="status"></div>
                 <div class="mt-2 loading">Loading..</div>
             </div>

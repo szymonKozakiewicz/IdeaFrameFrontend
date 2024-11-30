@@ -11,8 +11,8 @@ import { RegisterComponent } from './presentation/welcome/register/register.comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OperationResultComponent } from './presentation/operations-results/operation-result/operation-result.component';
 import { RegisterOperationResultComponent } from './presentation/operations-results/register-operation-result/register-operation-result.component';
-import { RegisterServiceInterface } from './core/servicesContracts/register-service.interface';
-import { RegisterService } from './core/services/register.service';
+import { HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
 
 
 
@@ -25,8 +25,11 @@ import { RegisterService } from './core/services/register.service';
     FormFrameRegisterLoginComponent, 
     RegisterComponent,
     RegisterOperationResultComponent],
-  imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule],
-  bootstrap:[AppComponent]
+  imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
+  bootstrap:[AppComponent],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi())
+  ]
 })
 export class AppModule { }
 

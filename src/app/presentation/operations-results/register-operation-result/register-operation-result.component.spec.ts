@@ -17,13 +17,7 @@ describe('RegisterOperationResultComponent', () => {
   let fixture: ComponentFixture<RegisterOperationResultComponent>;
 
   beforeEach(async () => {
-    const customHttpClientMock  = jasmine.createSpyObj<CustomHttpClient>(
-      'CustomHttpClient',
-      {
-        get:of(null),
-        post:of(null)
-      }
-    );
+
     const registerServiceMock = getRegisterServiceMock();
     await TestBed.configureTestingModule({
       declarations: [RegisterOperationResultComponent,OperationResultComponent,LogoComponent],
@@ -42,6 +36,8 @@ describe('RegisterOperationResultComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  
 });
 
 
