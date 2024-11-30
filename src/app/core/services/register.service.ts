@@ -20,12 +20,12 @@ export class RegisterService
             error:this.showResultsOfRegistrationAfterError.bind(this)
         })
     }
-    showResultsOfRegistration(result:any)
+    private showResultsOfRegistration(result:any)
     {
         this.registerState$.next(OperationStatus.SUCCESS);
 
     }
-    showResultsOfRegistrationAfterError(error:any)
+    private showResultsOfRegistrationAfterError(error:any)
     {
         this.registerState$.next(OperationStatus.FAILURE);
     }

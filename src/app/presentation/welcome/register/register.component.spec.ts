@@ -11,6 +11,11 @@ import { getStatusOfInputsRequiredErrorsAndInputsBorders } from '../login/loginT
 import { getLoginRequiredError, getPasswordRequiredError, getTagByTestId } from '../registerLoginTestHelpers';
 import { getStatusOfPasswordInputBorderAndErrors, getStatusOfRepeatPasswordInputBorderAndErrors } from './registerTestHelpers';
 import { Router } from '@angular/router';
+import { CustomHttpClient } from 'src/app/infrastructure/http/custom-http-client';
+import { of } from 'rxjs';
+import { RegisterService } from 'src/app/core/services/register.service';
+import { getRegisterServiceMock } from 'src/app/testHelpers/service-mock-generator';
+import { UserRegisterLoginDTO } from 'src/app/core/dto/user-register-login.dto';
 
 
 
@@ -25,11 +30,17 @@ describe('RegisterComponent', () => {
   let registerSubmitButton:HTMLElement
   let registerForm:HTMLElement;
   let router:Router;
+  let registerServiceMock:any;
 
   beforeEach(async () => {
+
+    registerServiceMock=getRegisterServiceMock()
     await TestBed.configureTestingModule({
       declarations: [LogoComponent,RegisterComponent, FormFrameRegisterLoginComponent],
       imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule],
+      providers:[
+        {provide: RegisterService, useValue:registerServiceMock}
+        ]
     })
     .compileComponents();
 
@@ -309,7 +320,7 @@ describe('RegisterComponent', () => {
 
       //assert
       
-      expect(router.navigate).toHaveBeenCalledWith(['/operationResult']); 
+      expect(router.navigate).toHaveBeenCalledWith(['/registerOperationResult']); 
 
       
     }
@@ -317,7 +328,48 @@ describe('RegisterComponent', () => {
 
   });
 
-  it("testing if after register button is clicked and form is invalid then link to operation result page isn't activated", () => {
+
+
+  
+  it("testing if after register button is clicked and form is valid then method register from register service is activated with proper value", () => {
+    {  
+
+      //arrange
+      const password="testPassword";
+      const login="tesLogin"
+      passwordInput.value=password;
+      passwordInput.dispatchEvent(new Event("input"));
+      repeatPasswordInput.value=password;
+      repeatPasswordInput.dispatchEvent(new Event("input"));
+      loginInput.value=login;
+      loginInput.dispatchEvent(new Event("input"));
+      fixture.detectChanges();
+      const expextedUser:UserRegisterLoginDTO=new UserRegisterLoginDTO(login,password)
+      
+
+      //act
+      registerForm.dispatchEvent(new Event("submit"));
+      fixture.detectChanges();
+
+
+      //assert
+      
+      expect(registerServiceMock.register).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          login:expextedUser.login,
+          password:expextedUser.password
+    })
+      )
+      
+       
+
+      
+    }
+    
+
+  });
+
+  it("testing if after register button is clicked and form is invalid then link to operation result page isn't activated and register method from service isn't called", () => {
     {  
 
       //arrange
@@ -339,7 +391,7 @@ describe('RegisterComponent', () => {
       //assert
       
       expect(router.navigate).not.toHaveBeenCalled(); 
-
+      expect(registerServiceMock.register).not.toHaveBeenCalled();
       
     }
     
