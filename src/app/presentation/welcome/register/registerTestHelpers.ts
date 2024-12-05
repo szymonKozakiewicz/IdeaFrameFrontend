@@ -20,11 +20,25 @@ export function getStatusOfRepeatPasswordInputBorderAndErrors(matchError: any, r
 }
 
 
-export function getStatusOfPasswordInputBorderAndErrors(lenghtError: any, requiredError: any, repeatPasswordInput: HTMLElement) {
+export function getStatusOfPasswordInputBorderAndErrors(lenghtError: any, requiredError: any, passwordInput: HTMLElement) {
     const matchErrorStatus: string = lenghtError ? 'P' : 'N';
     const requiredErrorStatus: string = requiredError? 'P' : 'N';
-    const repeatPasswordInputBorderStatus: string = repeatPasswordInput.classList.contains('is-invalid') ? 'P' : 'N';
+    const repeatPasswordInputBorderStatus: string = getStatusOfPasswordBorder(passwordInput);
 
     const result: string = matchErrorStatus + requiredErrorStatus + repeatPasswordInputBorderStatus;
     return result;
+}
+
+
+export function getStatusOfOnePasswordErrorAndStatusOfBorder(error:any,passwordInput: HTMLElement)
+{
+    const errorStatus: string = error ? 'P' : 'N';
+    const borderStatus=getStatusOfPasswordBorder(passwordInput);
+    const result:string=errorStatus+borderStatus;
+    return result;
+}
+
+export function getStatusOfPasswordBorder(passwordInput: HTMLElement)
+{
+    return passwordInput.classList.contains('is-invalid') ? 'P' : 'N';
 }

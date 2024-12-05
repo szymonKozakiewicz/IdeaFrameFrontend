@@ -15,7 +15,7 @@ export class RegisterService
     }
 
     register(newUser: UserRegisterLoginDTO): void {
-        this.httpClient.post("https://localhost:7231/api/RegisterLoginController/registerNewUser",newUser).subscribe({
+        this.httpClient.post("https://localhost:7231/api/RegisterLogin/registerNewUser",newUser).subscribe({
             next: this.showResultsOfRegistration.bind(this),
             error:this.showResultsOfRegistrationAfterError.bind(this)
         })

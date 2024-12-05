@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm=new FormGroup({
         login:new FormControl('',Validators.required),
-        password:new FormControl('',[Validators.required, Validators.minLength(6)]),
+        password:new FormControl('',[Validators.required, Validators.minLength(6),this.hasDigit.bind(this),this.hasUperCase.bind(this)]),
         repeatPassword:new FormControl('',Validators.required)
     },
     {validators:this.repeatPasswordValidation.bind(this)}
@@ -51,7 +51,35 @@ export class RegisterComponent implements OnInit {
     let newUser:UserRegisterLoginDTO=new UserRegisterLoginDTO(login,password);
     return newUser;
   }
-    
+
+  hasDigit(control: AbstractControl): ValidationErrors | null
+  {
+      const password=control.value;
+      const hasDigit=/\d/.test(password);
+
+      if(hasDigit)
+        return null
+      else
+        return {
+          hasDigit:true
+        };
+
+  }
+
+  hasUperCase(control: AbstractControl): ValidationErrors | null
+  {
+      const password=control.value;
+      const hasUperCase=/[A-Z]/.test(password);
+
+      if(hasUperCase)
+        return null
+      else
+        return {
+          hasUperCase:true
+        };
+
+  }
+
   isInputInvalidAndTouched(inputName:string)
   {
 

@@ -30,14 +30,20 @@
             <input [ngClass]="{'is-invalid':isInputInvalidAndTouched('password')}" data-testid="passwordInput" type="password" formControlName="password" class="form-control darkControl mt-1" id="password" placeholder="Password">
         
             <div class="d-flex flex-column" *ngIf="isInputInvalidAndTouched('password')">
-                <small data-testid="passwordRequiredError" class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'required'); else minlengthError">
+                <small data-testid="passwordRequiredError" class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'required')">
                   Password is required
                 </small>
-                <ng-template #minlengthError>
-                  <small data-testid="minPasswordLenghtError" class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'minlength')">
-                    Password needs to have minimum 6 characters
-                  </small>
-                </ng-template>
+                
+                <small  data-testid="minPasswordLenghtError" class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'minlength')">
+                Password needs to have minimum 6 characters
+                </small>
+                <small  data-testid="digitError" class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'hasDigit')">
+                    The password must contain at least one digit
+                </small>
+                <small  data-testid="uperCaseError" class="text-danger" *ngIf="isInputInvalidWithValidator('password', 'hasUperCase')">
+                    The password must contain at least one uppercase letter
+                </small>
+
             </div>
         </div>
         <div class="form-group mt-3">
