@@ -1,0 +1,4 @@
+export enum LoginStatus
+{
+    AVAILABLE, NOT_AVAILABLE, CHECKING_IN_PROGRESS, EMPTY
+}

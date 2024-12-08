@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { UserRegisterLoginDTO } from "../dto/user-register-login.dto";
 import { CustomHttpClient } from "src/app/infrastructure/http/custom-http-client";
-import { Subject } from "rxjs";
+import { catchError, Observable, of, Subject } from "rxjs";
 import { OperationStatus } from "../enum/operation.status";
 
 
@@ -20,6 +20,23 @@ export class RegisterService
             error:this.showResultsOfRegistrationAfterError.bind(this)
         })
     }
+
+    isLoginAvailable(login:string):Observable<any>
+    {
+        return this.httpClient.getWithQuery<any>("https://localhost:7231/api/RegisterLogin/isLoginAvailable","login",login)
+        .pipe(
+            catchError(this.transformErrorToFalse())
+        );
+    }
+
+    private transformErrorToFalse(): (err: any, caught: Observable<boolean>) => Observable<boolean> {
+        
+        return error => {
+
+            return of(false);
+        };
+    }
+
     private showResultsOfRegistration(result:any)
     {
         this.registerState$.next(OperationStatus.SUCCESS);

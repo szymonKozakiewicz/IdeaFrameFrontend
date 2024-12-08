@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 
@@ -9,6 +9,12 @@ export class CustomHttpClient
 
     get<T>(url: string) {
       return this.http.get<T>(url);
+    }
+
+    getWithQuery<T>(url: string,queryParamName:string,queryParamValue:string) {
+      let apiParams=new HttpParams();
+      apiParams=apiParams.set(queryParamName,queryParamValue);
+      return this.http.get<T>(url,{params:apiParams});
     }
   
     post<T>(url: string, body: any) {

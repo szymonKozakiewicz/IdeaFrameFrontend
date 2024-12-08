@@ -22,6 +22,9 @@
                <small data-testid="loginRequiredError" class="text-danger" *ngIf="isInputInvalidWithValidator('login','required')">
                 Login is required
                </small>
+               <small data-testid="loginAvailableError" class="text-danger" *ngIf="isInputInvalidWithValidator('login','loginAvailableError')">
+                That login name isn't available
+               </small>
            
             </div>
         </div>

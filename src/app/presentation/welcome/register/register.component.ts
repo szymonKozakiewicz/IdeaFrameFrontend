@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
+import { map, Observable, tap } from 'rxjs';
 import { UserRegisterLoginDTO } from 'src/app/core/dto/user-register-login.dto';
+import { LoginStatus } from 'src/app/core/enum/login.status';
 import { RegisterService } from 'src/app/core/services/register.service';
 
 @Component({
@@ -10,15 +12,15 @@ import { RegisterService } from 'src/app/core/services/register.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit {
-  registerForm!:FormGroup
-
+  registerForm!:FormGroup;
+  loginStatus:LoginStatus=LoginStatus.EMPTY;
   constructor(private router:Router,private registerService:RegisterService)
   {
 
   }
   ngOnInit(): void {
     this.registerForm=new FormGroup({
-        login:new FormControl('',Validators.required),
+        login:new FormControl('',Validators.required,[this.isLoginAvailableValidator.bind(this)]),
         password:new FormControl('',[Validators.required, Validators.minLength(6),this.hasDigit.bind(this),this.hasUperCase.bind(this)]),
         repeatPassword:new FormControl('',Validators.required)
     },
@@ -119,6 +121,51 @@ export class RegisterComponent implements OnInit {
     
   }
 
+  isLoginAvailableValidator(control:AbstractControl):Observable<ValidationErrors|null>
+  {
+    const login:string=control.value;
+    if(login.length===0)
+      this.loginStatus=LoginStatus.EMPTY;
+    let loginCheckingObservable=this.registerService.isLoginAvailable(control.value);
+    loginCheckingObservable=loginCheckingObservable.pipe(     
+      tap( this.setLoginStatusBasedOnBackendInfo()),
+      map(this.transformToNullAndErrorMessage()) 
+    )
+
+    return loginCheckingObservable;
+  }
+
+
+
+
+
+
+
+  private transformToNullAndErrorMessage(): (value: boolean, index: number) => { loginAvailableError: boolean; } | null {
+    return (loginAvailable) => {
+
+      if (loginAvailable)
+        return null;
+
+
+      else
+        return { loginAvailableError: true };
+    };
+  }
+
+  private setLoginStatusBasedOnBackendInfo() {
+    return {
+      next: (loginAvailable: boolean) => {
+
+        if (loginAvailable)
+          this.loginStatus = LoginStatus.AVAILABLE;
+
+
+        else
+          this.loginStatus = LoginStatus.NOT_AVAILABLE;
+      }
+    };
+  }
 
   private markAllInputsAsTouched() {
     this.registerForm.get("password")?.markAsTouched();
