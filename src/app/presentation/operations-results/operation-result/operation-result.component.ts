@@ -17,5 +17,9 @@ export class OperationResultComponent {
       return this.operationStatus==OperationStatus.IN_PROGRESS;
     }
     
+    isOperationSuccess()
+    {
+      return this.operationStatus==OperationStatus.SUCCESS;
+    }
 
 }

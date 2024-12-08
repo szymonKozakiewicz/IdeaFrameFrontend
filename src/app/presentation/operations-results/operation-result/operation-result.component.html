@@ -6,10 +6,13 @@
         <div class="whitePanel ps-4 pe-4 p-5 p-sm-5 ">
          
             <div data-testid="resultPage" *ngIf="!isOperationInProgress()" class="d-flex flex-column justify-content-start align-items-center w-100 h-100">
-                <h1>Success!</h1>
+                <h1>{{operationStatusName}}</h1>
                 <div class="text-muted">{{operationDescription}}</div>
                 <div class="h-100 d-flex flex-column justify-content-center">
-                    <i  class="bi bi-check2-circle successCircle "></i>
+                    <i *ngIf="isOperationSuccess() else failIcon"  class="bi bi-check2-circle successCircle" ></i>
+                    <ng-template #failIcon>
+                        <i class="bi bi-emoji-frown-fill faildCircle"></i>
+                    </ng-template>
                 </div>
                 <a [routerLink]="buttonLink" class="btn btnmedium blueButton mt-4 wideRoundedButton">{{buttonText}}</a>
             </div>

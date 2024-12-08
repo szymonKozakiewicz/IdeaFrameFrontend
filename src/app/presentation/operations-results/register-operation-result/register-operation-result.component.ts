@@ -21,13 +21,23 @@ export class RegisterOperationResultComponent implements OnInit {
   ngOnInit(): void {
     this.registerService.registerState$
     .subscribe({
-      next:this.showSuccessfulResult.bind(this),
+      next:this.showResult.bind(this),
       error:this.showFailerResult.bind(this)});
   }
 
   
-
+  showResult(status:OperationStatus)
+  {
+    if(status==OperationStatus.SUCCESS)
+    {
+      this.showSuccessfulResult(status);
+    }
+    else{
+      this.showFailerResult(status);
+    }
+  }
   showFailerResult(status:any) {
+
     this.operationDescription = "Failed to create new user";
     this.buttonLink = "/register";
     this.buttonText = "Try again";
@@ -36,6 +46,8 @@ export class RegisterOperationResultComponent implements OnInit {
   }
 
   private showSuccessfulResult(status:any) {
+  
+    
     this.operationDescription = "New user created";
     this.buttonLink = "/login";
     this.buttonText = "Go to login";
