@@ -15,20 +15,19 @@ import { RegisterService } from 'src/app/core/services/register.service';
 export class RegisterComponent implements OnInit {
   registerForm!:FormGroup;
   loginStatus:LoginStatus=LoginStatus.EMPTY;
+
+  loginStatusForFrontend=LoginStatus.EMPTY;
+  
   constructor(private router:Router,private registerService:RegisterService)
   {
 
   }
   ngOnInit(): void {
-    this.registerForm=new FormGroup({
-        login:new FormControl('',Validators.required,[this.isLoginAvailableValidator.bind(this)]),
-        password:new FormControl('',[Validators.required, Validators.minLength(6),this.hasDigit.bind(this),this.hasUperCase.bind(this)]),
-        repeatPassword:new FormControl('',Validators.required)
-    },
-    {validators:this.repeatPasswordValidation.bind(this)}
-    )
+    this.createReactiveForm();
+    this.subscribeLoginValueChangeToUpdateLoginCheckingInProgressProperty();
 
   }
+
 
 
   registerNewUser()
@@ -50,17 +49,12 @@ export class RegisterComponent implements OnInit {
 
   isLoginAvailableValidator(control:AbstractControl):Observable<ValidationErrors|null>
   {
-    const login:string=control.value;
-    if(login.length===0){
-      this.loginStatus=LoginStatus.EMPTY;
-      return of(null);
-    }
-    else{
-      this.loginStatus=LoginStatus.CHECKING_IN_PROGRESS
-    }
+    
+    
+    this.loginStatus=LoginStatus.CHECKING_IN_PROGRESS
+    
     let loginCheckingObservable=this.registerService.isLoginAvailable(control.value);
     loginCheckingObservable=loginCheckingObservable.pipe(
-     
       tap( this.setLoginStatusBasedOnBackendInfo()),
       map(this.transformToNullAndErrorMessage()) 
     )
@@ -105,21 +99,21 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  isCheckingLoginInProgress()
-  {
- 
-    return  this.loginStatus===LoginStatus.CHECKING_IN_PROGRESS;
-  }
+
 
   isLoginNotAvailable(){
-    return this.loginStatus===LoginStatus.NOT_AVAILABLE;
+    return this.loginStatusForFrontend===LoginStatus.NOT_AVAILABLE;
   }
 
   isLoginAvailableAndNoOtherLoginValidationError()
   {
     
-    return this.loginStatus===LoginStatus.AVAILABLE && this.registerForm.get("login")?.valid;
+    return this.loginStatusForFrontend===LoginStatus.AVAILABLE && !this.isInputInvalidWithValidator("login","required");
   
+  }
+  isCheckingLoginInProgress()
+  {
+    return this.loginStatusForFrontend===LoginStatus.CHECKING_IN_PROGRESS;
   }
   isInputInvalidAndTouched(inputName:string)
   {
@@ -184,9 +178,14 @@ export class RegisterComponent implements OnInit {
       next: (loginAvailable: boolean) => {
         
         if (loginAvailable)
+        {
           this.loginStatus = LoginStatus.AVAILABLE;
-        else
+        }
+        else{
           this.loginStatus = LoginStatus.NOT_AVAILABLE;
+          
+        }
+        this.loginStatusForFrontend=this.loginStatus
       }
     };
   }
@@ -195,6 +194,32 @@ export class RegisterComponent implements OnInit {
     this.registerForm.get("password")?.markAsTouched();
     this.registerForm.get("repeatPassword")?.markAsTouched();
     this.registerForm.get("login")?.markAsTouched();
+  }
+
+  
+  private subscribeLoginValueChangeToUpdateLoginCheckingInProgressProperty() {
+    const loginInput = this.registerForm.get("login");
+    loginInput?.valueChanges.pipe(
+      debounceTime(100)
+    ).subscribe(
+      {
+        next: (value) => {
+          if(this.loginStatus===LoginStatus.CHECKING_IN_PROGRESS )
+            this.loginStatusForFrontend=this.loginStatus;
+          
+        }
+      }
+    );
+  }
+
+  private createReactiveForm() {
+    this.registerForm = new FormGroup({
+      login: new FormControl('', Validators.required, [this.isLoginAvailableValidator.bind(this)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6), this.hasDigit.bind(this), this.hasUperCase.bind(this)]),
+      repeatPassword: new FormControl('', Validators.required)
+    },
+      { validators: this.repeatPasswordValidation.bind(this) }
+    );
   }
 }
 
