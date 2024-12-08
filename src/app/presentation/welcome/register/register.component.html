@@ -16,15 +16,24 @@
         <div class="form-group">
             <label for="login">Login</label>
             <input [ngClass]="{'is-invalid':isInputInvalidAndTouched('login')}" data-testid="loginInput" type="text" formControlName="login" class="form-control darkControl mt-1" id="login" placeholder="Login">
-        
-            <div *ngIf="isInputInvalidAndTouched('login')"
-            >
+            <div *ngIf="isCheckingLoginInProgress()" class="d-flex mt-2 align-items-center">
+
+                <small class="me-2 text-muted">Checking is login available</small>
+                <div class="spinner-border spinner-border-sm spinner-grow-sm blue-spinner" role="status"></div>
+            </div>
+            <small *ngIf="isLoginAvailableAndNoOtherLoginValidationError()"  data-testid="loginAvailable" class="text-success">
+                Login is available ✓
+            </small>
+            <small data-testid="loginAvailableError" class="text-danger" *ngIf="isLoginNotAvailable()">
+                That login name isn't available
+               </small>
+            <div *ngIf="isInputInvalidAndTouched('login')">
+                
+
                <small data-testid="loginRequiredError" class="text-danger" *ngIf="isInputInvalidWithValidator('login','required')">
                 Login is required
                </small>
-               <small data-testid="loginAvailableError" class="text-danger" *ngIf="isInputInvalidWithValidator('login','loginAvailableError')">
-                That login name isn't available
-               </small>
+
            
             </div>
         </div>

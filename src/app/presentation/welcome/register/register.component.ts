@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { fakeAsync } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, Observable, of, tap } from 'rxjs';
 import { UserRegisterLoginDTO } from 'src/app/core/dto/user-register-login.dto';
 import { LoginStatus } from 'src/app/core/enum/login.status';
 import { RegisterService } from 'src/app/core/services/register.service';
@@ -46,6 +47,28 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/registerOperationResult'])
 
   }
+
+  isLoginAvailableValidator(control:AbstractControl):Observable<ValidationErrors|null>
+  {
+    const login:string=control.value;
+    if(login.length===0){
+      this.loginStatus=LoginStatus.EMPTY;
+      return of(null);
+    }
+    else{
+      this.loginStatus=LoginStatus.CHECKING_IN_PROGRESS
+    }
+    let loginCheckingObservable=this.registerService.isLoginAvailable(control.value);
+    loginCheckingObservable=loginCheckingObservable.pipe(
+     
+      tap( this.setLoginStatusBasedOnBackendInfo()),
+      map(this.transformToNullAndErrorMessage()) 
+    )
+
+    return loginCheckingObservable;
+  }
+
+
   getObjectFromForm():UserRegisterLoginDTO
   {
     const login:string=this.registerForm.get("login")?.value;
@@ -82,6 +105,22 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  isCheckingLoginInProgress()
+  {
+ 
+    return  this.loginStatus===LoginStatus.CHECKING_IN_PROGRESS;
+  }
+
+  isLoginNotAvailable(){
+    return this.loginStatus===LoginStatus.NOT_AVAILABLE;
+  }
+
+  isLoginAvailableAndNoOtherLoginValidationError()
+  {
+    
+    return this.loginStatus===LoginStatus.AVAILABLE && this.registerForm.get("login")?.valid;
+  
+  }
   isInputInvalidAndTouched(inputName:string)
   {
 
@@ -121,19 +160,6 @@ export class RegisterComponent implements OnInit {
     
   }
 
-  isLoginAvailableValidator(control:AbstractControl):Observable<ValidationErrors|null>
-  {
-    const login:string=control.value;
-    if(login.length===0)
-      this.loginStatus=LoginStatus.EMPTY;
-    let loginCheckingObservable=this.registerService.isLoginAvailable(control.value);
-    loginCheckingObservable=loginCheckingObservable.pipe(     
-      tap( this.setLoginStatusBasedOnBackendInfo()),
-      map(this.transformToNullAndErrorMessage()) 
-    )
-
-    return loginCheckingObservable;
-  }
 
 
 
@@ -143,7 +169,7 @@ export class RegisterComponent implements OnInit {
 
   private transformToNullAndErrorMessage(): (value: boolean, index: number) => { loginAvailableError: boolean; } | null {
     return (loginAvailable) => {
-
+      
       if (loginAvailable)
         return null;
 
@@ -156,11 +182,9 @@ export class RegisterComponent implements OnInit {
   private setLoginStatusBasedOnBackendInfo() {
     return {
       next: (loginAvailable: boolean) => {
-
+        
         if (loginAvailable)
           this.loginStatus = LoginStatus.AVAILABLE;
-
-
         else
           this.loginStatus = LoginStatus.NOT_AVAILABLE;
       }
