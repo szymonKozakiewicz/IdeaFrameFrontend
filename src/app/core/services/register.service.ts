@@ -32,18 +32,20 @@ export class RegisterService
     private transformErrorToFalse(): (err: any, caught: Observable<boolean>) => Observable<boolean> {
         
         return error => {
-
+            console.log(error);
             return of(false);
         };
     }
 
     private showResultsOfRegistration(result:any)
     {
+        
         this.registerState$.next(OperationStatus.SUCCESS);
 
     }
     private showResultsOfRegistrationAfterError(error:any)
     {
+       
         this.registerState$.next(OperationStatus.FAILURE);
     }
 
