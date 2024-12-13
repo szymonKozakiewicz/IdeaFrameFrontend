@@ -7,6 +7,7 @@ export function getRegisterServiceMock() {
     const registerServiceMock: Pick<RegisterService, keyof RegisterService> = {
       registerState$: registerSubjectForMock,
       register: jasmine.createSpy('register'),
+      isLoginAvailable: jasmine.createSpy('isLoginAvailable'),
     };
     return registerServiceMock;
   }
