@@ -1,10 +1,10 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { RegisterService } from './register.service';
+import { RegisterService } from '../register.service';
 import { getHttpClientMock } from 'src/app/testHelpers/service-mock-generator';
-import { UserRegisterLoginDTO } from '../dto/user-register-login.dto';
+import { UserRegisterLoginDTO } from '../../dto/user-register-login.dto';
 import { CustomHttpClient } from 'src/app/infrastructure/http/custom-http-client';
 import { firstValueFrom, of, throwError } from 'rxjs';
-import { OperationStatus } from '../enum/operation.status';
+import { OperationStatus } from '../../enum/operation.status';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
@@ -59,5 +59,36 @@ describe('register service', () => {
         })
         //act
         registerService.register(user);
+    });
+
+    it('check if after calling isLoginAvailable method and reciving false from backend, method should return true', async () => {
+        let userName="login"
+
+        httpClientMock.getWithQuery.and.returnValue(of(true));
+
+        
+        //act
+        let resultObservable=registerService.isLoginAvailable(userName)
+        const result:Boolean=await firstValueFrom(resultObservable);
+
+        //assert
+        expect(result).toBe(true);
+
+    });
+
+
+    it('check if after calling isLoginAvailable method and reciving false from backend, method should return false', async () => {
+        let userName="login"
+
+        httpClientMock.getWithQuery.and.returnValue(of(false));
+
+        
+        //act
+        let resultObservable=registerService.isLoginAvailable(userName)
+        const result:Boolean=await firstValueFrom(resultObservable);
+
+        //assert
+        expect(result).toBe(false);
+
     });
 });
