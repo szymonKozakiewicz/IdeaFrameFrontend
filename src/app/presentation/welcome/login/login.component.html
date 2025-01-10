@@ -14,7 +14,7 @@
         <a routerLink="/register" class="loginRegister text-center notActiveButton btn">Register</a>
     </div> 
 
-    <form [formGroup]="loginForm" (submit)="login()" class="d-flex flex-column w-100 mt-5">
+    <form [formGroup]="loginForm" (submit)="initLogin()" class="d-flex flex-column w-100 mt-5">
         <div class="form-group">
             <label for="login">Login</label>
             <input [ngClass]="{'is-invalid':isInputInvalidAndTouched('login')}" data-testid="loginInput"  type="text" formControlName="login" class="form-control darkControl mt-1" id="login" placeholder="Login">
@@ -23,6 +23,9 @@
                     Login is required
                 </small>
             </div>
+            <small data-testid="invalidLoginOrPassword" class="text-danger mt-3" *ngIf="invalidLoginOrPassword">
+                Login or password is invalid, try again
+            </small>
         </div>
 
         <div class="form-group mt-3">
@@ -33,11 +36,15 @@
                   Password is required
                 </small>
 
+
             </div>
+            <small data-testid="invalidLoginOrPassword" class="text-danger mt-3" *ngIf="invalidLoginOrPassword">
+                Login or password is invalid, try again
+            </small>
        
         </div>
 
-        <button type="submit" class="btn blueButton mt-5 btnMedium">Login</button>
+        <button type="submit" class="btn blueButton mt-5 btnMedium">Login <div *ngIf="isLoginProcessInProgress()" class="spinner-border spinnerInButton" role="status"></div> </button>
     </form>
 
 

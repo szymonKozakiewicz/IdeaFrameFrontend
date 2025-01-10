@@ -1,2 +1,9 @@
 @import "../../../../styles/loginRegisterStyles.css";
 @import "../../../../styles/buttonStyles.css";
+
+.spinnerInButton{
+    --bs-spinner-width: 1rem;
+    --bs-spinner-height: 1rem;
+    --bs-spinner-border-width: 0.15rem;
+    color:#FFA62B
+}

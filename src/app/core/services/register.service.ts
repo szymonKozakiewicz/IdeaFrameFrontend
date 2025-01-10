@@ -3,6 +3,7 @@ import { UserRegisterLoginDTO } from "../dto/user-register-login.dto";
 import { CustomHttpClient } from "src/app/infrastructure/http/custom-http-client";
 import { catchError, Observable, of, Subject } from "rxjs";
 import { OperationStatus } from "../enum/operation.status";
+import { ApiEndpoints } from "src/app/infrastructure/http/api-endpoints";
 
 
 @Injectable({providedIn:'root'})
@@ -15,7 +16,7 @@ export class RegisterService
     }
 
     register(newUser: UserRegisterLoginDTO): void {
-        this.httpClient.post("https://localhost:7231/api/RegisterLogin/registerNewUser",newUser).subscribe({
+        this.httpClient.post(ApiEndpoints.REGISTER,newUser).subscribe({
             next: this.showResultsOfRegistration.bind(this),
             error:this.showResultsOfRegistrationAfterError.bind(this)
         })
@@ -23,7 +24,7 @@ export class RegisterService
 
     isLoginAvailable(login:string):Observable<any>
     {
-        return this.httpClient.getWithQuery<any>("https://localhost:7231/api/RegisterLogin/isLoginAvailable","login",login)
+        return this.httpClient.getWithQuery<any>(ApiEndpoints.IS_LOGIN_AVAILABLE,"login",login)
         .pipe(
             catchError(this.transformErrorToFalse())
         );

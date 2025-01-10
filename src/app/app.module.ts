@@ -11,7 +11,9 @@ import { RegisterComponent } from './presentation/welcome/register/register.comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OperationResultComponent } from './presentation/operations-results/operation-result/operation-result.component';
 import { RegisterOperationResultComponent } from './presentation/operations-results/register-operation-result/register-operation-result.component';
-import { HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { UserPanelComponent } from './presentation/user-panel/user-panel.component';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 
 
@@ -24,11 +26,14 @@ import { HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@an
     LoginComponent, 
     FormFrameRegisterLoginComponent, 
     RegisterComponent,
-    RegisterOperationResultComponent],
+    RegisterOperationResultComponent,
+    UserPanelComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [
     provideHttpClient(withInterceptorsFromDi())
+    , 
+  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ]
 })
 export class AppModule { }

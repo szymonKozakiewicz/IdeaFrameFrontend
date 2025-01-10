@@ -9,6 +9,8 @@ import { AppRoutingModule } from 'src/app/presentation/app-routing/app-routing.m
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getStatusOfInputsRequiredErrorsAndInputsBorders } from './loginTestHelpers';
 import { getLoginRequiredError, getPasswordRequiredError } from '../registerLoginTestHelpers';
+import { LoginService } from 'src/app/core/services/login.service';
+import { getLoginServiceMock } from 'src/app/testHelpers/service-mock-generator';
 
 
 describe('LoginComponent', () => {
@@ -20,9 +22,13 @@ describe('LoginComponent', () => {
   let passwordInput:HTMLInputElement
 
   beforeEach(async () => {
+    let loginServiceMock=getLoginServiceMock()
     await TestBed.configureTestingModule({
       declarations: [LogoComponent,LoginComponent, FormFrameRegisterLoginComponent],
       imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule],
+      providers: [
+        { provide: LoginService, useValue: loginServiceMock }
+      ]
     })
     .compileComponents();
 
