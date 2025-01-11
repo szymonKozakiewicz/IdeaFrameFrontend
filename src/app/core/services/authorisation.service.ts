@@ -54,7 +54,7 @@ export class AuthorisationService {
 
     private async tryToRefreshAcessToken():Promise<boolean> {
 
-        let refreshTokenObservable:Observable<boolean>=this.httpClient.get<boolean>(ApiEndpoints.REFRESH_TOKEN);
+        let refreshTokenObservable:Observable<boolean>=this.httpClient.postEmpty<boolean>(ApiEndpoints.REFRESH_TOKEN);
         const result=await firstValueFrom(refreshTokenObservable);
         return result;
 

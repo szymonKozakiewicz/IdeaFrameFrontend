@@ -28,6 +28,15 @@ export class LoginService
 
     }
 
+    public logout()
+    {
+        this.httpClient.postEmpty(ApiEndpoints.LOGOUT).subscribe({
+            next: ()=>{
+                this.removeTokenFromLocalStorage();
+            }
+        });
+    }
+
     public removeTokenFromLocalStorage(){
 
         localStorage.removeItem("token");

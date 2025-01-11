@@ -18,8 +18,11 @@ export class CustomHttpClient
     }
   
     post<T>(url: string, body: any) {
-      return this.http.post<T>(url, body);
+      return this.http.post<T>(url, body,{ withCredentials: true });
     }
 
+    postEmpty<T>(url: string) {
+      return this.http.post<T>(url,null,{ withCredentials: true });
+    }
     
 }

@@ -14,7 +14,9 @@ export class UserPanelComponent {
   
   logOut()
   {
-    this.loginService.removeTokenFromLocalStorage();
+
+    this.loginService.logout();
+
     this.router.navigate(['']);
     
 

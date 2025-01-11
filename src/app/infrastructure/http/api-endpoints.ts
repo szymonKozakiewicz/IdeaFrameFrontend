@@ -6,4 +6,5 @@ export class ApiEndpoints {
     static readonly REGISTER = `${ApiEndpoints.BASE_URL}/api/RegisterLogin/registerNewUser`;
     static readonly IS_LOGIN_AVAILABLE = `${ApiEndpoints.BASE_URL}/api/RegisterLogin/isLoginAvailable`;
     static readonly AUTHORIZED_REQUEST = `${ApiEndpoints.BASE_URL}/api/UserPanel/authorizedRequest`;
+    static readonly LOGOUT = `${ApiEndpoints.BASE_URL}/api/RegisterLogin/logout`;
   }
