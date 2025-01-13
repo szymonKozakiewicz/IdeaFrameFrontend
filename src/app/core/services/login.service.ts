@@ -46,7 +46,7 @@ export class LoginService
 
     private loginSuccess(jwtResponse:any)
     {
-        let test=jwtResponse.accessToken
+       
         localStorage.setItem("token",jwtResponse.accessToken);
         localStorage.setItem("tokenExpiration",jwtResponse.accessTokenExpiration);
         this.loginState$.next(true);
