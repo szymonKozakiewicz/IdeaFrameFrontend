@@ -51,7 +51,7 @@ describe('LoginService', () => {
     it('after calling login method and receiving negative result it should send false to loginState subject', (done) => {
         //arrange
         const loginData=new UserRegisterLoginDTO("testLogin","testPassword");
-                const errorMessage=new HttpErrorResponse({ status: 401, statusText: 'Unauthorized' })
+        const errorMessage=new HttpErrorResponse({ status: 401, statusText: 'Unauthorized' })
         httpClientMock.post.and.returnValue(throwError(()=>(errorMessage)));
         loginService.loginState$.subscribe({
             next:(result)=>{
@@ -76,7 +76,7 @@ describe('LoginService', () => {
         //act 
         loginService.logout();
         tick();
-        
+
         //assert
         expect(localStorageRemoveItemSpy).toHaveBeenCalledWith('token');
         

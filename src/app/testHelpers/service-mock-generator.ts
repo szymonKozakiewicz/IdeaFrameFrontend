@@ -23,6 +23,7 @@ export function getRegisterServiceMock() {
       login: jasmine.createSpy('login'),
       logout: jasmine.createSpy('logout'),
       removeTokenFromLocalStorage: jasmine.createSpy('removeTokenFromLocalStorage'),
+      updateJwtTokenAfterRefresh: jasmine.createSpy('updateJwtTokenAfterRefresh')
     };
     return loginServiceMock;
   }
@@ -46,3 +47,7 @@ export function getRegisterServiceMock() {
     };
     return userPanelServiceMock as UserPanelService;
   }
+
+
+
+ 
