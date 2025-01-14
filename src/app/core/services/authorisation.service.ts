@@ -14,7 +14,7 @@ export class AuthorisationService {
 
     }
 
-    public async IsLoggedIn(): Promise<boolean> {
+    public async isLoggedIn(): Promise<boolean> {
         
     
        const tokenNotExist=!this.doAcessTokenExist();
@@ -54,9 +54,14 @@ export class AuthorisationService {
 
     private async tryToRefreshAcessToken():Promise<boolean> {
 
-        let refreshTokenObservable:Observable<boolean>=this.httpClient.postEmpty<boolean>(ApiEndpoints.REFRESH_TOKEN);
-        const result=await firstValueFrom(refreshTokenObservable);
-        return result;
+        let refreshTokenObservable:Observable<any>=this.httpClient.postEmpty<any>(ApiEndpoints.REFRESH_TOKEN);
+        try{
+            const jwtResponse=await firstValueFrom(refreshTokenObservable);
+            this.loginService.updateJwtTokenAfterRefresh(jwtResponse);
+        }catch{
+            return false;
+        }
+        return true;
 
     }
 

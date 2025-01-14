@@ -44,12 +44,22 @@ export class LoginService
         
     }
 
+    public updateJwtTokenAfterRefresh(jwtResponse:any)
+    {
+        this.removeTokenFromLocalStorage();
+        this.setJwtTokenInLocalStorage(jwtResponse);
+    }
+
     private loginSuccess(jwtResponse:any)
     {
        
-        localStorage.setItem("token",jwtResponse.accessToken);
-        localStorage.setItem("tokenExpiration",jwtResponse.accessTokenExpiration);
+        this.setJwtTokenInLocalStorage(jwtResponse);
         this.loginState$.next(true);
+    }
+
+    private setJwtTokenInLocalStorage(jwtResponse: any) {
+        localStorage.setItem("token", jwtResponse.accessToken);
+        localStorage.setItem("tokenExpiration", jwtResponse.accessTokenExpiration);
     }
 
     private loginFail(jwtResponse:any)

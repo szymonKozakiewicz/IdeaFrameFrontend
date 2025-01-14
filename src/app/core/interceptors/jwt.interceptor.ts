@@ -17,7 +17,7 @@ export class JwtInterceptor implements HttpInterceptor {
             return next.handle(req);
 
         
-        let result=from(this.authService.IsLoggedIn()).pipe(switchMap(isLoggedIn=>{
+        let result=from(this.authService.isLoggedIn()).pipe(switchMap(isLoggedIn=>{
             return this.tryToAddJwtTokenToRequest(isLoggedIn,req,next);
         }),catchError(this.navigateToLoginAfterError.bind(this)));
 
