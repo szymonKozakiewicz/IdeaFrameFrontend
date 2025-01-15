@@ -6,6 +6,7 @@ import { HttpClient } from "@angular/common/http";
 import { LoginService } from "../core/services/login.service";
 import { UserPanelService } from "../core/services/user-panel.service";
 import { AuthorisationService } from "../core/services/authorisation.service";
+import { Navigation, NavigationBehaviorOptions, Router, Routes, UrlCreationOptions, UrlTree } from "@angular/router";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -61,4 +62,3 @@ export function getRegisterServiceMock() {
 
 
 
- 

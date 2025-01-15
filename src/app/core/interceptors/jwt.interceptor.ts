@@ -11,8 +11,9 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-
+  
         const authorizationNotRequired = !this.authService.IsAuthorizationRequiredForUrl(req.url); 
+
         if (authorizationNotRequired)
             return next.handle(req);
 
@@ -33,6 +34,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     private tryToAddJwtTokenToRequest(isLoggedIn:boolean,req: HttpRequest<any>, next: HttpHandler):Observable<HttpEvent<any>>
     {
+
         if(!isLoggedIn)
             return throwError(()=>new AuthorisationError());
 
