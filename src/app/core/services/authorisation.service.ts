@@ -7,7 +7,7 @@ import { LoginService } from "./login.service";
 @Injectable({providedIn:'root'})
 export class AuthorisationService {
 
-    urlsWhereAuthNotRequired:string[]=[ApiEndpoints.REFRESH_TOKEN,ApiEndpoints.IS_LOGIN_AVAILABLE,ApiEndpoints.REGISTER,ApiEndpoints.LOGIN];
+    private urlsWhereAuthNotRequired:string[]=[ApiEndpoints.REFRESH_TOKEN,ApiEndpoints.IS_LOGIN_AVAILABLE,ApiEndpoints.REGISTER,ApiEndpoints.LOGIN];
 
     constructor(private httpClient:CustomHttpClient, private loginService:LoginService)
     {

@@ -5,6 +5,7 @@ import { CustomHttpClient } from "../infrastructure/http/custom-http-client";
 import { HttpClient } from "@angular/common/http";
 import { LoginService } from "../core/services/login.service";
 import { UserPanelService } from "../core/services/user-panel.service";
+import { AuthorisationService } from "../core/services/authorisation.service";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -46,6 +47,16 @@ export function getRegisterServiceMock() {
         sendAuthorizedRequest:jasmine.createSpy("sendAuthorizedRequest"),
     };
     return userPanelServiceMock as UserPanelService;
+  }
+
+  export function getAuthorisationServiceMock() {
+
+    const authorisationServiceMock: Pick<AuthorisationService, keyof AuthorisationService> = {
+      isLoggedIn:jasmine.createSpy("isLoggedIn"),
+      IsAuthorizationRequiredForUrl:jasmine.createSpy("IsAuthorizationRequiredForUrl"),
+      GetAcessToken:jasmine.createSpy("GetAcessToken")
+    };
+    return authorisationServiceMock as AuthorisationService;
   }
 
 
