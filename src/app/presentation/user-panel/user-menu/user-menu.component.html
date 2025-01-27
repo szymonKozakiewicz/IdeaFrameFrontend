@@ -1,0 +1,12 @@
+<div class="d-flex justify-content-end w-100">
+    <div class="userMenuContainer rounded-4">
+        <div class="d-flex flex-column w-100 align-items-center mt-3">
+            <user-avatar [userName]="userName"  (toggleUserMenu)="ignore()"></user-avatar>
+
+            <div class="mt-3 helloText">Hello {{getFirst8LattersOfUserName()}}</div>
+            <a (click)="logOut()" class="btn blueEmpty2 btnLogOut mt-2">Logout</a>
+        </div>
+        
+        
+    </div>
+</div>

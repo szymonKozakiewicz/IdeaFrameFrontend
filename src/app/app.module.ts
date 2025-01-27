@@ -14,6 +14,9 @@ import { RegisterOperationResultComponent } from './presentation/operations-resu
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { UserPanelComponent } from './presentation/user-panel/user-panel.component';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { UserMenuComponent } from './presentation/user-panel/user-menu/user-menu.component';
+import { UserAvatarComponent } from './presentation/user-panel/user-avatar/user-avatar.component';
+import { DirectoryManagagerComponent } from './presentation/user-panel/directory-managager/directory-managager.component';
 
 
 
@@ -27,7 +30,10 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
     FormFrameRegisterLoginComponent, 
     RegisterComponent,
     RegisterOperationResultComponent,
-    UserPanelComponent],
+    UserPanelComponent,
+    UserMenuComponent,
+    UserAvatarComponent,
+    DirectoryManagagerComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [

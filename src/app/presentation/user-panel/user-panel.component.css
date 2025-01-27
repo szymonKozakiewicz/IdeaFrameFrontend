@@ -1,0 +1,15 @@
+.avatarButtonContainer{
+    height: 4rem;
+    display:flex;
+    flex-direction: column-reverse;
+    
+}
+
+
+.userMenuPosition{
+    
+    position: absolute;
+    z-index: 10;
+    top: 5rem;
+    right: 3rem;
+}

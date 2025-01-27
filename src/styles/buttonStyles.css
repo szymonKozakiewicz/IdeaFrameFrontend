@@ -13,6 +13,15 @@
     background-color: #6ea7d6;
 }
 
+.blueEmpty2{
+    background-color: #f0d2d19e;
+}
+
+.blueEmpty2:hover{
+    background-color: #F0D2D1;
+    border-color: #F0D2D1;
+}
+
 .blueEmpty{
     
     background-color: #f0d2d179;

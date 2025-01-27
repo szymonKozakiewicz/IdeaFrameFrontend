@@ -1,0 +1,20 @@
+@import "../../../../styles/buttonStyles.css";
+
+.userMenuContainer{
+    width: 18rem;
+    height: 11.5rem;
+    background-color: #ACFBB2;
+    display: flex;
+    flex-direction: column;
+}
+
+.helloText{
+    font-size: 1.6rem;
+    letter-spacing: 0.07rem;
+
+}
+
+.btnLogOut
+{
+    border-radius: 2rem;
+}

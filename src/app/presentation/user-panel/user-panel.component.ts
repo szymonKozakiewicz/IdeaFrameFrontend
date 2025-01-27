@@ -1,16 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/core/services/login.service';
 import { UserPanelService } from 'src/app/core/services/user-panel.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-user-panel',
   templateUrl: './user-panel.component.html',
   styleUrl: './user-panel.component.css'
 })
-export class UserPanelComponent {
+export class UserPanelComponent implements OnInit  {
+  userMenuVisible:boolean=false;
+  userNameFirstLatter!:string;
+  userNameFirst8Latters!:string;
+  userName!:string;
+  
+  constructor(private loginService:LoginService,private userService:UserService,private userPanelService:UserPanelService,private router:Router)
+  { 
 
-  constructor(private loginService:LoginService,private userPanelService:UserPanelService,private router:Router) { }
+  }
+
+
+  ngOnInit(): void {
+
+    
+    this.userName=this.userService.getUserName();
+
+    
+  }
   
   logOut()
   {
@@ -31,5 +48,11 @@ export class UserPanelComponent {
   {
     this.loginService.removeTokenFromLocalStorage();
     this.userPanelService.sendAuthorizedRequest();
+  }
+
+  toggleUserMenu()
+  {
+    this.userMenuVisible=!this.userMenuVisible;
+ 
   }
 }

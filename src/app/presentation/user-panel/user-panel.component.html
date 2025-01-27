@@ -1,6 +1,14 @@
-<div class="d-flex flex-column align-items-center">
-    <a class="btn btn-primary" (click)="logOut()">Logout</a>
-    <a class="btn btn-danger" (click)="sendAuthorizedRequest()">Authorized request</a>
-    <a class="btn btn-warning" (click)="sendNotAuthorizedRequest()">send request but no token</a>
-    <a class="btn btn-secondary">logout and navigate to user panel</a>
+<div class="container position-relative">
+    <nav class="navbar">
+        <logo></logo>
+        <div class="avatarButtonContainer button-wrapper">
+            <user-avatar [userName]="userName"  (toggleUserMenu)="toggleUserMenu()"></user-avatar>
+        
+        </div>
+    </nav>
+    
+    <user-menu class="userMenuPosition" *ngIf="userMenuVisible" [userName]="userName" ></user-menu>
+
+
+    <directory-managager ></directory-managager>
 </div>

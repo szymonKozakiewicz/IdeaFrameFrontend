@@ -7,6 +7,7 @@ import { JwtResponse } from "../dto/jwt-response";
 import { ApiEndpoints } from "src/app/infrastructure/http/api-endpoints";
 
 
+
 @Injectable({providedIn:'root'})
 export class LoginService 
 {
@@ -41,6 +42,7 @@ export class LoginService
 
         localStorage.removeItem("token");
         localStorage.removeItem("tokenExpiration");
+        localStorage.removeItem("userName");
         
     }
 
@@ -60,6 +62,7 @@ export class LoginService
     private setJwtTokenInLocalStorage(jwtResponse: any) {
         localStorage.setItem("token", jwtResponse.accessToken);
         localStorage.setItem("tokenExpiration", jwtResponse.accessTokenExpiration);
+        localStorage.setItem("userName", jwtResponse.userName);
     }
 
     private loginFail(jwtResponse:any)

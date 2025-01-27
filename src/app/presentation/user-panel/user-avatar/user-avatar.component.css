@@ -1,0 +1,20 @@
+.avatarButton{
+    border-radius:50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #E086D3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Simonetta", serif;
+    font-weight: 400;
+}
+
+.avatarButton:active{
+    border-color: #cf62be;
+}
+
+.avatarButton:active{
+    background-color: #cf62be;
+}
+
