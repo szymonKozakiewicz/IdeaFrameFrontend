@@ -1,5 +1,44 @@
 .directoryManagerContainer {
     width: 100%;
     background-color: #D9D9D9;
-    height: 100rem;
+    height: 40rem;
+    padding-top: 2rem;
+    padding: 2rem;
+}
+
+
+.directoryManagerOptionButton{
+    border-radius: 0.5rem;
+    background-color: #4caf4f00;
+    width: 11rem;
+    height: 4rem;
+    border: 0.1rem solid;
+    font-size:1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.addDirectoryButton{
+    border-color: #C08D5E;
+}
+
+.addDirectoryButton:hover{
+    background-color: #c08d5e52;
+}
+
+.addMapButton{
+    border-color: #77B6EA
+}
+
+.addMapButton:hover{
+    background-color: #77b6ea91;
+}
+
+.directoryManagerContainerWindow{
+    border: solid 0.1rem;
+    border-radius: 1.5rem;
+    border-color: rgba(0, 0, 0, 0.306);
 }
