@@ -1,0 +1,20 @@
+<div data-testid="resultPage" *ngIf="!isOperationInProgress()" class="d-flex flex-column justify-content-start align-items-center w-100 h-100">
+
+    <div class="text-muted">{{operationDescription}}</div>
+    <div class="h-100 d-flex flex-column justify-content-center">
+        <div *ngIf="isOperationSuccess() else failIcon" class="d-flex flex-column" >
+            <i  class="bi bi-check2-circle successCircle" ></i>
+
+        </div>
+
+        <ng-template #failIcon>
+            <i class="bi bi-emoji-frown-fill faildCircle"></i>
+            <small class="operationFailedText mt-2">Operation failed, sorry</small>
+        </ng-template>
+    </div>
+    <button type="button"  data-bs-dismiss="modal" class="btn blueEmpty ms-3 btnMedium">Close</button>
+</div>
+<div data-testid="progressPage" *ngIf="isOperationInProgress()" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center w-100 h-100">
+    <div class="spinner-border yellow-spinner" role="status"></div>
+    <div class="mt-2 loading">Processing..</div>
+</div>

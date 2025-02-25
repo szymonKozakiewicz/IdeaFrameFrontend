@@ -1,0 +1,17 @@
+@import "../../../../../styles/loginRegisterStyles.css";
+@import "../../../../../styles/buttonStyles.css";
+.modalHeader {
+  font-size: 1.7rem;
+}
+
+.addFileFolderContainer{
+
+    background-color: #86D58C;
+    padding: 1rem;
+    height: 18rem;
+
+}
+
+.modal-content {
+    border-radius: 2rem !important;	 
+}

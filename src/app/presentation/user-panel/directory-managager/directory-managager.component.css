@@ -1,7 +1,7 @@
 .directoryManagerContainer {
     width: 100%;
     background-color: #D9D9D9;
-    height: 40rem;
+    height: 80vh;
     padding-top: 2rem;
     padding: 2rem;
 }
@@ -40,5 +40,6 @@
 .directoryManagerContainerWindow{
     border: solid 0.1rem;
     border-radius: 1.5rem;
+    height: 40vh;
     border-color: rgba(0, 0, 0, 0.306);
 }

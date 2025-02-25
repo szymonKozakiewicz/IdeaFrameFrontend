@@ -27,6 +27,8 @@ export class JwtInterceptor implements HttpInterceptor {
 
     private navigateToLoginAfterError(error:any)
     {
+        if(error.status===409)
+            return throwError(()=>error);
         this.router.navigate(['/login']);
         return throwError(()=>new AuthorisationError());
 

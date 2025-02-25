@@ -1,0 +1,43 @@
+
+@import "../../../../styles/buttonStyles.css";
+.whitePanel{
+    background-color: #FFFFFF;
+    max-width: 27rem;
+    min-height: 30rem;
+    width: 100vw;
+    border-radius: 1.8rem;
+    
+}
+
+.successCircle{
+    color: #77B6EA;
+    font-size: 6rem;
+    display: flex;
+    justify-content: center;
+
+}
+
+.faildCircle{
+    color: #77B6EA;
+    font-size: 4.3rem;
+    display: flex;
+    justify-content: center;
+
+}
+
+.blue-spinner{
+    color: #77B6EA;
+}
+
+.yellow-spinner{
+    color: #FFA62B;
+}
+.loading{
+    color: #000000d4;
+    letter-spacing: 0.08rem;
+}
+
+.operationFailedText{
+    background-color: #77b6ea54;
+    padding: 0.3rem;
+}

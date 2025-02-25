@@ -36,7 +36,13 @@
     font-size: 1.4rem;
 }
 
+.btnMediumFont{
+    font-size: 1.1rem;
+    
+}
+
 .btnMedium{
+    width: 6rem;
     font-size: 1.1rem;
 }
 

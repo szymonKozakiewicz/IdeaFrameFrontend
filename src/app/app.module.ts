@@ -17,6 +17,8 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { UserMenuComponent } from './presentation/user-panel/user-menu/user-menu.component';
 import { UserAvatarComponent } from './presentation/user-panel/user-avatar/user-avatar.component';
 import { DirectoryManagagerComponent } from './presentation/user-panel/directory-managager/directory-managager.component';
+import { AddFolderFileComponent } from './presentation/user-panel/directory-managager/add-folder-file/add-folder-file.component';
+import { ModalOperationResultComponent } from './presentation/operations-results/modal-operation-result/modal-operation-result.component';
 
 
 
@@ -33,7 +35,9 @@ import { DirectoryManagagerComponent } from './presentation/user-panel/directory
     UserPanelComponent,
     UserMenuComponent,
     UserAvatarComponent,
-    DirectoryManagagerComponent],
+    DirectoryManagagerComponent,
+    AddFolderFileComponent,
+    ModalOperationResultComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [
