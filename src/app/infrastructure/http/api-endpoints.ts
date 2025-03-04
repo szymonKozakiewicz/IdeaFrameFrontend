@@ -8,4 +8,5 @@ export class ApiEndpoints {
     static readonly AUTHORIZED_REQUEST = `${ApiEndpoints.BASE_URL}/api/UserPanel/authorizedRequest`;
     static readonly LOGOUT = `${ApiEndpoints.BASE_URL}/api/Login/logout`;
     static readonly ADD_NEW_FILE_ITEM=`${ApiEndpoints.BASE_URL}/api/Directory/addNewFileItem`;
+    static readonly IS_FILENAME_AVAILABLE=`${ApiEndpoints.BASE_URL}/api/Directory/isFileItemNameAvailable`;
   }

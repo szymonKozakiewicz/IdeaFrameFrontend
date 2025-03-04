@@ -16,6 +16,11 @@
                         <small class="text-danger" *ngIf="isFileItemNameInvalidAndTouched()">
                             {{errorMessage}}
                         </small>
+                        <div *ngIf="isCheckingNameInProgress()" class="d-flex mt-2 align-items-center">
+
+                            <small class="me-2 text-muted">Checking if name available</small>
+                            <div class="spinner-border spinner-border-sm spinner-grow-sm blue-spinner" role="status"></div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-center mt-4">
                         <button type="submit" class="btn blueButton btnMedium">Save</button>

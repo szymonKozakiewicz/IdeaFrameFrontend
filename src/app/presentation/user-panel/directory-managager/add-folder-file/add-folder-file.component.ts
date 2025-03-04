@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { debounceTime, lastValueFrom, map, Observable, tap } from 'rxjs';
 import { FileItemType } from 'src/app/core/enum/fileItem.enum';
+import { InputValidationStatus } from 'src/app/core/enum/inputValidationStatus';
 import { OperationStatus } from 'src/app/core/enum/operation.status';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 
@@ -17,22 +19,31 @@ export class AddFolderFileComponent implements OnInit{
   errorMessage:string="";
   fileItemType=FileItemType.FOLDER;
   operationStatus=OperationStatus.NOT_STARTED;
+  fileItemNameStatus=InputValidationStatus.EMPTY;
+  fileItemNameFrontendStatus=InputValidationStatus.EMPTY;
 
   constructor(private directoryManagerService:DirectoryManagerService) {
 
    }
 
   ngOnInit(): void {
-    this.newFileFolderForm=new FormGroup({
-      fileOrFolderName:new FormControl('',Validators.required)
-    })
-    this.directoryManagerService.resetModal$.subscribe({
-      next:this.resetModal.bind(this)
-    })
+
+    this.createReactiveForm();
+    this.subscribeLoginValueChangeToUpdateLoginCheckingInProgressProperty();
+    
     
   }
 
 
+
+  private createReactiveForm() {
+    this.newFileFolderForm = new FormGroup({
+      fileOrFolderName: new FormControl('', Validators.required, [this.isFolderNameAvailableValidator.bind(this)])
+    });
+    this.directoryManagerService.resetModal$.subscribe({
+      next: this.resetModal.bind(this)
+    });
+  }
 
   isFileItemNameInvalidAndTouched()
   {
@@ -59,6 +70,10 @@ export class AddFolderFileComponent implements OnInit{
     if (this.isInputInvalidWithValidator("fileOrFolderName", "required")) {
       this.errorMessage = `${fileItemName} name is required`;
     }
+
+    if (this.isInputInvalidWithValidator("fileOrFolderName", "itemNameNotAvailable")) {
+      this.errorMessage = `${fileItemName} with this name already exists`;
+    }
     return fileItemName;
   }
 
@@ -68,9 +83,11 @@ export class AddFolderFileComponent implements OnInit{
     this.operationStatus=OperationStatus.NOT_STARTED;
   }
 
-  addNewFolder(){
+  async addNewFolder(){
 
+    
     const control=this.newFileFolderForm.get("fileOrFolderName");
+    await this.waitUntilAsyncValidationFinished(control);
     if(this.newFileFolderForm.invalid){
       control?.markAsTouched();
       return;
@@ -81,7 +98,78 @@ export class AddFolderFileComponent implements OnInit{
 
   }
 
-  isInputInvalidWithValidator(inputName:string,validatorName:string)
+  private async waitUntilAsyncValidationFinished(control: AbstractControl<any, any> | null) {
+    await lastValueFrom(this.isFolderNameAvailableValidator(control!));
+  }
+
+  isFolderNameAvailableValidator(control:AbstractControl):Observable<ValidationErrors|null>
+  {
+    this.fileItemNameStatus=InputValidationStatus.CHECKING_IN_PROGRESS;
+    const folderName=control.value;
+    let observable=this.directoryManagerService.checkIfFolderNameAvailable(folderName,this.fileItemType).pipe(
+          tap( this.setFileItemNameStatusBasedOnBackendInfo()),
+          map(this.transformToNullAndErrorMessage()) 
+        )
+    
+        return observable;
+
+  }
+
+
+  isCheckingNameInProgress()
+  {
+    return this.fileItemNameFrontendStatus===InputValidationStatus.CHECKING_IN_PROGRESS;
+  }
+
+  private subscribeLoginValueChangeToUpdateLoginCheckingInProgressProperty() {
+    const nameInput = this.newFileFolderForm.get("fileOrFolderName");
+    nameInput?.valueChanges.pipe(
+      debounceTime(100)
+    ).subscribe(
+      {
+        next: (value) => {
+          if(this.fileItemNameStatus===InputValidationStatus.CHECKING_IN_PROGRESS )
+            this.fileItemNameFrontendStatus=this.fileItemNameStatus;
+          
+        }
+      }
+    );
+  }
+
+
+
+
+  private setFileItemNameStatusBasedOnBackendInfo() {
+    return {
+        next: (nameAvailable: boolean) => {
+        
+        if (nameAvailable)
+        {
+            this.fileItemNameStatus = InputValidationStatus.VALID;
+        }
+        else{
+          this.fileItemNameStatus = InputValidationStatus.INVALID;
+            
+        }
+        this.fileItemNameFrontendStatus=this.fileItemNameStatus
+
+        }
+    };
+  }
+
+  private transformToNullAndErrorMessage() {
+    return (nameAvailable: boolean) => {
+        if (nameAvailable) {
+            return null;
+        } else {
+            return {
+                itemNameNotAvailable: true
+            };
+        }
+    };
+  }
+
+  private isInputInvalidWithValidator(inputName:string,validatorName:string)
   {
     return this.newFileFolderForm.get(inputName)?.errors?.[validatorName];
   }

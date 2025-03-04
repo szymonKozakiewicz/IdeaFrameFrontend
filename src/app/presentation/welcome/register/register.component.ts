@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { fakeAsync } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, map, Observable, of, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, lastValueFrom, map, Observable, of, tap } from 'rxjs';
 import { UserRegisterLoginDTO } from 'src/app/core/dto/user-register-login.dto';
 import { LoginStatus } from 'src/app/core/enum/login.status';
 import { RegisterService } from 'src/app/core/services/register.service';
@@ -30,10 +30,12 @@ export class RegisterComponent implements OnInit {
 
 
 
-  registerNewUser()
+  async registerNewUser()
   {
-    const formInvalid = this.registerForm.invalid;
+    
+    await this.waitUntilAsyncValidationFinished();
 
+    const formInvalid = this.registerForm.invalid;
     if(formInvalid)
     {
       this.markAllInputsAsTouched();
@@ -44,7 +46,19 @@ export class RegisterComponent implements OnInit {
     this.registerService.register(newUser);
 
     this.router.navigate(['/registerOperationResult'])
+        
+      
+    
 
+
+  }
+
+
+
+
+  private async waitUntilAsyncValidationFinished() {
+    let loginValidatorObservable = this.isLoginAvailableValidator(this.registerForm.get("login")!);
+    await lastValueFrom(loginValidatorObservable);
   }
 
   isLoginAvailableValidator(control:AbstractControl):Observable<ValidationErrors|null>
@@ -186,6 +200,7 @@ export class RegisterComponent implements OnInit {
           
         }
         this.loginStatusForFrontend=this.loginStatus
+
       }
     };
   }
