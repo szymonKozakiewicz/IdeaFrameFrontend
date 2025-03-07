@@ -4,7 +4,7 @@ import { ApiEndpoints } from "src/app/infrastructure/http/api-endpoints";
 import { AddNewFileItemRequestDTO } from "../dto/add-new-file-item.dto";
 import { Injectable } from "@angular/core";
 import { UserRegisterLoginDTO } from "../dto/user-register-login.dto";
-import { catchError, map, Observable, of, Subject } from "rxjs";
+import { catchError, firstValueFrom, map, Observable, of, Subject } from "rxjs";
 import { OperationStatus } from "../enum/operation.status";
 
 
@@ -12,12 +12,12 @@ import { OperationStatus } from "../enum/operation.status";
 export class DirectoryManagerService{
 
 
-
-
     currentPath:string;
   
     operationStatus$:Subject<OperationStatus>=new Subject<OperationStatus>();
     resetModal$:Subject<void>=new Subject<void>();
+    fileItemListUpdated$:Subject<void>=new Subject<void>();
+    fileItemList: AddNewFileItemRequestDTO[]=[];
 
     constructor(private httpClient:CustomHttpClient) {
         this.currentPath = "/";
@@ -32,9 +32,20 @@ export class DirectoryManagerService{
         );
     }
 
-    
+    public updateFolderAndItemList()
+    {
+        let path=this.currentPath;
+        let observable=this.httpClient.getWithQuery<AddNewFileItemRequestDTO[]>(ApiEndpoints.GET_ALL_FILEITEM,"path",path)
+        observable.subscribe(
+        {
+            next: (fileItems) =>{ 
+                this.fileItemList=fileItems;
+                this.fileItemListUpdated$.next()
+            }
+        })
 
-
+        
+    }
 
     public sendRequestToAddNewFileItem(name:string,type:FileItemType){
 
@@ -45,6 +56,13 @@ export class DirectoryManagerService{
             next:()=>this.operationStatus$.next(OperationStatus.SUCCESS),
             error:()=>this.operationStatus$.next(OperationStatus.FAILURE)
         })
+    }
+
+    getFolders(): string[] {
+        return this.fileItemList.filter(fileItem=>fileItem.type==FileItemType.FOLDER).map(fileItem=>fileItem.name);
+    }
+    getFiles(): string[] {
+        return this.fileItemList.filter(fileItem=>fileItem.type==FileItemType.FILE).map(fileItem=>fileItem.name);
     }
 
     resetModal() {

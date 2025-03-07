@@ -1,0 +1,9 @@
+
+
+
+<div class="w-100 h-100 d-flex p-3 flex-wrap overflow-auto">
+    @for (folder of folders; track $index) {
+    
+        <folder-item [folderName]="folder"></folder-item>
+    }
+</div>

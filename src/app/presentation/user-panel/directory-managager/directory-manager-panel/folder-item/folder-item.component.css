@@ -1,0 +1,16 @@
+.fileItem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 5rem;
+    padding: 0.5rem;
+}
+
+.fileItem:hover{
+    background-color: #86d58c36;
+}
+
+.bi-folder{
+    font-size: 2rem;
+    color: #C08D5E
+}

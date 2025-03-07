@@ -19,6 +19,9 @@ import { UserAvatarComponent } from './presentation/user-panel/user-avatar/user-
 import { DirectoryManagagerComponent } from './presentation/user-panel/directory-managager/directory-managager.component';
 import { AddFolderFileComponent } from './presentation/user-panel/directory-managager/add-folder-file/add-folder-file.component';
 import { ModalOperationResultComponent } from './presentation/operations-results/modal-operation-result/modal-operation-result.component';
+import { DirectoryManagerPanelComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/directory-manager-panel.component';
+import { FolderItemComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/folder-item/folder-item.component';
+import { FileItemComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/file-item/file-item.component';
 
 
 
@@ -37,7 +40,10 @@ import { ModalOperationResultComponent } from './presentation/operations-results
     UserAvatarComponent,
     DirectoryManagagerComponent,
     AddFolderFileComponent,
-    ModalOperationResultComponent],
+    ModalOperationResultComponent,
+    DirectoryManagerPanelComponent,
+    FolderItemComponent,
+    FileItemComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [
