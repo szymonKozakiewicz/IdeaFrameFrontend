@@ -54,7 +54,8 @@ export class DirectoryManagerService{
         this.httpClient.post(ApiEndpoints.ADD_NEW_FILE_ITEM,request)
         .subscribe({
             next:()=>this.operationStatus$.next(OperationStatus.SUCCESS),
-            error:()=>this.operationStatus$.next(OperationStatus.FAILURE)
+            error:()=>this.operationStatus$.next(OperationStatus.FAILURE),
+            complete:()=>this.updateFolderAndItemList()
         })
     }
 
