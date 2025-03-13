@@ -12,12 +12,17 @@ import { OperationStatus } from "../enum/operation.status";
 export class DirectoryManagerService{
 
 
-    currentPath:string;
+
+
+
   
     operationStatus$:Subject<OperationStatus>=new Subject<OperationStatus>();
     resetModal$:Subject<void>=new Subject<void>();
     fileItemListUpdated$:Subject<void>=new Subject<void>();
+    updatePathInUI$:Subject<void>=new Subject<void>();
     fileItemList: AddNewFileItemRequestDTO[]=[];
+    private currentPath:string;
+
 
     constructor(private httpClient:CustomHttpClient) {
         this.currentPath = "/";
@@ -42,10 +47,62 @@ export class DirectoryManagerService{
                 this.fileItemList=fileItems;
                 this.fileItemListUpdated$.next()
             }
-        })
-
-        
+        })      
     }
+
+    isUserInHomeDirectory(): boolean {
+        return this.currentPath==="/";
+    }
+
+    public enterToFolder(folderName: string) {
+        if(this.currentPath=="/")
+            this.currentPath += folderName;
+        else
+            this.currentPath += "/"+folderName;
+        this.updatePathInUI$.next();
+        this.updateFolderAndItemList()
+    }
+
+    public setPath(path: string) {
+        this.currentPath = path;
+        this.updateFolderAndItemList();
+    }
+
+    public getPathWithoutLastSegment():string
+    {
+        let path=this.currentPath;
+        let index=path.lastIndexOf("/");
+        if(index===0)
+            return "";
+        return path.substring(0,index);
+    }
+
+    getPathsSegmentsWithPathsToIt(currentPath: string) {
+        
+        let segments = currentPath.split("/");
+        if(segments.length==0)
+            return [];
+        segments=segments.slice(1);
+        let path="";
+        let resultList=Array<{segment:string,path:string}>();
+        for (let segment of segments) {
+            path+="/"
+            path+=segment;
+            resultList.push({segment:segment,path:path});
+            
+        }
+        return resultList
+    }
+
+    public getCurrentFolder():string
+    {
+        let path=this.currentPath;
+        if(path=="/")
+            return "";
+        let index=path.lastIndexOf("/");
+        return path.substring(index+1);
+    }
+
 
     public sendRequestToAddNewFileItem(name:string,type:FileItemType){
 
@@ -57,6 +114,11 @@ export class DirectoryManagerService{
             error:()=>this.operationStatus$.next(OperationStatus.FAILURE),
             complete:()=>this.updateFolderAndItemList()
         })
+    }
+
+    public getCurrentPath():string
+    {
+        return this.currentPath;
     }
 
     getFolders(): string[] {

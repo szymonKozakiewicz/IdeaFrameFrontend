@@ -8,15 +8,45 @@ import { DirectoryManagerService } from 'src/app/core/services/directory-manager
 })
 export class DirectoryManagerPanelComponent implements OnInit {
 
+
+
   folders:Array<string>=[];
   files:Array<string>=[];
+  segmentsWithPaths:Array<{segment:string,path:string}>=[];
+  currentFolder:string=""
+  isInHomeDirectory:boolean=true;
 
   constructor(private service:DirectoryManagerService) { }
+
+
   ngOnInit(): void {
     this.service.fileItemListUpdated$.subscribe({
       next:this.updateFolderAndFilesLists.bind(this)
     })
     this.updateFileItemListInService();
+    this.service.updatePathInUI$.subscribe({
+      next:this.updateCurrentPathInUi.bind(this)
+    })
+  }
+
+  updateCurrentPath(path:string)
+  {
+    this.service.setPath(path);
+    this.updateCurrentPathInUi();
+    
+  }
+
+
+
+  updateCurrentPathInUi()
+  {
+    this.isInHomeDirectory=this.service.isUserInHomeDirectory();
+    let pathWithoutLastSegment=this.service.getPathWithoutLastSegment();
+    
+    let segmentsWithPathsToIt=this.service.getPathsSegmentsWithPathsToIt(pathWithoutLastSegment);
+    this.currentFolder=this.service.getCurrentFolder();
+   
+    this.segmentsWithPaths=segmentsWithPathsToIt;
   }
 
   updateFolderAndFilesLists()

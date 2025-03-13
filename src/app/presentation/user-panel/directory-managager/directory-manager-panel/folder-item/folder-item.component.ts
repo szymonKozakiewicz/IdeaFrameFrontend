@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 
 @Component({
   selector: 'folder-item',
@@ -10,5 +11,11 @@ export class FolderItemComponent {
 
   @Input("folderName") folderName:string="";
 
+  constructor(private directoryService:DirectoryManagerService) { }
+
+  openFolder()
+  {
+    this.directoryService.enterToFolder(this.folderName);
+  }
   
 }

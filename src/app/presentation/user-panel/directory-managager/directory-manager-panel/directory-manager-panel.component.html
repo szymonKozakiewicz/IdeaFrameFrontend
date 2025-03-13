@@ -1,7 +1,16 @@
 
 
+<div class="filePathContainer">
+    <span *ngIf="!isInHomeDirectory" class="myLink" (click)="updateCurrentPath('/')">Home</span>
+    
+    <span *ngFor="let segmentAndPath of segmentsWithPaths" class="myLink" (click)="updateCurrentPath(segmentAndPath.path)">
+        > {{segmentAndPath.segment}}
+    </span>
+    <span *ngIf="!isInHomeDirectory">> {{currentFolder}}</span>
+    <span *ngIf="isInHomeDirectory">Home</span>
 
-<div class="w-100 h-100 d-flex p-3 flex-wrap overflow-auto">
+</div>
+<div class="w-100 h-100 d-flex flex-wrap overflow-auto panelContainer">
     @for (folder of folders; track $index) {
     
         <folder-item [folderName]="folder"></folder-item>
