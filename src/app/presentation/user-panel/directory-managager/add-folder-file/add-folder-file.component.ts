@@ -38,8 +38,11 @@ export class AddFolderFileComponent implements OnInit{
 
   private createReactiveForm() {
     this.newFileFolderForm = new FormGroup({
-      fileOrFolderName: new FormControl('', Validators.required, [this.isFolderNameAvailableValidator.bind(this)])
+      fileOrFolderName: new FormControl(
+        '', [Validators.required,Validators.maxLength(20)],
+         [this.isFolderNameAvailableValidator.bind(this)])
     });
+    
     this.directoryManagerService.resetModal$.subscribe({
       next: this.resetModal.bind(this)
     });
@@ -69,6 +72,10 @@ export class AddFolderFileComponent implements OnInit{
 
     if (this.isInputInvalidWithValidator("fileOrFolderName", "required")) {
       this.errorMessage = `${fileItemName} name is required`;
+    }
+
+    if (this.isInputInvalidWithValidator("fileOrFolderName", "maxlength")) {
+      this.errorMessage = `${fileItemName} name can't has more than 20 characters`;
     }
 
     if (this.isInputInvalidWithValidator("fileOrFolderName", "itemNameNotAvailable")) {
