@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OperationStatus } from 'src/app/core/enum/operation.status';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 
 @Component({
@@ -15,13 +16,14 @@ export class DirectoryManagerPanelComponent implements OnInit {
   segmentsWithPaths:Array<{segment:string,path:string}>=[];
   currentFolder:string=""
   isInHomeDirectory:boolean=true;
+  isFileItemListUpdateInProgress:boolean=false;
 
   constructor(private service:DirectoryManagerService) { }
 
 
   ngOnInit(): void {
-    this.service.fileItemListUpdated$.subscribe({
-      next:this.updateFolderAndFilesLists.bind(this)
+    this.service.fileItemListUpdate$.subscribe({
+      next:this.handleFileItemListStatusChange.bind(this)
     })
     this.updateFileItemListInService();
     this.service.updatePathInUI$.subscribe({
@@ -36,7 +38,17 @@ export class DirectoryManagerPanelComponent implements OnInit {
     
   }
 
-
+  handleFileItemListStatusChange(status:OperationStatus)
+  {
+    if(status==OperationStatus.IN_PROGRESS)
+    {
+      this.isFileItemListUpdateInProgress=true;
+    }
+    else{
+      this.updateFolderAndFilesLists();
+      this.isFileItemListUpdateInProgress=false;
+    }
+  }
 
   updateCurrentPathInUi()
   {

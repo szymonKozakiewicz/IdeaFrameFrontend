@@ -16,7 +16,7 @@ export class ModalOperationResultComponent {
 
     constructor(private directoryService:DirectoryManagerService)
     {
-      this.directoryService.operationStatus$.subscribe({
+      this.directoryService.addFileItemOperationStatus$.subscribe({
         next:this.setOperationStatus.bind(this)
       })
     }

@@ -10,9 +10,14 @@
     <span *ngIf="isInHomeDirectory">Home</span>
 
 </div>
-<div class="w-100 h-100 d-flex flex-wrap overflow-auto panelContainer">
+<div *ngIf="!isFileItemListUpdateInProgress" class="w-100 h-100 d-flex flex-wrap overflow-auto panelContainer">
     @for (folder of folders; track $index) {
     
         <folder-item [folderName]="folder"></folder-item>
     }
+</div>
+
+<div *ngIf="isFileItemListUpdateInProgress" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center w-100 h-100">
+    <div class="spinner-border yellow-spinner" role="status"></div>
+    <div class="mt-2 loading">Processing..</div>
 </div>

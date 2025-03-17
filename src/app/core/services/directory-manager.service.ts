@@ -16,9 +16,9 @@ export class DirectoryManagerService{
 
 
   
-    operationStatus$:Subject<OperationStatus>=new Subject<OperationStatus>();
+    addFileItemOperationStatus$:Subject<OperationStatus>=new Subject<OperationStatus>();
     resetModal$:Subject<void>=new Subject<void>();
-    fileItemListUpdated$:Subject<void>=new Subject<void>();
+    fileItemListUpdate$:Subject<OperationStatus>=new Subject<OperationStatus>();
     updatePathInUI$:Subject<void>=new Subject<void>();
     fileItemList: AddNewFileItemRequestDTO[]=[];
     private currentPath:string;
@@ -41,11 +41,12 @@ export class DirectoryManagerService{
     {
         let path=this.currentPath;
         let observable=this.httpClient.getWithQuery<AddNewFileItemRequestDTO[]>(ApiEndpoints.GET_ALL_FILEITEM,"path",path)
+        this.fileItemListUpdate$.next(OperationStatus.IN_PROGRESS)
         observable.subscribe(
         {
             next: (fileItems) =>{ 
                 this.fileItemList=fileItems;
-                this.fileItemListUpdated$.next()
+                this.fileItemListUpdate$.next(OperationStatus.SUCCESS);
             }
         })      
     }
@@ -110,8 +111,8 @@ export class DirectoryManagerService{
 
         this.httpClient.post(ApiEndpoints.ADD_NEW_FILE_ITEM,request)
         .subscribe({
-            next:()=>this.operationStatus$.next(OperationStatus.SUCCESS),
-            error:()=>this.operationStatus$.next(OperationStatus.FAILURE),
+            next:()=>this.addFileItemOperationStatus$.next(OperationStatus.SUCCESS),
+            error:()=>this.addFileItemOperationStatus$.next(OperationStatus.FAILURE),
             complete:()=>this.updateFolderAndItemList()
         })
     }
@@ -129,7 +130,7 @@ export class DirectoryManagerService{
     }
 
     resetModal() {
-        this.operationStatus$.next(OperationStatus.NOT_STARTED);
+        this.addFileItemOperationStatus$.next(OperationStatus.NOT_STARTED);
         this.resetModal$.next();
     }
 
