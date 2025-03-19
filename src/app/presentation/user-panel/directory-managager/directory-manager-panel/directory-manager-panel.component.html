@@ -1,9 +1,9 @@
 
 
 <div class="filePathContainer">
-    <span *ngIf="!isInHomeDirectory" class="myLink" (click)="updateCurrentPath('/')">Home</span>
+    <span *ngIf="!isInHomeDirectory" class="myLink notClickedLink" (click)="updateCurrentPath('/')">Home</span>
     
-    <span *ngFor="let segmentAndPath of segmentsWithPaths" class="myLink" (click)="updateCurrentPath(segmentAndPath.path)">
+    <span *ngFor="let segmentAndPath of segmentsWithPaths" class="myLink notClickedLink" (click)="updateCurrentPath(segmentAndPath.path)">
         > {{segmentAndPath.segment}}
     </span>
     <span *ngIf="!isInHomeDirectory">> {{currentFolder}}</span>
@@ -13,11 +13,19 @@
 <div *ngIf="!isFileItemListUpdateInProgress" class="w-100 h-100 d-flex flex-wrap overflow-auto panelContainer">
     @for (folder of folders; track $index) {
     
-        <folder-item [folderName]="folder"></folder-item>
+        <folder-item [folderName]="folder" (contextmenu)="ShowFileItemOptions($event,folder)"></folder-item>
     }
 </div>
 
 <div *ngIf="isFileItemListUpdateInProgress" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center w-100 h-100">
     <div class="spinner-border yellow-spinner" role="status"></div>
     <div class="mt-2 loading">Processing..</div>
+</div>
+
+<div class="dropdown context-menu" *ngIf="isFileItemContextMenuVisible" [ngStyle]="contextMenuPositionStyle" >
+    <div class="dropdown-menu show" >  
+      <a class="dropdown-item greenHighlight myLink">Remove</a>
+      <a class="dropdown-item greenHighlight myLink">Rename</a>
+      <a class="dropdown-item greenHighlight myLink">Move</a>
+    </div>
 </div>

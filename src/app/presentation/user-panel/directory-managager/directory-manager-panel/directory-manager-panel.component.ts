@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { OperationStatus } from 'src/app/core/enum/operation.status';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 
@@ -17,6 +17,8 @@ export class DirectoryManagerPanelComponent implements OnInit {
   currentFolder:string=""
   isInHomeDirectory:boolean=true;
   isFileItemListUpdateInProgress:boolean=false;
+  isFileItemContextMenuVisible:boolean=false;
+  contextMenuPositionStyle = { left: '0px', top: '0px' };
 
   constructor(private service:DirectoryManagerService) { }
 
@@ -36,6 +38,22 @@ export class DirectoryManagerPanelComponent implements OnInit {
     this.service.setPath(path);
     this.updateCurrentPathInUi();
     
+  }
+
+  ShowFileItemOptions(event: MouseEvent,fileInputName:string)
+  {
+    event.preventDefault();
+    event.stopPropagation();
+    this.contextMenuPositionStyle.left=event.clientX+'px';
+    this.contextMenuPositionStyle.top=event.pageY+'px';
+    this.isFileItemContextMenuVisible=true;
+
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeFileItemContextMenu()
+  {
+    this.isFileItemContextMenuVisible=false;
   }
 
   handleFileItemListStatusChange(status:OperationStatus)
