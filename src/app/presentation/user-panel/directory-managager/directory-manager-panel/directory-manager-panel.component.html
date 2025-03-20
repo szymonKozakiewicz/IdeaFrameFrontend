@@ -22,10 +22,6 @@
     <div class="mt-2 loading">Processing..</div>
 </div>
 
-<div class="dropdown context-menu" *ngIf="isFileItemContextMenuVisible" [ngStyle]="contextMenuPositionStyle" >
-    <div class="dropdown-menu show" >  
-      <a class="dropdown-item greenHighlight myLink">Remove</a>
-      <a class="dropdown-item greenHighlight myLink">Rename</a>
-      <a class="dropdown-item greenHighlight myLink">Move</a>
-    </div>
-</div>
+<file-item-menu *ngIf="isFileItemContextMenuVisible"
+   [nameOfSelectedFileItem]="nameOfFileItemForFileItemMenu"
+   [fileItemMenuPositionStyle]="contextMenuPositionStyle"></file-item-menu>

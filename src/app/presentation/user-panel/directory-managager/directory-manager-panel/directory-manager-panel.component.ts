@@ -16,9 +16,11 @@ export class DirectoryManagerPanelComponent implements OnInit {
   segmentsWithPaths:Array<{segment:string,path:string}>=[];
   currentFolder:string=""
   isInHomeDirectory:boolean=true;
+  nameOfFileItemForFileItemMenu:string="";
   isFileItemListUpdateInProgress:boolean=false;
   isFileItemContextMenuVisible:boolean=false;
   contextMenuPositionStyle = { left: '0px', top: '0px' };
+
 
   constructor(private service:DirectoryManagerService) { }
 
@@ -31,6 +33,12 @@ export class DirectoryManagerPanelComponent implements OnInit {
     this.service.updatePathInUI$.subscribe({
       next:this.updateCurrentPathInUi.bind(this)
     })
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeFileItemContextMenu()
+  {
+    this.isFileItemContextMenuVisible=false;
   }
 
   updateCurrentPath(path:string)
@@ -47,14 +55,10 @@ export class DirectoryManagerPanelComponent implements OnInit {
     this.contextMenuPositionStyle.left=event.clientX+'px';
     this.contextMenuPositionStyle.top=event.pageY+'px';
     this.isFileItemContextMenuVisible=true;
+    this.nameOfFileItemForFileItemMenu=fileInputName;
 
   }
 
-  @HostListener('document:click', ['$event'])
-  closeFileItemContextMenu()
-  {
-    this.isFileItemContextMenuVisible=false;
-  }
 
   handleFileItemListStatusChange(status:OperationStatus)
   {
