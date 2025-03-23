@@ -1,4 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
+import { FileSystemItem } from 'src/app/core/domain/entities/file-item';
+import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 
 @Component({
   selector: 'file-item-menu',
@@ -7,17 +9,17 @@ import { Component, HostListener, Input } from '@angular/core';
 })
 export class FileItemMenuComponent {
 
-
   @Input() fileItemMenuPositionStyle = { left: '0px', top: '0px' };
-  @Input() nameOfSelectedFileItem:string="";
+  @Input() selectedFileItem:FileSystemItem=new FileSystemItem(1,"");
+
+  constructor(private directoryService:DirectoryManagerService) 
+  { }
+
+  removeFileItem() {
+    this.directoryService.removeFileItem(this.selectedFileItem);
+  }
 
 
-
-
-
-
-
-  
   
 
 }

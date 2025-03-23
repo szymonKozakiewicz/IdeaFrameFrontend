@@ -1,4 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { FileSystemItem } from 'src/app/core/domain/entities/file-item';
+import { FileItemDTO } from 'src/app/core/dto/file-item.dto';
+import { FileItemType } from 'src/app/core/enum/fileItem.enum';
 import { OperationStatus } from 'src/app/core/enum/operation.status';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 
@@ -16,13 +19,15 @@ export class DirectoryManagerPanelComponent implements OnInit {
   segmentsWithPaths:Array<{segment:string,path:string}>=[];
   currentFolder:string=""
   isInHomeDirectory:boolean=true;
-  nameOfFileItemForFileItemMenu:string="";
+  fileItemForFileItemMenu:FileSystemItem=new FileSystemItem(FileItemType.FOLDER,"")
   isFileItemListUpdateInProgress:boolean=false;
   isFileItemContextMenuVisible:boolean=false;
   contextMenuPositionStyle = { left: '0px', top: '0px' };
 
 
-  constructor(private service:DirectoryManagerService) { }
+  constructor(private service:DirectoryManagerService) {
+    
+   }
 
 
   ngOnInit(): void {
@@ -48,14 +53,14 @@ export class DirectoryManagerPanelComponent implements OnInit {
     
   }
 
-  ShowFileItemOptions(event: MouseEvent,fileInputName:string)
+  ShowFileItemOptions(event: MouseEvent,fileInputName:string,type:FileItemType)
   {
     event.preventDefault();
     event.stopPropagation();
     this.contextMenuPositionStyle.left=event.clientX+'px';
     this.contextMenuPositionStyle.top=event.pageY+'px';
     this.isFileItemContextMenuVisible=true;
-    this.nameOfFileItemForFileItemMenu=fileInputName;
+    this.fileItemForFileItemMenu=new FileSystemItem(type,fileInputName);
 
   }
 

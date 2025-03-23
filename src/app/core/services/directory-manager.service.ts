@@ -1,11 +1,12 @@
 import { CustomHttpClient } from "src/app/infrastructure/http/custom-http-client";
 import { FileItemType } from "../enum/fileItem.enum";
 import { ApiEndpoints } from "src/app/infrastructure/http/api-endpoints";
-import { AddNewFileItemRequestDTO } from "../dto/add-new-file-item.dto";
+import { FileItemDTO } from "../dto/file-item.dto";
 import { Injectable } from "@angular/core";
 import { UserRegisterLoginDTO } from "../dto/user-register-login.dto";
 import { catchError, firstValueFrom, map, Observable, of, Subject } from "rxjs";
 import { OperationStatus } from "../enum/operation.status";
+import { FileSystemItem } from "../domain/entities/file-item";
 
 
 @Injectable({providedIn:'root'})
@@ -20,7 +21,7 @@ export class DirectoryManagerService{
     resetModal$:Subject<void>=new Subject<void>();
     fileItemListUpdate$:Subject<OperationStatus>=new Subject<OperationStatus>();
     updatePathInUI$:Subject<void>=new Subject<void>();
-    fileItemList: AddNewFileItemRequestDTO[]=[];
+    fileItemList: FileSystemItem[]=[];
     private currentPath:string;
 
 
@@ -30,7 +31,7 @@ export class DirectoryManagerService{
 
     checkIfFolderNameAvailable(name:string,type:FileItemType):Observable<boolean> {
         
-        let request:AddNewFileItemRequestDTO = new AddNewFileItemRequestDTO(name,type,this.currentPath);
+        let request:FileItemDTO = new FileItemDTO(name,type,this.currentPath);
         return this.httpClient.post<boolean>(ApiEndpoints.IS_FILENAME_AVAILABLE, request)
         .pipe(
             catchError(this.transformErrorToFalse())
@@ -40,18 +41,37 @@ export class DirectoryManagerService{
     public updateFolderAndItemList()
     {
         let path=this.currentPath;
-        let observable=this.httpClient.getWithQuery<AddNewFileItemRequestDTO[]>(ApiEndpoints.GET_ALL_FILEITEM,"path",path)
+        let observable=this.httpClient.getWithQuery<FileItemDTO[]>(ApiEndpoints.GET_ALL_FILEITEM,"path",path)
         this.fileItemListUpdate$.next(OperationStatus.IN_PROGRESS)
         observable.subscribe(
         {
-            next: (fileItems) =>{ 
-                this.fileItemList=fileItems;
+            next: (fileItemsDtoList) =>{ 
+                
+                this.fileItemList=fileItemsDtoList
+                    .map(fileItemDto=>FileSystemItem.build(fileItemDto));
+                
+
                 this.fileItemListUpdate$.next(OperationStatus.SUCCESS);
             }
         })      
     }
 
-    isUserInHomeDirectory(): boolean {
+
+
+    public removeFileItem(fileToRemove:FileSystemItem)
+    {
+        let fileToRemoveDTO=fileToRemove.convertToFileItemDTO(this.currentPath)
+        let request=this.httpClient.post(ApiEndpoints.REMOVE_FILEITEM,fileToRemoveDTO)
+        request.subscribe(
+            {
+                next: this.updateFolderAndItemList.bind(this)
+            }
+        )
+    };
+
+
+
+    public isUserInHomeDirectory(): boolean {
         return this.currentPath==="/";
     }
 
@@ -107,7 +127,7 @@ export class DirectoryManagerService{
 
     public sendRequestToAddNewFileItem(name:string,type:FileItemType){
 
-        let request:AddNewFileItemRequestDTO = new AddNewFileItemRequestDTO(name,type,this.currentPath);
+        let request:FileItemDTO = new FileItemDTO(name,type,this.currentPath);
 
         this.httpClient.post(ApiEndpoints.ADD_NEW_FILE_ITEM,request)
         .subscribe({

@@ -1,6 +1,6 @@
 import { FileItemType } from "../enum/fileItem.enum";
 
-export class AddNewFileItemRequestDTO{
+export class FileItemDTO{
 
     name:string;
     path:string;

@@ -10,4 +10,5 @@ export class ApiEndpoints {
     static readonly ADD_NEW_FILE_ITEM=`${ApiEndpoints.BASE_URL}/api/Directory/addNewFileItem`;
     static readonly IS_FILENAME_AVAILABLE=`${ApiEndpoints.BASE_URL}/api/Directory/isFileItemNameAvailable`;
     static readonly GET_ALL_FILEITEM=`${ApiEndpoints.BASE_URL}/api/Directory/getAllFoldersFromPath`;  
+    static readonly REMOVE_FILEITEM=`${ApiEndpoints.BASE_URL}/api/Directory/removeFileItem`;  
   }

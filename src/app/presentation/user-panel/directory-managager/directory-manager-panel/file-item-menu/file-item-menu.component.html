@@ -1,6 +1,6 @@
 <div class="dropdown context-menu"  [ngStyle]="fileItemMenuPositionStyle" >
     <div class="dropdown-menu show" >  
-      <a class="dropdown-item greenHighlight myLink"><i class="bi bi-x-square-fill text-danger"></i> Remove</a>
+      <a class="dropdown-item greenHighlight myLink" (click)="removeFileItem()"><i class="bi bi-x-square-fill text-danger"></i> Remove</a>
       <a class="dropdown-item greenHighlight myLink"><i class="bi bi-pencil-square text-primary" ></i> Rename</a>
       <a class="dropdown-item greenHighlight myLink"><i class="bi bi-arrow-bar-right text-warning"></i> Move</a>
     </div>
