@@ -25,8 +25,10 @@ export class DirectoryManagerService{
     private currentPath:string;
 
 
+
     constructor(private httpClient:CustomHttpClient) {
         this.currentPath = "/";
+
     }
 
     checkIfFolderNameAvailable(name:string,type:FileItemType):Observable<boolean> {
@@ -37,6 +39,8 @@ export class DirectoryManagerService{
             catchError(this.transformErrorToFalse())
         );
     }
+
+
 
     public updateFolderAndItemList()
     {
@@ -141,6 +145,7 @@ export class DirectoryManagerService{
     {
         return this.currentPath;
     }
+
 
     getFolders(): string[] {
         return this.fileItemList.filter(fileItem=>fileItem.type==FileItemType.FOLDER).map(fileItem=>fileItem.name);

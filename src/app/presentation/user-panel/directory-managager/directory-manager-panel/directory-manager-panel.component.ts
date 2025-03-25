@@ -4,6 +4,7 @@ import { FileItemDTO } from 'src/app/core/dto/file-item.dto';
 import { FileItemType } from 'src/app/core/enum/fileItem.enum';
 import { OperationStatus } from 'src/app/core/enum/operation.status';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
+import { MoveFileItemService } from 'src/app/core/services/move-file-item.service';
 
 @Component({
   selector: 'directory-manager-panel',
@@ -25,7 +26,8 @@ export class DirectoryManagerPanelComponent implements OnInit {
   contextMenuPositionStyle = { left: '0px', top: '0px' };
 
 
-  constructor(private service:DirectoryManagerService) {
+  constructor(private service:DirectoryManagerService,
+        private moveFileItemService:MoveFileItemService) {
     
    }
 
@@ -57,6 +59,11 @@ export class DirectoryManagerPanelComponent implements OnInit {
   {
     event.preventDefault();
     event.stopPropagation();
+    let isInMoveFileItemModeActive=this.moveFileItemService.isInMoveFileItemMode();
+    if(isInMoveFileItemModeActive)
+    {
+      return;
+    }
     this.contextMenuPositionStyle.left=event.clientX+'px';
     this.contextMenuPositionStyle.top=event.pageY+'px';
     this.isFileItemContextMenuVisible=true;
