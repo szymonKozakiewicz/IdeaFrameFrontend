@@ -18,14 +18,14 @@ export class DirectoryManagagerComponent implements OnInit {
   ngOnInit(): void {
     this.moveFileItemService.moveFileItemMode$.subscribe(
       {
-        next:this.initMoveFileItemMode.bind(this)
+        next:this.switchMoveFileItemMode.bind(this)
       }
     )
   }
   
-  public initMoveFileItemMode()
+  public switchMoveFileItemMode(modeState:boolean)
   {
-    this.fileMoveModeActive=true;
+    this.fileMoveModeActive=modeState;
   }
 
   public cancelMoveFileItemMode()
@@ -38,7 +38,7 @@ export class DirectoryManagagerComponent implements OnInit {
   {
     this.moveFileItemService.moveFileItemToCurrentFolder();
     this.cancelMoveFileItemMode();
-    
+
   }
 
   resetModal()

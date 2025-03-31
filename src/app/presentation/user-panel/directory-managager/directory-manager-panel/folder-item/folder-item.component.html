@@ -1,6 +1,6 @@
-<div class="fileItem" (dblclick)="openFolder()">
+<div [ngClass]="{'disabledFolder':isFolderDisabled}" class="fileItem" (dblclick)="openFolder()">
 
-    <i class="bi bi-folder"></i>
-    <small>{{folderNameFrontend}}</small>
+    <i [ngClass]="{'disabledFolder':isFolderDisabled,'activeFolder':!isFolderDisabled}" class="bi bi-folder" ></i>
+    <small >{{folderNameFrontend}}</small>
 
 </div>

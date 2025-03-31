@@ -71,6 +71,11 @@ export class DirectoryManagerPanelComponent implements OnInit {
 
   }
 
+  isFolderDisabled(folderName:string):boolean
+  {
+    const currnetPath=this.service.getCurrentPath();
+    return this.moveFileItemService.shouldFolderBeDisabled(currnetPath,folderName);
+  }
 
   handleFileItemListStatusChange(status:OperationStatus)
   {

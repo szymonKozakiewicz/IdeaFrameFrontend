@@ -12,5 +12,13 @@
 
 .bi-folder{
     font-size: 2rem;
+
+}
+
+.disabledFolder{
+    color:#8e8175
+}
+
+.activeFolder{
     color: #C08D5E
 }
