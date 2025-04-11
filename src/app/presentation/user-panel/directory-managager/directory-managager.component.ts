@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 import { MoveFileItemService } from 'src/app/core/services/move-file-item.service';
+import { RenameFileItemService } from 'src/app/core/services/rename-file-item.service';
 
 @Component({
   selector: 'directory-managager',
@@ -12,7 +13,8 @@ export class DirectoryManagagerComponent implements OnInit {
   fileMoveModeActive:boolean=false;
 
   constructor(private service:DirectoryManagerService,
-        private moveFileItemService:MoveFileItemService) {
+        private moveFileItemService:MoveFileItemService,
+      private renameFileItemService:RenameFileItemService) {
     
    }
   ngOnInit(): void {
@@ -41,8 +43,12 @@ export class DirectoryManagagerComponent implements OnInit {
 
   }
 
-  resetModal()
+  setupModalForAddNewFileItem()
   {
-      this.service.resetModal();
+      this.service.setupModalForOperationAddFileItem();
+      this.renameFileItemService.cancelRenameFileItemMode();
   }
+
+  
+
 }

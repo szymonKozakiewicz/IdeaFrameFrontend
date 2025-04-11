@@ -55,7 +55,7 @@ export class DirectoryManagerPanelComponent implements OnInit {
     
   }
 
-  ShowFileItemOptions(event: MouseEvent,fileInputName:string,type:FileItemType)
+  showFileItemContextMenu(event: MouseEvent,fileInputName:string,type:FileItemType)
   {
     event.preventDefault();
     event.stopPropagation();

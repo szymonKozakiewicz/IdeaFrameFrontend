@@ -23,6 +23,8 @@ export class FolderItemComponent implements OnInit {
   constructor(private directoryService:DirectoryManagerService,
     private moveFileItemService:MoveFileItemService
   ) { }
+
+  
   ngOnInit(): void {
     const currentPath=this.directoryService.getCurrentPath();
     this.isFolderDisabled=this.moveFileItemService.shouldFolderBeDisabled(currentPath,this._folderName);

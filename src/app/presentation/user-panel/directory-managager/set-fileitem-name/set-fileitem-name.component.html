@@ -1,0 +1,37 @@
+<div class="modal fade"  id="fileItemNameModal" tabindex="-1" role="dialog" aria-labelledby="fileItemNameModalLabel" aria-hidden="true">
+    
+
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content addFileFolderContainer">
+
+            <div class="modal-body d-flex flex-column">
+                
+                <div class="modalHeader text-center">{{actionName}}</div>
+                <form class="flex-grow-1 d-flex flex-column justify-content-between"  *ngIf="!isOperationLaunched()" [formGroup]="newFileFolderForm" (submit)="submitForm()">
+                    
+                    <div>
+                        <label class="mt-4" for="folderName">Folder name</label>
+                        <input [ngClass]="{'is-invalid':isFileItemNameInvalidAndTouched()}" type="text" formControlName="fileOrFolderName" class="form-control mt-2 darkControl"  placeholder="Folder name">
+                        <small class="text-danger" *ngIf="isFileItemNameInvalidAndTouched()">
+                            {{errorMessage}}
+                        </small>
+                        <div *ngIf="isCheckingNameInProgress()" class="d-flex mt-2 align-items-center">
+
+                            <small class="me-2 text-muted">Checking if name available</small>
+                            <div class="spinner-border spinner-border-sm spinner-grow-sm blue-spinner" role="status"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="submit" class="btn blueButton btnMedium">Save</button>
+                        <button type="button"  data-bs-dismiss="modal" class="btn blueEmpty ms-3 btnMedium">Cancel</button>
+                    </div>
+                </form>
+                <modal-operation-result class="flex-grow-1" *ngIf="isOperationLaunched()"></modal-operation-result>
+            
+            </div>
+
+        </div>
+      </div>
+</div>
+

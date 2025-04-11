@@ -1,7 +1,7 @@
 <div  class="directoryManagerContainer mt-5 rounded-5">
     <h1 class="mb-5">Your mind maps</h1>
     <div class="w-100 d-flex " *ngIf="!this.fileMoveModeActive">
-        <a (click)="resetModal()" class="directoryManagerOptionButton addDirectoryButton btn " data-bs-toggle="modal" data-bs-target="#exampleModal">New folder +</a>
+        <a (click)="setupModalForAddNewFileItem()" class="directoryManagerOptionButton addDirectoryButton btn " data-bs-toggle="modal" data-bs-target="#fileItemNameModal">New folder +</a>
         <a class="directoryManagerOptionButton addMapButton btn ms-4">New map +</a>
     </div>
 
@@ -16,4 +16,4 @@
 
 
   
-<add-folder-file></add-folder-file>
+<set-fileitem-name></set-fileitem-name>

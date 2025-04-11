@@ -1,24 +1,36 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OperationStatus } from 'src/app/core/enum/operation.status';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
+import { RenameFileItemService } from 'src/app/core/services/rename-file-item.service';
 
 @Component({
   selector: 'modal-operation-result',
   templateUrl: './modal-operation-result.component.html',
   styleUrl: './modal-operation-result.component.css'
 })
-export class ModalOperationResultComponent {
+export class ModalOperationResultComponent implements OnInit {
 
     @Input("operationDescription") operationDescription:string="";
     @Input("operationStatus")operationStatus:OperationStatus=OperationStatus.IN_PROGRESS;
     @Input("operationStatusName")operationStatusName:string="Success!"
    
 
-    constructor(private directoryService:DirectoryManagerService)
+    constructor(private directoryService:DirectoryManagerService,
+      private renameFileItemService:RenameFileItemService
+    )
     {
+ 
+
+    }
+    ngOnInit(): void {
       this.directoryService.addFileItemOperationStatus$.subscribe({
         next:this.setOperationStatus.bind(this)
       })
+      this.renameFileItemService.editFileItemOperationStatus$.subscribe(
+        {
+          next:this.setOperationStatus.bind(this)
+        }
+      )
     }
     isOperationInProgress():boolean
     {

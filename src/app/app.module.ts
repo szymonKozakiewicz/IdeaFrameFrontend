@@ -23,6 +23,7 @@ import { DirectoryManagerPanelComponent } from './presentation/user-panel/direct
 import { FolderItemComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/folder-item/folder-item.component';
 import { FileItemComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/file-item/file-item.component';
 import { FileItemMenuComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/file-item-menu/file-item-menu.component';
+import { SetFileitemNameComponent } from './presentation/user-panel/directory-managager/set-fileitem-name/set-fileitem-name.component';
 
 
 
@@ -45,7 +46,8 @@ import { FileItemMenuComponent } from './presentation/user-panel/directory-manag
     DirectoryManagerPanelComponent,
     FolderItemComponent,
     FileItemComponent,
-    FileItemMenuComponent],
+    FileItemMenuComponent,
+    SetFileitemNameComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [

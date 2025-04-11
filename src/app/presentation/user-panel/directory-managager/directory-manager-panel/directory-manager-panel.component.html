@@ -13,7 +13,7 @@
 <div *ngIf="!isFileItemListUpdateInProgress" class="w-100 h-100 d-flex flex-wrap overflow-auto panelContainer">
     @for (folder of folders; track $index) {
     
-        <folder-item  [folderName]="folder"  (contextmenu)="ShowFileItemOptions($event,folder,1)"></folder-item>
+        <folder-item  [folderName]="folder"  (contextmenu)="showFileItemContextMenu($event,folder,1)"></folder-item>
 
     }
 </div>

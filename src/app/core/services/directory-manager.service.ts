@@ -154,8 +154,14 @@ export class DirectoryManagerService{
         return this.fileItemList.filter(fileItem=>fileItem.type==FileItemType.FILE).map(fileItem=>fileItem.name);
     }
 
-    resetModal() {
+    setupModalForOperationAddFileItem()
+    {
         this.addFileItemOperationStatus$.next(OperationStatus.NOT_STARTED);
+        this.resetModal();
+    }
+
+    resetModal() {
+
         this.resetModal$.next();
     }
 
