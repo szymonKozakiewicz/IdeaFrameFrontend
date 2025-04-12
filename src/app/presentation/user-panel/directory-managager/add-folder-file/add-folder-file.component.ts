@@ -113,7 +113,7 @@ export class AddFolderFileComponent implements OnInit{
   {
     this.fileItemNameStatus=InputValidationStatus.CHECKING_IN_PROGRESS;
     const folderName=control.value;
-    let observable=this.directoryManagerService.checkIfFolderNameAvailable(folderName,this.fileItemType).pipe(
+    let observable=this.directoryManagerService.checkIfFileItemNameAvailable(folderName,this.fileItemType).pipe(
           tap( this.setFileItemNameStatusBasedOnBackendInfo()),
           map(this.transformToNullAndErrorMessage()) 
         )

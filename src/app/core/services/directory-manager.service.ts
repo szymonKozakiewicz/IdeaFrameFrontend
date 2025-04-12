@@ -31,16 +31,20 @@ export class DirectoryManagerService{
 
     }
 
-    checkIfFolderNameAvailable(name:string,type:FileItemType):Observable<boolean> {
+    checkIfFileItemNameAvailable(name:string,type:FileItemType):Observable<boolean> {
         
-        let request:FileItemDTO = new FileItemDTO(name,type,this.currentPath);
-        return this.httpClient.post<boolean>(ApiEndpoints.IS_FILENAME_AVAILABLE, request)
-        .pipe(
-            catchError(this.transformErrorToFalse())
-        );
+        return this.checkIfFileItemNameAvailableInPath(name, type,this.currentPath);
     }
 
 
+
+    public checkIfFileItemNameAvailableInPath(name: string, type: FileItemType,path:string) {
+        let request: FileItemDTO = new FileItemDTO(name, type, path);
+        return this.httpClient.post<boolean>(ApiEndpoints.IS_FILENAME_AVAILABLE, request)
+            .pipe(
+                catchError(this.transformErrorToFalse())
+            );
+    }
 
     public updateFolderAndItemList()
     {

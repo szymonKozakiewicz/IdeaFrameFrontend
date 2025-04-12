@@ -36,8 +36,15 @@ export class DirectoryManagagerComponent implements OnInit {
     this.moveFileItemService.cancelMoveFileItemMode();
   }
   
-  public moveFileItemToThisFolder()
+  public async moveFileItemToThisFolder()
   {
+
+    const placeForFileItemAvailable=await this.moveFileItemService.isPalceForFileItemAvailableInNewFolder()
+    if(!placeForFileItemAvailable)
+    {
+      alert("Sorry can't move, file/folder with such name already exists in this folder");
+      return;
+    }
     this.moveFileItemService.moveFileItemToCurrentFolder();
     this.cancelMoveFileItemMode();
 

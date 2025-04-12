@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { lastValueFrom, Subject } from "rxjs";
 import { CustomHttpClient } from "src/app/infrastructure/http/custom-http-client";
 import { DirectoryManagerService } from "./directory-manager.service";
 import { FileSystemItem } from "../domain/entities/file-item";
@@ -14,6 +14,7 @@ export class MoveFileItemService{
     private isInFileMoveMode: boolean;
     private oldPath:string;
     moveFileItemMode$:Subject<boolean>=new Subject<boolean>();
+    
 
     constructor(private httpClient:CustomHttpClient,
         private directoryManager:DirectoryManagerService
@@ -36,6 +37,7 @@ export class MoveFileItemService{
 
     public moveFileItemToCurrentFolder()
     {
+  
         this.cancelMoveFileItemMode();
         let newPath=this.directoryManager.getCurrentPath();
         let fileItemSystemToMoveDTO=new MoveFileItemDto(this.fileItemToMove.name,this.fileItemToMove.type,this.oldPath,newPath);
@@ -44,6 +46,13 @@ export class MoveFileItemService{
         })
         
         
+    }
+
+    public async isPalceForFileItemAvailableInNewFolder()
+    {
+        let validatorObservable=this.directoryManager.checkIfFileItemNameAvailable(this.fileItemToMove.name,this.fileItemToMove.type);
+        const isPlaceForFileItemCorrect=await lastValueFrom(validatorObservable);
+        return isPlaceForFileItemCorrect;
     }
     
     public eneterIntoMoveFileItemMode(fileSystemItem:FileSystemItem)
