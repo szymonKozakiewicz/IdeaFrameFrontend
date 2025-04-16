@@ -22,7 +22,9 @@ export class DirectoryManagerService{
     fileItemListUpdate$:Subject<OperationStatus>=new Subject<OperationStatus>();
     updatePathInUI$:Subject<void>=new Subject<void>();
     fileItemList: FileSystemItem[]=[];
+    private fileItemToChangeType:FileItemType=FileItemType.FOLDER;
     private currentPath:string;
+
 
 
 
@@ -44,6 +46,11 @@ export class DirectoryManagerService{
             .pipe(
                 catchError(this.transformErrorToFalse())
             );
+    }
+
+    public getFileItemToChangeType()
+    {
+        return this.fileItemToChangeType;
     }
 
     public updateFolderAndItemList()
@@ -133,9 +140,9 @@ export class DirectoryManagerService{
     }
 
 
-    public sendRequestToAddNewFileItem(name:string,type:FileItemType){
+    public sendRequestToAddNewFileItem(name:string){
 
-        let request:FileItemDTO = new FileItemDTO(name,type,this.currentPath);
+        let request:FileItemDTO = new FileItemDTO(name,this.fileItemToChangeType,this.currentPath);
 
         this.httpClient.post(ApiEndpoints.ADD_NEW_FILE_ITEM,request)
         .subscribe({
@@ -158,10 +165,18 @@ export class DirectoryManagerService{
         return this.fileItemList.filter(fileItem=>fileItem.type==FileItemType.FILE).map(fileItem=>fileItem.name);
     }
 
-    setupModalForOperationAddFileItem()
+
+
+    setupModalForOperationAddFileItem(fileItemType:FileItemType)
     {
+        this.fileItemToChangeType=fileItemType;
         this.addFileItemOperationStatus$.next(OperationStatus.NOT_STARTED);
         this.resetModal();
+    }
+
+    public setFilteItemToChangeType(fileItemType:FileItemType)
+    {
+        this.fileItemToChangeType=fileItemType;
     }
 
     resetModal() {

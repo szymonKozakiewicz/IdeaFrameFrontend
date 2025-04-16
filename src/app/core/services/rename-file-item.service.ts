@@ -30,7 +30,9 @@ export class RenameFileItemService{
 
         this.isEditModeActive = true;
         this.fileItemToEdit = fileItem;
+        this.directoryManagerService.setFilteItemToChangeType(fileItem.type);
         this.switchRenameFileTimeMode$.next(true);
+
 
     }
 

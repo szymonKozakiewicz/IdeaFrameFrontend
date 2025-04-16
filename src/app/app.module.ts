@@ -20,7 +20,6 @@ import { DirectoryManagagerComponent } from './presentation/user-panel/directory
 import { AddFolderFileComponent } from './presentation/user-panel/directory-managager/add-folder-file/add-folder-file.component';
 import { ModalOperationResultComponent } from './presentation/operations-results/modal-operation-result/modal-operation-result.component';
 import { DirectoryManagerPanelComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/directory-manager-panel.component';
-import { FolderItemComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/folder-item/folder-item.component';
 import { FileItemComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/file-item/file-item.component';
 import { FileItemMenuComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/file-item-menu/file-item-menu.component';
 import { SetFileitemNameComponent } from './presentation/user-panel/directory-managager/set-fileitem-name/set-fileitem-name.component';
@@ -44,7 +43,6 @@ import { SetFileitemNameComponent } from './presentation/user-panel/directory-ma
     AddFolderFileComponent,
     ModalOperationResultComponent,
     DirectoryManagerPanelComponent,
-    FolderItemComponent,
     FileItemComponent,
     FileItemMenuComponent,
     SetFileitemNameComponent],

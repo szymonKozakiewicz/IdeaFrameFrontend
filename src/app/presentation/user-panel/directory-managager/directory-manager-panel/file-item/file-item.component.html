@@ -1,1 +1,7 @@
+<div [ngClass]="{'disabledFileItem':isFileItemDisabled}" class="fileItem" (dblclick)="openFolder()">
 
+    <i *ngIf="isFolder" [ngClass]="{'disabledFileItem':isFileItemDisabled,'activeFolder':!isFileItemDisabled}" class="bi bi-folder fileItemIcon" ></i>
+    <i *ngIf="!isFolder" [ngClass]="{'disabledFileItem':isFileItemDisabled,'activeFile':!isFileItemDisabled}"  class="bi bi-file-earmark-text fileItemIcon"></i>
+    <small >{{fileItemNameFrontend}}</small>
+
+</div>

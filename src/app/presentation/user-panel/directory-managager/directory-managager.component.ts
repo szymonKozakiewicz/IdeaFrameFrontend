@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FileItemType } from 'src/app/core/enum/fileItem.enum';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 import { MoveFileItemService } from 'src/app/core/services/move-file-item.service';
 import { RenameFileItemService } from 'src/app/core/services/rename-file-item.service';
@@ -50,9 +51,9 @@ export class DirectoryManagagerComponent implements OnInit {
 
   }
 
-  setupModalForAddNewFileItem()
+  setupModalForAddNewFileItem(fileSystemType:FileItemType)
   {
-      this.service.setupModalForOperationAddFileItem();
+      this.service.setupModalForOperationAddFileItem(fileSystemType);
       this.renameFileItemService.cancelRenameFileItemMode();
   }
 

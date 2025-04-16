@@ -1,0 +1,30 @@
+.fileItem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 5rem;
+    padding: 0.5rem;
+}
+
+.fileItemIcon
+{
+    font-size: 2rem;
+}
+
+.fileItem:hover{
+    background-color: #86d58c36;
+}
+
+
+
+.disabledFileItem{
+    color:#8e8175
+}
+
+.activeFolder{
+    color: #C08D5E
+}
+
+.activeFile{
+    color: #77B6EA
+}

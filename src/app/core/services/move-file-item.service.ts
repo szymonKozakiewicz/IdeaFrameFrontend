@@ -59,6 +59,7 @@ export class MoveFileItemService{
     {
         this.fileItemToMove=fileSystemItem;
         this.isInFileMoveMode=true;
+        this.directoryManager.setFilteItemToChangeType(fileSystemItem.type);
         this.oldPath=this.directoryManager.getCurrentPath();
         this.moveFileItemMode$.next(true);
         

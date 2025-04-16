@@ -18,11 +18,12 @@ export class SetFileitemNameComponent {
 
     newFileFolderForm!: FormGroup;
     errorMessage:string="";
-    fileItemType=FileItemType.FOLDER;
+   
     operationStatus=OperationStatus.NOT_STARTED;
     fileItemNameStatus=InputValidationStatus.EMPTY;
     fileItemNameFrontendStatus=InputValidationStatus.EMPTY;
     actionName="Add new folder"
+    fileItemTypeName="folder"
     isInFileItemNameEditMode:boolean=false;
   
     constructor(private directoryManagerService:DirectoryManagerService,
@@ -38,12 +39,12 @@ export class SetFileitemNameComponent {
       this.createReactiveForm();
       this.subscribeLoginValueChangeToUpdateLoginCheckingInProgressProperty();
       this.renameFileItemService.switchRenameFileTimeMode$.subscribe({
-        next: this.switchModalInFileRenameMode.bind(this)
+        next: this.setModalInFileRenameMode.bind(this)
       })
       
   }
 
-  private switchModalInFileRenameMode(isRenameModeActive:boolean) 
+  private setModalInFileRenameMode(isRenameModeActive:boolean) 
   {
     if(isRenameModeActive)
     {
@@ -51,23 +52,26 @@ export class SetFileitemNameComponent {
       this.showModal();
     }
     else{
-      this.setModalInAddFileItemMode();
+      this.setActioNameForAddingFileItem();
     }
 
   }
 
-  private setModalInAddFileItemMode() {
-    let fileItemTypeName = this.getEditedFileItemTypeName();
+  private setActioNameForAddingFileItem() {
+    let fileItemTypeName = this.directoryManagerService.getFileItemToChangeType()===FileItemType.FILE?"file":"folder";
     this.actionName="Add new "+fileItemTypeName;
+    this.fileItemTypeName=this.capitalizeFirstLetter(fileItemTypeName);
+
   }
 
   private setModalInEditFileItemMode()
   {
     let fileItemTypeName = this.getEditedFileItemTypeName();
     this.actionName="Rename "+fileItemTypeName; 
-    
+    this.fileItemTypeName=this.capitalizeFirstLetter(fileItemTypeName);
 
   }
+
 
 
   private getEditedFileItemTypeName() {
@@ -121,11 +125,15 @@ export class SetFileitemNameComponent {
       return true;
   
     }
+
+    capitalizeFirstLetter(str: string): string {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
     
     private setErrorMessage() {
       let fileItemName="Folder";
-  
-      if (this.fileItemType === FileItemType.FILE) {
+      let fileItemType=this.directoryManagerService.getFileItemToChangeType();
+      if (fileItemType === FileItemType.FILE) {
         fileItemName = "Mind map";
       }
   
@@ -147,7 +155,7 @@ export class SetFileitemNameComponent {
     {
       this.newFileFolderForm.reset();
       this.operationStatus=OperationStatus.NOT_STARTED;
-
+      this.setActioNameForAddingFileItem();
       if(this.isInFileItemNameEditMode)
       {
         this.renameFileItemService.cancelRenameFileItemMode();
@@ -169,7 +177,7 @@ export class SetFileitemNameComponent {
       }
       else {
 
-        this.directoryManagerService.sendRequestToAddNewFileItem(fileName,this.fileItemType);
+        this.directoryManagerService.sendRequestToAddNewFileItem(fileName);
       }
       
       this.operationStatus=OperationStatus.IN_PROGRESS;
@@ -185,7 +193,8 @@ export class SetFileitemNameComponent {
     {
       this.fileItemNameStatus=InputValidationStatus.CHECKING_IN_PROGRESS;
       const folderName=control.value;
-      let observable=this.directoryManagerService.checkIfFileItemNameAvailable(folderName,this.fileItemType).pipe(
+      let fileItemType=this.directoryManagerService.getFileItemToChangeType();
+      let observable=this.directoryManagerService.checkIfFileItemNameAvailable(folderName,fileItemType).pipe(
             tap( this.setFileItemNameStatusBasedOnBackendInfo()),
             map(this.transformToNullAndErrorMessage()) 
           )

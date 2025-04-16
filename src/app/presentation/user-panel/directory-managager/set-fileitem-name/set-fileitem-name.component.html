@@ -11,8 +11,8 @@
                 <form class="flex-grow-1 d-flex flex-column justify-content-between"  *ngIf="!isOperationLaunched()" [formGroup]="newFileFolderForm" (submit)="submitForm()">
                     
                     <div>
-                        <label class="mt-4" for="folderName">Folder name</label>
-                        <input [ngClass]="{'is-invalid':isFileItemNameInvalidAndTouched()}" type="text" formControlName="fileOrFolderName" class="form-control mt-2 darkControl"  placeholder="Folder name">
+                        <label class="mt-4" for="folderName">{{fileItemTypeName}} name</label>
+                        <input [ngClass]="{'is-invalid':isFileItemNameInvalidAndTouched()}" type="text" formControlName="fileOrFolderName" class="form-control mt-2 darkControl"  placeholder="{{fileItemTypeName}} name">
                         <small class="text-danger" *ngIf="isFileItemNameInvalidAndTouched()">
                             {{errorMessage}}
                         </small>

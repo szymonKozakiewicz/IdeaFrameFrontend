@@ -88,6 +88,7 @@ export class AddFolderFileComponent implements OnInit{
   {
     this.newFileFolderForm.reset();
     this.operationStatus=OperationStatus.NOT_STARTED;
+    
   }
 
   async addNewFolder(){
@@ -100,7 +101,7 @@ export class AddFolderFileComponent implements OnInit{
       return;
     }
     let fileName=control?.value
-    this.directoryManagerService.sendRequestToAddNewFileItem(fileName,this.fileItemType);
+    this.directoryManagerService.sendRequestToAddNewFileItem(fileName);
     this.operationStatus=OperationStatus.IN_PROGRESS;
 
   }
