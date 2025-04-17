@@ -23,9 +23,7 @@ import { DirectoryManagerPanelComponent } from './presentation/user-panel/direct
 import { FileItemComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/file-item/file-item.component';
 import { FileItemMenuComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/file-item-menu/file-item-menu.component';
 import { SetFileitemNameComponent } from './presentation/user-panel/directory-managager/set-fileitem-name/set-fileitem-name.component';
-
-
-
+import { MindmapPanelComponent } from './presentation/mindmap-panel/mindmap-panel.component';
 
 @NgModule({
   declarations: [OperationResultComponent,
@@ -45,7 +43,8 @@ import { SetFileitemNameComponent } from './presentation/user-panel/directory-ma
     DirectoryManagerPanelComponent,
     FileItemComponent,
     FileItemMenuComponent,
-    SetFileitemNameComponent],
+    SetFileitemNameComponent,
+    MindmapPanelComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [

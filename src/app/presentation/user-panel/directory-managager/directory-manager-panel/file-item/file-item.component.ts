@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DirectoryManagerService } from 'src/app/core/services/directory-manager.service';
 import { MoveFileItemService } from 'src/app/core/services/move-file-item.service';
 
@@ -21,6 +22,7 @@ export class FileItemComponent implements OnInit  {
 
   constructor(private directoryService:DirectoryManagerService,
     private moveFileItemService:MoveFileItemService
+    
   ) { }
 
   
@@ -34,7 +36,17 @@ export class FileItemComponent implements OnInit  {
     )
   }
 
-
+  openFileItem()
+  {
+    if(this.isFolder)
+    {
+      this.directoryService.enterToFolder(this._fileItemName);
+    }else{
+      if(this.isFileItemDisabled)
+        return;
+      this.directoryService.openFile(this.fileItemName);
+    }
+  }
 
   openFolder()
   {

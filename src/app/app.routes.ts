@@ -6,6 +6,8 @@ import { OperationResultComponent } from './presentation/operations-results/oper
 import { RegisterOperationResultComponent } from './presentation/operations-results/register-operation-result/register-operation-result.component';
 import { UserPanelComponent } from './presentation/user-panel/user-panel.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { MindMapService } from './core/services/mind-map.service';
+import { MindmapPanelComponent } from './presentation/mindmap-panel/mindmap-panel.component';
 
 
 export const routes: Routes = [
@@ -14,5 +16,6 @@ export const routes: Routes = [
     {path:'login',component: LoginComponent},
     {path:'register',component: RegisterComponent},
     {path:'registerOperationResult',component: RegisterOperationResultComponent},
-    {path:'userPanel',component: UserPanelComponent,canActivate:[AuthGuard]}
+    {path:'userPanel',component: UserPanelComponent,canActivate:[AuthGuard]},
+    {path:'mindMapPanel',component: MindmapPanelComponent,canActivate:[AuthGuard]}
 ];

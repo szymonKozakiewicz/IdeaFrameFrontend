@@ -7,6 +7,9 @@ import { UserRegisterLoginDTO } from "../dto/user-register-login.dto";
 import { catchError, firstValueFrom, map, Observable, of, Subject } from "rxjs";
 import { OperationStatus } from "../enum/operation.status";
 import { FileSystemItem } from "../domain/entities/file-item";
+import { FileSystemItemWithPath } from "../domain/entities/file-item-with-path";
+import { MindMapService } from "./mind-map.service";
+import { Router } from "@angular/router";
 
 
 @Injectable({providedIn:'root'})
@@ -28,7 +31,10 @@ export class DirectoryManagerService{
 
 
 
-    constructor(private httpClient:CustomHttpClient) {
+    constructor(private httpClient:CustomHttpClient,
+        private mindMapService:MindMapService,
+        private router: Router
+    ) {
         this.currentPath = "/";
 
     }
@@ -52,6 +58,17 @@ export class DirectoryManagerService{
     {
         return this.fileItemToChangeType;
     }
+
+    public openFile(fileName: string) {
+        
+
+        const path=this.currentPath;
+        let fileToOpen=new FileSystemItemWithPath(fileName,FileItemType.FILE,path);
+        this.mindMapService.setCurrentFileItem(fileToOpen);
+        this.router.navigate(["/mindMapPanel"]);
+
+    }
+
 
     public updateFolderAndItemList()
     {
