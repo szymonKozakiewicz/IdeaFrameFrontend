@@ -8,7 +8,7 @@ import { LoginService } from 'src/app/core/services/login.service';
   styleUrl: './user-menu.component.css'
 })
 export class UserMenuComponent {
-  @Input("userName")userName!:string;
+  @Input("userName")userName:string="";
   
   constructor(private loginService:LoginService, private router:Router) { }
 

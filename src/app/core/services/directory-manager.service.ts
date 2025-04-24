@@ -39,20 +39,11 @@ export class DirectoryManagerService{
 
     }
 
-    checkIfFileItemNameAvailable(name:string,type:FileItemType):Observable<boolean> {
+    public checkIfFileItemNameAvailable(name:string,type:FileItemType):Observable<boolean> {
         
         return this.checkIfFileItemNameAvailableInPath(name, type,this.currentPath);
     }
 
-
-
-    public checkIfFileItemNameAvailableInPath(name: string, type: FileItemType,path:string) {
-        let request: FileItemDTO = new FileItemDTO(name, type, path);
-        return this.httpClient.post<boolean>(ApiEndpoints.IS_FILENAME_AVAILABLE, request)
-            .pipe(
-                catchError(this.transformErrorToFalse())
-            );
-    }
 
     public getFileItemToChangeType()
     {
@@ -207,6 +198,14 @@ export class DirectoryManagerService{
             console.log(error);
             return of(false);
         };
+    }
+
+    private checkIfFileItemNameAvailableInPath(name: string, type: FileItemType,path:string) {
+        let request: FileItemDTO = new FileItemDTO(name, type, path);
+        return this.httpClient.post<boolean>(ApiEndpoints.IS_FILENAME_AVAILABLE, request)
+            .pipe(
+                catchError(this.transformErrorToFalse())
+            );
     }
 
 

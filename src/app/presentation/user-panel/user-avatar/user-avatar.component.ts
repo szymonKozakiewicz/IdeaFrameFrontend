@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, input, Output, output } from '@angular/
 })
 export class UserAvatarComponent {
   @Output("toggleUserMenu") toggleMenu = new EventEmitter<void>();
-  @Input("userName")userName!:string;
+  @Input("userName")userName:string="defaultValue";
 
   emitToggleUserMenuEvent()
   {

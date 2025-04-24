@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-
+import { Location } from '@angular/common';
 import { LogoComponent } from 'src/app/presentation/logo/logo.component';
 import { FormFrameRegisterLoginComponent } from '../../form-frame-register-login/form-frame-register-login.component';
 import { RegisterComponent } from '../register.component';
@@ -10,12 +10,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getStatusOfInputsRequiredErrorsAndInputsBorders } from '../../login/loginTestHelpers';
 import { getLoginRequiredError, getPasswordRequiredError, getTagByTestId } from '../../registerLoginTestHelpers';
 import { getStatusOfPasswordInputBorderAndErrors, getStatusOfRepeatPasswordInputBorderAndErrors } from '../registerTestHelpers';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { CustomHttpClient } from 'src/app/infrastructure/http/custom-http-client';
 import { of } from 'rxjs';
 import { RegisterService } from 'src/app/core/services/register.service';
 import { getRegisterServiceMock } from 'src/app/testHelpers/service-mock-generator';
 import { UserRegisterLoginDTO } from 'src/app/core/dto/user-register-login.dto';
+import { routes } from 'src/app/app.routes';
+import { SpyLocation } from '@angular/common/testing';
 
 
 
@@ -31,15 +33,18 @@ describe('RegisterComponent', () => {
   let registerForm: HTMLElement;
   let router: Router;
   let registerServiceMock: any;
+  let location: Location;
 
   beforeEach(async () => {
 
     registerServiceMock = getRegisterServiceMock()
     await TestBed.configureTestingModule({
       declarations: [LogoComponent, RegisterComponent, FormFrameRegisterLoginComponent],
-      imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
+      imports: [BrowserModule, FormsModule, ReactiveFormsModule],
       providers: [
-        { provide: RegisterService, useValue: registerServiceMock }
+        { provide: RegisterService, useValue: registerServiceMock },
+        provideRouter(routes),
+        {provide:Location,useClass:SpyLocation}
       ]
     })
       .compileComponents();
@@ -62,9 +67,10 @@ describe('RegisterComponent', () => {
   describe("register test", () => {
     beforeEach(async () => {
       router = TestBed.inject(Router);
+      location = TestBed.inject(Location);
     });
 
-    it("testing if after register button is clicked and form is valid then link to operation result page is activated", () => {
+    it("testing if after register button is clicked and form is valid then link to operation result page is activated", fakeAsync(async () => {
       {
 
         //arrange
@@ -80,25 +86,26 @@ describe('RegisterComponent', () => {
 
 
         //act
-        spyOn(router, 'navigate');
+        
         registerForm.dispatchEvent(new Event("submit"));
         fixture.detectChanges();
+        tick(1000);
 
 
         //assert
 
-        expect(router.navigate).toHaveBeenCalledWith(['/registerOperationResult']);
+        expect(location.path()).toBe('/registerOperationResult');
 
 
       }
 
 
-    });
+    }));
 
 
 
 
-    it("testing if after register button is clicked and form is valid then method register from register service is activated with proper value", () => {
+    it("testing if after register button is clicked and form is valid then method register from register service is activated with proper value",fakeAsync(async () => {
       {
 
         //arrange
@@ -119,7 +126,7 @@ describe('RegisterComponent', () => {
         //act
         registerForm.dispatchEvent(new Event("submit"));
         fixture.detectChanges();
-
+        tick(1000);
 
         //assert
 
@@ -136,7 +143,7 @@ describe('RegisterComponent', () => {
       }
 
 
-    });
+    }));
 
     it("testing if after register button is clicked and form is invalid then link to operation result page isn't activated and register method from service isn't called", () => {
       {

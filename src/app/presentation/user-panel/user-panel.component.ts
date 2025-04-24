@@ -11,9 +11,9 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class UserPanelComponent implements OnInit  {
   userMenuVisible:boolean=false;
-  userNameFirstLatter!:string;
-  userNameFirst8Latters!:string;
-  userName!:string;
+  userNameFirstLatter:string="default value";
+  userNameFirst8Latters:string="default value";
+  userName:string="default value";
   
   constructor(private loginService:LoginService,private userService:UserService,private userPanelService:UserPanelService,private router:Router)
   { 

@@ -179,9 +179,10 @@ export class RegisterComponent implements OnInit {
     return (loginAvailable) => {
       
       if (loginAvailable)
+      {
+        this.registerForm.get('login')?.setErrors(null);
         return null;
-
-
+      }
       else
         return { loginAvailableError: true };
     };

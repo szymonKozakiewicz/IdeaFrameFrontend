@@ -16,9 +16,9 @@ export class RenameFileItemService{
 
 
     isEditModeActive: boolean= false;
-    fileItemToEdit:FileSystemItem|null = null;
     switchRenameFileTimeMode$: Subject<boolean> = new Subject<boolean>();
     editFileItemOperationStatus$= new Subject<OperationStatus>();
+    private fileItemToEdit:FileSystemItem|null = null;
 
     constructor(private httpClient:CustomHttpClient,
         private directoryManagerService:DirectoryManagerService

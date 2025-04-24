@@ -7,6 +7,12 @@ import { LoginService } from "../core/services/login.service";
 import { UserPanelService } from "../core/services/user-panel.service";
 import { AuthorisationService } from "../core/services/authorisation.service";
 import { Navigation, NavigationBehaviorOptions, Router, Routes, UrlCreationOptions, UrlTree } from "@angular/router";
+import { DirectoryManagerService } from "../core/services/directory-manager.service";
+import { FileSystemItem } from "../core/domain/entities/file-item";
+import { FileItemType } from "../core/enum/fileItem.enum";
+import { MoveFileItemService } from "../core/services/move-file-item.service";
+import { RenameFileItemService } from "../core/services/rename-file-item.service";
+import { UserService } from "../core/services/user.service";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -58,6 +64,80 @@ export function getRegisterServiceMock() {
       GetAcessToken:jasmine.createSpy("GetAcessToken")
     };
     return authorisationServiceMock as AuthorisationService;
+  }
+
+  export function getDirectoryServiceMock(){
+    const directoryServiceMock: Pick<DirectoryManagerService, keyof DirectoryManagerService> = {
+      addFileItemOperationStatus$: new Subject<OperationStatus>(),
+      resetModal$: new Subject<void>(),
+      fileItemListUpdate$: new Subject<OperationStatus>(),
+      updatePathInUI$: new Subject<void>(),
+      fileItemList: [],
+      checkIfFileItemNameAvailable: jasmine.createSpy("checkIfFileItemNameAvailable"),
+      openFile: jasmine.createSpy("openFile"),
+      getFileItemToChangeType: jasmine.createSpy("getFileItemToChangeType"),
+      updateFolderAndItemList: jasmine.createSpy("updateFolderAndItemList"),
+      removeFileItem: jasmine.createSpy("removeFileItem"),
+      isUserInHomeDirectory: jasmine.createSpy("isUserInHomeDirectory"),
+      enterToFolder:  jasmine.createSpy("enterToFolder"),
+      setPath: jasmine.createSpy("setPath") ,
+      getPathWithoutLastSegment:jasmine.createSpy("getPathWithoutLastSegment"),
+      getPathsSegmentsWithPathsToIt: jasmine.createSpy("getPathsSegmentsWithPathsToIt"),
+      getCurrentFolder: jasmine.createSpy("getCurrentFolder"),
+      sendRequestToAddNewFileItem: jasmine.createSpy("sendRequestToAddNewFileItem"),
+      getCurrentPath: jasmine.createSpy("getCurrentPath"),
+      getFolders: jasmine.createSpy("getFolders") ,
+      getFiles: jasmine.createSpy("getFiles"),
+      setupModalForOperationAddFileItem: jasmine.createSpy("setupModalForOperationAddFileItem"),
+      setFilteItemToChangeType: jasmine.createSpy("setFilteItemToChangeType"),
+      resetModal:jasmine.createSpy("resetModal") 
+    };
+    return directoryServiceMock as DirectoryManagerService;
+  }
+
+  export function getMoveFileItemServiceMock()
+  {
+    const moveFileItemServiceMock: Pick<MoveFileItemService,keyof MoveFileItemService> = {
+      moveFileItemMode$: new Subject<boolean>(),
+      cancelMoveFileItemMode:jasmine.createSpy("cancelMoveFileItemMode"),
+      isInMoveFileItemMode: jasmine.createSpy("isInMoveFileItemMode"),
+      moveFileItemToCurrentFolder: jasmine.createSpy("moveFileItemToCurrentFolder"),
+      isPalceForFileItemAvailableInNewFolder: jasmine.createSpy("isPalceForFileItemAvailableInNewFolder"),
+      eneterIntoMoveFileItemMode:  jasmine.createSpy("eneterIntoMoveFileItemMode"),
+      shouldFolderBeDisabled:   jasmine.createSpy("shouldFolderBeDisabled")
+    }
+    return moveFileItemServiceMock as MoveFileItemService;
+  }
+
+  export function getRenameServiceMock()
+  {
+    const renameServiceMock: Pick<RenameFileItemService,keyof RenameFileItemService>={
+      isEditModeActive: false,
+      switchRenameFileTimeMode$: new Subject<boolean>(),
+      editFileItemOperationStatus$: new Subject<OperationStatus>(),
+      enterIntoNameEditMode:jasmine.createSpy("enterIntoNameEditMode"),
+      isEditedFileItemAFile: jasmine.createSpy("isEditedFileItemAFile"),
+      cancelRenameFileItemMode: jasmine.createSpy("cancelRenameFileItemMode"),
+      isInFileItemNameEditMode: jasmine.createSpy("isInFileItemNameEditMode"),
+      sendRequestToEditFileItem: jasmine.createSpy("sendRequestToEditFileItem")
+    }
+    return renameServiceMock as RenameFileItemService;
+  }
+
+  export function getUserServiceMock()
+  {
+
+    const userServiceMock: Pick<UserService, keyof UserService> = {
+      getUserName:jasmine.createSpy("sendRequestToEditFileItem").and.returnValue("testUserName"),
+      
+    };
+    return userServiceMock as UserService;
+  }
+
+  export function getRouterMock()
+  {
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    return routerSpy as Router;
   }
 
 
