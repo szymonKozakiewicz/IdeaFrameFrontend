@@ -13,6 +13,8 @@ import { FileItemType } from "../core/enum/fileItem.enum";
 import { MoveFileItemService } from "../core/services/move-file-item.service";
 import { RenameFileItemService } from "../core/services/rename-file-item.service";
 import { UserService } from "../core/services/user.service";
+import { MindMapService } from "../core/services/mind-map.service";
+import { FileSystemItemWithPath } from "../core/domain/entities/file-item-with-path";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -138,6 +140,15 @@ export function getRegisterServiceMock() {
   {
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     return routerSpy as Router;
+  }
+
+
+  export function getMindMapMock()
+  {
+    const mindMapServiceMock: Pick<MindMapService, keyof MindMapService>={
+      setCurrentFileItem: jasmine.createSpy("setCurrentFileItem")
+    }
+    return mindMapServiceMock as MindMapService;
   }
 
 

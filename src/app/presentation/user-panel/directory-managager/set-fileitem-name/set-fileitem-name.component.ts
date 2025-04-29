@@ -115,7 +115,7 @@ export class SetFileitemNameComponent {
     {
       const control=this.newFileFolderForm.get('fileOrFolderName');
       const folderNameOk=!(control?.touched && control?.invalid)
-  
+      
       if(folderNameOk)
       {
         return false;

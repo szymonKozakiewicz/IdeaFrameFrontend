@@ -8,12 +8,12 @@
             <div class="modal-body d-flex flex-column">
                 
                 <div class="modalHeader text-center">{{actionName}}</div>
-                <form class="flex-grow-1 d-flex flex-column justify-content-between"  *ngIf="!isOperationLaunched()" [formGroup]="newFileFolderForm" (submit)="submitForm()">
+                <form class="flex-grow-1 d-flex flex-column justify-content-between" data-testid="fileItemNameForm"  *ngIf="!isOperationLaunched()" [formGroup]="newFileFolderForm" (submit)="submitForm()">
                     
                     <div>
                         <label class="mt-4" for="folderName">{{fileItemTypeName}} name</label>
-                        <input [ngClass]="{'is-invalid':isFileItemNameInvalidAndTouched()}" type="text" formControlName="fileOrFolderName" class="form-control mt-2 darkControl"  placeholder="{{fileItemTypeName}} name">
-                        <small class="text-danger" *ngIf="isFileItemNameInvalidAndTouched()">
+                        <input data-testid="nameInput" [ngClass]="{'is-invalid':isFileItemNameInvalidAndTouched()}" type="text" formControlName="fileOrFolderName" class="form-control mt-2 darkControl"  placeholder="{{fileItemTypeName}} name">
+                        <small data-testid="nameInputError" class="text-danger" *ngIf="isFileItemNameInvalidAndTouched()">
                             {{errorMessage}}
                         </small>
                         <div *ngIf="isCheckingNameInProgress()" class="d-flex mt-2 align-items-center">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mt-4">
-                        <button type="submit" class="btn blueButton btnMedium">Save</button>
+                        <button data-testid="submitBtn" type="submit" class="btn blueButton btnMedium">Save</button>
                         <button type="button"  data-bs-dismiss="modal" class="btn blueEmpty ms-3 btnMedium">Cancel</button>
                     </div>
                 </form>
