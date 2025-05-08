@@ -9,14 +9,19 @@ import { DirectoryManagerService } from 'src/app/core/services/directory-manager
 describe('FileItemMenuComponent', () => {
   let component: FileItemMenuComponent;
   let fixture: ComponentFixture<FileItemMenuComponent>;
+  let directoryServiceMock:DirectoryManagerService=getDirectoryServiceMock();
+  let moveFileItemServiceMock:MoveFileItemService=getMoveFileItemServiceMock();
+  let renameFileItemServiceMock:RenameFileItemService=getRenameServiceMock();
 
   beforeEach(async () => {
+    directoryServiceMock=getDirectoryServiceMock();
+    moveFileItemServiceMock=getMoveFileItemServiceMock();
     await TestBed.configureTestingModule({
       declarations: [FileItemMenuComponent],
       providers:[
-              {provide:DirectoryManagerService,useValue:getDirectoryServiceMock()},
-              {provide:RenameFileItemService,useValue:getRenameServiceMock()},
-              {provide:MoveFileItemService,useValue:getMoveFileItemServiceMock()}
+              {provide:DirectoryManagerService,useValue:directoryServiceMock},
+              {provide:RenameFileItemService,useValue:renameFileItemServiceMock},
+              {provide:MoveFileItemService,useValue:moveFileItemServiceMock}
       ]
     })
     .compileComponents();
@@ -29,4 +34,43 @@ describe('FileItemMenuComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call removeFileItem method of directoryService when remove button is called', () => {
+    
+    let btnRemove=fixture.debugElement.nativeElement.querySelector('[data-testid="removeBtn"]');
+    
+    //act
+    btnRemove.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    //assert
+    expect(directoryServiceMock.removeFileItem).toHaveBeenCalledWith(component.selectedFileItem);
+  })
+
+  it('should call eneterIntoMoveFileItemMode method of moveFileItemService when move button is called', () => {
+    
+    let btnMove=fixture.debugElement.nativeElement.querySelector('[data-testid="moveBtn"]');
+    
+    //act
+    btnMove.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    //assert
+    expect(moveFileItemServiceMock.eneterIntoMoveFileItemMode).toHaveBeenCalledWith(component.selectedFileItem);
+  })
+
+  it('should call enterIntoNameEditMode method of renameFileItemService when rename button is called', () => {
+    
+    let btnRename=fixture.debugElement.nativeElement.querySelector('[data-testid="renameBtn"]');
+    
+    //act
+    btnRename.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    //assert
+    expect(renameFileItemServiceMock.enterIntoNameEditMode).toHaveBeenCalledWith(component.selectedFileItem);
+  })
+
+
+
 });
