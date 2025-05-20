@@ -24,6 +24,9 @@ import { FileItemComponent } from './presentation/user-panel/directory-managager
 import { FileItemMenuComponent } from './presentation/user-panel/directory-managager/directory-manager-panel/file-item-menu/file-item-menu.component';
 import { SetFileitemNameComponent } from './presentation/user-panel/directory-managager/set-fileitem-name/set-fileitem-name.component';
 import { MindmapPanelComponent } from './presentation/mindmap-panel/mindmap-panel.component';
+import { NodeSettingsComponent } from './presentation/mindmap-panel/node-settings/node-settings.component';
+import { NodeContextMenuComponent } from './presentation/mindmap-panel/node-context-menu/node-context-menu.component';
+import { MindMapComponent } from './presentation/mindmap-panel/mind-map/mind-map.component';
 
 @NgModule({
   declarations: [OperationResultComponent,
@@ -44,7 +47,10 @@ import { MindmapPanelComponent } from './presentation/mindmap-panel/mindmap-pane
     FileItemComponent,
     FileItemMenuComponent,
     SetFileitemNameComponent,
-    MindmapPanelComponent],
+    MindmapPanelComponent,
+    NodeSettingsComponent,
+    NodeContextMenuComponent,
+    MindMapComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [

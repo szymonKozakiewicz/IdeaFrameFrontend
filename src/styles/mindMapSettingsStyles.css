@@ -1,0 +1,12 @@
+.lineMapSettings{
+    height: 0.1rem;
+    background-color: white;
+}
+
+.labelMapSettings{
+    font-size: 0.95rem;
+}
+
+.colorInputMapSettings{
+    width:4rem
+}

@@ -1,0 +1,22 @@
+.mapPanelContainer {
+
+    height: 100vh;
+}
+
+.settingsPanelContainer{
+    padding-left: 0.5rem;
+}
+
+.settingsPanelAndLogoContainer{
+    height: 100vh;
+    padding:1rem;
+    border-right: solid;
+    border-color:white
+    
+}
+
+.mapContainer{
+    flex: 1;
+    background-color: #C1A7A7;
+}
+

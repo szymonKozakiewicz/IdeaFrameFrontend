@@ -1,1 +1,11 @@
-<p>mindmap-panel works!</p>
+<div class="d-flex flex-row w-100 h-100 mapPanelContainer">
+    <div class="d-flex flex-column settingsPanelAndLogoContainer">
+        <logo [scale]="0.85"></logo>
+        <div class="mt-5 settingsPanelContainer">
+            <node-settings></node-settings>
+        </div>
+    </div>
+    <div class="mapContainer d-flex flex-column">
+        <mind-map class="h-100 position-relative"></mind-map>
+    </div>
+</div>

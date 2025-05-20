@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'logo',
@@ -6,5 +6,15 @@ import { Component } from '@angular/core';
   styleUrl: './logo.component.css'
 })
 export class LogoComponent {
+  @Input("scale")scale=1
 
+  getFontSize():string
+  {
+    return 2*this.scale+"rem";
+  }
+
+  getHeight():string
+  {
+    return 4*this.scale+"rem";
+  }
 }
