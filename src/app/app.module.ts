@@ -27,6 +27,7 @@ import { MindmapPanelComponent } from './presentation/mindmap-panel/mindmap-pane
 import { NodeSettingsComponent } from './presentation/mindmap-panel/node-settings/node-settings.component';
 import { NodeContextMenuComponent } from './presentation/mindmap-panel/node-context-menu/node-context-menu.component';
 import { MindMapComponent } from './presentation/mindmap-panel/mind-map/mind-map.component';
+import { NodeComponent } from './presentation/mindmap-panel/mind-map/node/node.component';
 
 @NgModule({
   declarations: [OperationResultComponent,
@@ -50,7 +51,8 @@ import { MindMapComponent } from './presentation/mindmap-panel/mind-map/mind-map
     MindmapPanelComponent,
     NodeSettingsComponent,
     NodeContextMenuComponent,
-    MindMapComponent],
+    MindMapComponent,
+    NodeComponent],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [

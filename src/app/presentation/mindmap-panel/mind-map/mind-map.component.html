@@ -1,3 +1,6 @@
 
 <node-context-menu [nodeMenuPosition]="nodeContextMenuPosition"  *ngIf="isNodeContextMenuVisible"></node-context-menu>
 
+@for(node of nodes; track node.uiId) {
+    <node [nodeSettings]=node></node>
+}

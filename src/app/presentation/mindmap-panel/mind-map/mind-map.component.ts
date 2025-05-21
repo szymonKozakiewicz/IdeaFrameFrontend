@@ -1,13 +1,27 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
+import { MindMapService } from 'src/app/core/services/mind-map.service';
 
 @Component({
   selector: 'mind-map',
   templateUrl: './mind-map.component.html',
   styleUrl: './mind-map.component.css'
 })
-export class MindMapComponent {
+export class MindMapComponent implements OnInit {
+
   isNodeContextMenuVisible: boolean = false;
   nodeContextMenuPosition: { left: number; top: number } = { left: 0, top: 0 };
+  nodes: NodeMindMap[] = []; 
+
+  constructor(private mindMapService:MindMapService) { }
+
+  ngOnInit(): void {
+    this.upadateMap();
+    this.mindMapService.mindMapUpdated$.subscribe({
+      next: this.upadateMap.bind(this)
+    })
+  }
+
 
 
   @HostListener("contextmenu", ["$event"])
@@ -24,6 +38,10 @@ export class MindMapComponent {
   closeNodeContextMenu(event: MouseEvent) {
     
     this.isNodeContextMenuVisible=false;
+  }
+
+  private upadateMap() {
+    this.nodes = this.mindMapService.getNodes();
   }
 
 }
