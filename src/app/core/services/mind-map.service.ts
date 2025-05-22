@@ -14,7 +14,7 @@ export class MindMapService
     public updateSelectedNodeInSettings$:Subject<NodeMindMap>=new Subject<NodeMindMap>();
     public updateSelectedNodeInNodeComponent$:Subject<void>=new Subject<void>();
     public diselectAllNodes$:Subject<void>=new Subject<void>();
-     currentFileItem:FileSystemItemWithPath=new FileSystemItemWithPath("",FileItemType.FILE,"");
+    private currentFileItem:FileSystemItemWithPath=new FileSystemItemWithPath("",FileItemType.FILE,"");
     private nodes:Array<NodeMindMap>=[];
     private defaultSelectedNode:NodeMindMap=new NodeMindMap("","",new NodeCoordinates(0,0),true);
     private selectedNode:NodeMindMap=this.defaultSelectedNode;

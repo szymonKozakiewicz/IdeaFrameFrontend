@@ -16,6 +16,7 @@ import { UserService } from "../core/services/user.service";
 import { MindMapService } from "../core/services/mind-map.service";
 import { FileSystemItemWithPath } from "../core/domain/entities/file-item-with-path";
 import { NodeCoordinates } from "../core/domain/entities/node-coordinates";
+import { NodeMindMap } from "../core/domain/entities/node-mind-map";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -148,7 +149,15 @@ export function getRegisterServiceMock() {
   {
     const mindMapServiceMock: Pick<MindMapService, keyof MindMapService>={
       setCurrentFileItem: jasmine.createSpy("setCurrentFileItem"),
-      addNewNode: jasmine.createSpy("addNewNode") 
+      addNewNode: jasmine.createSpy("addNewNode"),
+      mindMapUpdated$: new Subject<void>(),
+      updateSelectedNodeInSettings$: new Subject<NodeMindMap>(),
+      updateSelectedNodeInNodeComponent$: new Subject<void>(),
+      diselectAllNodes$: new Subject<void>(),
+      getNodes: jasmine.createSpy("getNodes"),
+      diselectAllNodes: jasmine.createSpy("diselectAllNodes"),
+      selectNode: jasmine.createSpy("selectNode"),
+      updateSelectedNodeName: jasmine.createSpy("updateSelectedNodeName")
     }
     return mindMapServiceMock as MindMapService;
   }
