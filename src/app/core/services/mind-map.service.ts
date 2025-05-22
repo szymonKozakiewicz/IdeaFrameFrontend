@@ -10,13 +10,14 @@ export class MindMapService
 {
 
 
+
     public mindMapUpdated$:Subject<void>=new Subject<void>();
     public updateSelectedNodeInSettings$:Subject<NodeMindMap>=new Subject<NodeMindMap>();
     public updateSelectedNodeInNodeComponent$:Subject<void>=new Subject<void>();
     public diselectAllNodes$:Subject<void>=new Subject<void>();
     private currentFileItem:FileSystemItemWithPath=new FileSystemItemWithPath("",FileItemType.FILE,"");
     private nodes:Array<NodeMindMap>=[];
-    private defaultSelectedNode:NodeMindMap=new NodeMindMap("","",new NodeCoordinates(0,0),true);
+    private defaultSelectedNode:NodeMindMap=new NodeMindMap("","","#fffaf0",new NodeCoordinates(0,0),true);
     private selectedNode:NodeMindMap=this.defaultSelectedNode;
 
     
@@ -29,7 +30,7 @@ export class MindMapService
 
     public addNewNode(coordinates:NodeCoordinates)
     {
-        let newNode=new NodeMindMap("","default name",coordinates,true);
+        let newNode=new NodeMindMap("","default name","#fffaf0",coordinates,true);
         this.nodes.push(newNode);
         this.mindMapUpdated$.next();
     }
@@ -52,6 +53,11 @@ export class MindMapService
 
     updateSelectedNodeName(nameInputValue: string) {
         this.selectedNode.name=nameInputValue;
+        this.updateSelectedNodeInNodeComponent$.next();
+    }
+
+    updateSelectedNodeColor(newValue: string) {
+        this.selectedNode.color=newValue;
         this.updateSelectedNodeInNodeComponent$.next();
     }
   

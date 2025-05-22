@@ -10,8 +10,10 @@ import { MindMapService } from 'src/app/core/services/mind-map.service';
 })
 export class NodeSettingsComponent implements OnInit {
 
+
   nameInputValue: string = "";
   isAnyNodeSelected: boolean = false;
+  nodeColor: string = "#fffaf0";
   
   constructor(private mindMapService: MindMapService) { 
     
@@ -32,10 +34,15 @@ export class NodeSettingsComponent implements OnInit {
     this.isAnyNodeSelected=true;
 
     this.nameInputValue=selectedNode.name;
+    this.nodeColor=selectedNode.color;
   }
 
   nodeNameChange(newValue: string) {
     this.mindMapService.updateSelectedNodeName(newValue);
+  }
+
+  nodeColorChange(newValue: string) {
+    this.mindMapService.updateSelectedNodeColor(newValue);
   }
   
   diselectNode() {

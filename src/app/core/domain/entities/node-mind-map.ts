@@ -5,7 +5,7 @@ export class NodeMindMap{
 
     uiId:string=uuidv4();
 
-    constructor(public id:string,public name:string,public coordinates: NodeCoordinates, public wasEdited:boolean)
+    constructor(public id:string,public name:string,public color:string,public coordinates: NodeCoordinates, public wasEdited:boolean)
     {
 
 

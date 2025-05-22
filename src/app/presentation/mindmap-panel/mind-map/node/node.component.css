@@ -3,6 +3,7 @@
     background-color: floralwhite;
     border-radius: 2rem;
     cursor: context-menu;
+    border: solid 0.15rem;
 }
 
 .plus{

@@ -9,21 +9,21 @@ import { MindMapService } from 'src/app/core/services/mind-map.service';
   styleUrl: './node.component.css'
 })
 export class NodeComponent implements OnInit {
-  nodePositionStyle= { left: '0px', top: '0px' };
+  nodeStyle= { left: '0px', top: '0px' ,backgroundColor: '#fffaf0', borderColor:'#fffaf0'};
   nodeName="";
-  nodeSettings:NodeMindMap=new NodeMindMap("","",new NodeCoordinates(0,0),false);
+  nodeSettings:NodeMindMap=new NodeMindMap("","","#fffaf0",new NodeCoordinates(0,0),false);
   isSelected:boolean=false;
 
   @Input("nodeSettings")
   set setNodeSettings(node: NodeMindMap) {
     this.nodeSettings=node;
-    this.nodePositionStyle.left = node.coordinates.x + 'px';
-    this.nodePositionStyle.top = node.coordinates.y + 'px';
+    this.updateUi();
   }
   
   constructor(private mindMapService:MindMapService){
 
   }
+
   ngOnInit(): void {
     this.updateUi();
     this.mindMapService.updateSelectedNodeInNodeComponent$.subscribe({
@@ -46,9 +46,12 @@ export class NodeComponent implements OnInit {
   updateUi()
   {
     
-    this.nodePositionStyle.left = this.nodeSettings.coordinates.x + 'px';
-    this.nodePositionStyle.top = this.nodeSettings.coordinates.y + 'px';
+    this.nodeStyle.left = this.nodeSettings.coordinates.x + 'px';
+    this.nodeStyle.top = this.nodeSettings.coordinates.y + 'px';
     this.nodeName=this.nodeSettings.name;
+    this.nodeStyle.backgroundColor = this.nodeSettings.color+"96"; 
+    this.nodeStyle.borderColor = this.nodeSettings.color;
+    
     
   }
 }
