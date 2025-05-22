@@ -34,10 +34,23 @@ export class MindMapComponent implements OnInit {
   
   }
 
-  @HostListener("document:click", ["$event"])
-  closeNodeContextMenu(event: MouseEvent) {
+
+  @HostListener("click", ["$event"])
+  onEmptySpaceClicked(event: MouseEvent) {
+    event.stopPropagation();
+    this.closeNodeContextMenu();
+    this.diselectAllNodes();
+  }
+
+
+  closeNodeContextMenu() {
     
     this.isNodeContextMenuVisible=false;
+  }
+
+  diselectAllNodes() {
+    this.mindMapService.diselectAllNodes(); 
+    
   }
 
   private upadateMap() {

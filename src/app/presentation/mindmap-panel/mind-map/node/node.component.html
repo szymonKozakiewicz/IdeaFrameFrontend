@@ -1,4 +1,4 @@
-<div class="position-absolute node" [ngStyle]="nodePositionStyle" >
+<div class="position-absolute node" [ngClass]="{'selected':isSelected}" [ngStyle]="nodePositionStyle" >
     <div class="d-flex flex-column justify-content-between">
         
         
@@ -9,7 +9,7 @@
             <div class="plusContainer">
                 <div class="plus">+</div>
             </div>
-            <div class="ms-2 me-2">{{nodeSettings.name}}</div>
+            <div class="ms-2 me-2 user-select-none nodeName">{{nodeName}}</div>
             <div class="plusContainer">
                 <div class="plus">+</div>
             </div>

@@ -28,6 +28,7 @@ import { NodeSettingsComponent } from './presentation/mindmap-panel/node-setting
 import { NodeContextMenuComponent } from './presentation/mindmap-panel/node-context-menu/node-context-menu.component';
 import { MindMapComponent } from './presentation/mindmap-panel/mind-map/mind-map.component';
 import { NodeComponent } from './presentation/mindmap-panel/mind-map/node/node.component';
+import { AdjustTextAreaDirective } from './presentation/derectives/adjust-text-area.derective';
 
 @NgModule({
   declarations: [OperationResultComponent,
@@ -52,7 +53,9 @@ import { NodeComponent } from './presentation/mindmap-panel/mind-map/node/node.c
     NodeSettingsComponent,
     NodeContextMenuComponent,
     MindMapComponent,
-    NodeComponent],
+    NodeComponent,
+    AdjustTextAreaDirective
+  ],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule],
   bootstrap:[AppComponent],
   providers: [
