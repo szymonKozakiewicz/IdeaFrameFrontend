@@ -1,3 +1,4 @@
+import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
@@ -12,6 +13,9 @@ export class MindMapComponent implements OnInit {
   isNodeContextMenuVisible: boolean = false;
   nodeContextMenuPosition: { left: number; top: number } = { left: 0, top: 0 };
   nodes: NodeMindMap[] = []; 
+  nodePositionDragTranslation: { x: number, y: number } = { x: 0, y: 0 };
+
+ 
 
   constructor(private mindMapService:MindMapService) { }
 
@@ -29,8 +33,6 @@ export class MindMapComponent implements OnInit {
     event.preventDefault();
     this.isNodeContextMenuVisible=true;
     this.nodeContextMenuPosition= { left: event.offsetX, top: event.offsetY};
-    
-
   
   }
 
@@ -41,6 +43,14 @@ export class MindMapComponent implements OnInit {
     this.closeNodeContextMenu();
     this.diselectAllNodes();
   }
+
+  onNodeDragEnd(event: CdkDragEnd) {
+    let finalPostion=event.source.getFreeDragPosition();
+    this.mindMapService.updateSelectedNodePosition(finalPostion)
+    this.nodePositionDragTranslation={ x: 0, y: 0 };
+
+  }
+
 
 
   closeNodeContextMenu() {

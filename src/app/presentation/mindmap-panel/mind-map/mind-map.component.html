@@ -2,5 +2,5 @@
 <node-context-menu [nodeMenuPosition]="nodeContextMenuPosition"  *ngIf="isNodeContextMenuVisible"></node-context-menu>
 
 @for(node of nodes; track node.uiId) {
-    <node [nodeSettings]=node></node>
+    <node cdkDrag [cdkDragFreeDragPosition]="nodePositionDragTranslation" [cdkDragBoundary]="'mind-map'" (cdkDragEnded)="onNodeDragEnd($event)"  class="position-absolute" [nodeSettings]=node></node>
 }

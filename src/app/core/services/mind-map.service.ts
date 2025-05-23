@@ -4,10 +4,12 @@ import { FileItemType } from "../enum/fileItem.enum";
 import { NodeMindMap } from "../domain/entities/node-mind-map";
 import { NodeCoordinates } from "../domain/entities/node-coordinates";
 import { Subject } from "rxjs";
+import { Point } from "@angular/cdk/drag-drop";
 
 @Injectable({providedIn:'root'})
 export class MindMapService
 {
+
 
 
 
@@ -19,6 +21,8 @@ export class MindMapService
     private nodes:Array<NodeMindMap>=[];
     private defaultSelectedNode:NodeMindMap=new NodeMindMap("","","#fffaf0",new NodeCoordinates(0,0),true);
     private selectedNode:NodeMindMap=this.defaultSelectedNode;
+    private isNodeDragged:boolean=false;
+
 
     
     
@@ -39,6 +43,15 @@ export class MindMapService
     {
         return this.nodes;
     }
+
+
+    public updateSelectedNodePosition(finalPostion: Readonly<Point>) {
+        this.selectedNode.coordinates.x+=finalPostion.x;
+        this.selectedNode.coordinates.y+=finalPostion.y;
+        this.updateSelectedNodeInNodeComponent$.next();
+
+    }
+
 
     diselectAllNodes() {
        this.diselectAllNodes$.next();
