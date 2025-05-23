@@ -44,4 +44,18 @@ describe('NodeSettingsComponent', () => {
     expect(mindMapServiceMock.updateSelectedNodeName).toHaveBeenCalled();
 
   })
+
+  it("after color changed it should trigger updateSelectedNodeColor from mindMapService",()=>{
+
+    //arrange
+    let colorInput=getElementByTestId(fixture,"colorInput");
+
+    //act
+    colorInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    //assert
+    expect(mindMapServiceMock.updateSelectedNodeColor).toHaveBeenCalled();
+
+  })
 });

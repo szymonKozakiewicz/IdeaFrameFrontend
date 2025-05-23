@@ -8,6 +8,6 @@
     
     <div class="d-flex flex-row justify-content-between mt-3">
         <label for="nodeColor" class="form-label labelMapSettings">Node color</label>
-        <input type="color" [disabled]="!isAnyNodeSelected"  class="form-control colorInputMapSettings" name="nodeColor" [(ngModel)]="nodeColor" (ngModelChange)="nodeColorChange($event)" id="nodeColor" >
+        <input data-testid="colorInput" type="color" [disabled]="!isAnyNodeSelected"  class="form-control colorInputMapSettings" name="nodeColor" [(ngModel)]="nodeColor" (ngModelChange)="nodeColorChange($event)" id="nodeColor" >
     </div>
 </form>
