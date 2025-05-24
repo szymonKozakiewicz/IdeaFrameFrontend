@@ -17,6 +17,7 @@ import { MindMapService } from "../core/services/mind-map.service";
 import { FileSystemItemWithPath } from "../core/domain/entities/file-item-with-path";
 import { NodeCoordinates } from "../core/domain/entities/node-coordinates";
 import { NodeMindMap } from "../core/domain/entities/node-mind-map";
+import { Point } from "@angular/cdk/drag-drop";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -159,6 +160,7 @@ export function getRegisterServiceMock() {
       selectNode: jasmine.createSpy("selectNode"),
       updateSelectedNodeName: jasmine.createSpy("updateSelectedNodeName"),
       updateSelectedNodeColor: jasmine.createSpy("updateSelectedNodeColor"),
+      updateSelectedNodePosition: jasmine.createSpy("updateSelectedNodePosition"),
     }
     return mindMapServiceMock as MindMapService;
   }

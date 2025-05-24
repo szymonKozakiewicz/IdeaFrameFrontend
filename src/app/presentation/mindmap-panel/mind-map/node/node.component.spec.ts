@@ -31,7 +31,7 @@ describe('NodeComponent', () => {
   it('click event on node should trigger method selectNode from mindMapService', () => {
 
     //act
-    fixture.debugElement.nativeElement.dispatchEvent(new Event('click'));
+    fixture.debugElement.nativeElement.dispatchEvent(new Event('mousedown'));
     fixture.detectChanges();
 
     //assert
@@ -45,7 +45,7 @@ describe('NodeComponent', () => {
     let plus=getElementByTestId(fixture,"plus")
 
     //act
-    fixture.debugElement.nativeElement.dispatchEvent(new Event('click'));
+    fixture.debugElement.nativeElement.dispatchEvent(new Event('mousedown'));
     fixture.detectChanges();
 
     //assert
