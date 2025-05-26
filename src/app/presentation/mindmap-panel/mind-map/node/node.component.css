@@ -30,11 +30,12 @@
 
 }
 
-.node:hover .plus{
+.nodeHovered .plus{
 
     display: flex;
     
 }
+
 
 .selected .plus{
     display: flex;

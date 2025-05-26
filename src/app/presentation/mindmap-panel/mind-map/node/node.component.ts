@@ -1,6 +1,7 @@
 import { Component, Host, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { NodeCoordinates } from 'src/app/core/domain/entities/node-coordinates';
 import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
+import { MapPanningService } from 'src/app/core/services/map-panning.service';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class NodeComponent implements OnInit {
   nodeName="";
   nodeSettings:NodeMindMap=new NodeMindMap("","","#fffaf0",new NodeCoordinates(0,0),false);
   isSelected:boolean=false;
+  isPlusVisible:boolean=false;  
 
   @HostBinding("style.left") positionX= '0px';
   @HostBinding("style.top") positionY= '0px';
@@ -24,7 +26,7 @@ export class NodeComponent implements OnInit {
     this.updateUi();
   }
   
-  constructor(private mindMapService:MindMapService){
+  constructor(private mindMapService:MindMapService, private panningService:MapPanningService){
 
   }
 
@@ -38,6 +40,10 @@ export class NodeComponent implements OnInit {
         this.isSelected=false;
       }
     })
+
+    this.mindMapService.mindMapUpdated$.subscribe({
+      next: this.updateUi.bind(this)
+    })
   }
 
   @HostListener("click", ["$event"])
@@ -50,18 +56,37 @@ export class NodeComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   startDrag(event: MouseEvent) {
-    
+    let isMapPanningModeActive=this.panningService.getMapPanningMode();
+    if(isMapPanningModeActive){
+      return;
+    }
     this.selectNode();
 
+  }
+
+
+  @HostListener('mouseenter', ['$event'])
+  onMouseEnter(event: MouseEvent) {
+    let isMapPanningModeActive=this.panningService.getMapPanningMode();
+    if(!isMapPanningModeActive){
+      this.isPlusVisible = true;
+    }
+  }
+
+  @HostListener('mouseleave', ['$event'])
+  onMouseLeave(event: MouseEvent) {
+    this.isPlusVisible = false;
+   
   }
 
 
 
   updateUi()
   {
-    
-    this.positionX= this.nodeSettings.coordinates.x + 'px';
-    this.positionY = this.nodeSettings.coordinates.y + 'px';
+
+    let translatedNodeCordinates=this.panningService.getTranslatedNodeCoordinates(this.nodeSettings.coordinates);
+    this.positionX= translatedNodeCordinates.x + 'px';
+    this.positionY = translatedNodeCordinates.y + 'px';
     this.nodeName=this.nodeSettings.name;
     this.nodeStyle.backgroundColor = this.nodeSettings.color+"96"; 
     this.nodeStyle.borderColor = this.nodeSettings.color;

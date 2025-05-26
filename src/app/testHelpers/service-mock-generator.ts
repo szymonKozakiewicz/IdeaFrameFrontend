@@ -161,6 +161,7 @@ export function getRegisterServiceMock() {
       updateSelectedNodeName: jasmine.createSpy("updateSelectedNodeName"),
       updateSelectedNodeColor: jasmine.createSpy("updateSelectedNodeColor"),
       updateSelectedNodePosition: jasmine.createSpy("updateSelectedNodePosition"),
+      updateMapAfterTranslation: jasmine.createSpy("updateMapAfterTranslation"),
     }
     return mindMapServiceMock as MindMapService;
   }

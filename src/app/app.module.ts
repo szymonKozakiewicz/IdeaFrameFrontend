@@ -28,8 +28,9 @@ import { NodeSettingsComponent } from './presentation/mindmap-panel/node-setting
 import { NodeContextMenuComponent } from './presentation/mindmap-panel/node-context-menu/node-context-menu.component';
 import { MindMapComponent } from './presentation/mindmap-panel/mind-map/mind-map.component';
 import { NodeComponent } from './presentation/mindmap-panel/mind-map/node/node.component';
-import { AdjustTextAreaDirective } from './presentation/derectives/adjust-text-area.derective';
+import { AdjustTextAreaDirective } from './presentation/derectives/adjust-text-area.directive';
 import { CdkDragDrop, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import { MapPanningDerective } from './presentation/derectives/map-panning.directive';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { CdkDragDrop, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
     NodeContextMenuComponent,
     MindMapComponent,
     NodeComponent,
-    AdjustTextAreaDirective
+    AdjustTextAreaDirective,
+    MapPanningDerective
   ],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule,CdkDrag, CdkDropList],
   bootstrap:[AppComponent],

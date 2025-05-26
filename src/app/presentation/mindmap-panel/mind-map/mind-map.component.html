@@ -2,5 +2,15 @@
 <node-context-menu [nodeMenuPosition]="nodeContextMenuPosition"  *ngIf="isNodeContextMenuVisible"></node-context-menu>
 
 @for(node of nodes; track node.uiId) {
-    <node cdkDrag [cdkDragFreeDragPosition]="nodePositionDragTranslation" [cdkDragBoundary]="'mind-map'" (cdkDragEnded)="onNodeDragEnd($event)"  class="position-absolute" [nodeSettings]=node></node>
+    <node data-testid="node" cdkDrag [cdkDragFreeDragPosition]="nodePositionDragTranslation" [cdkDragDisabled]="isMapPanningModeActive" [cdkDragBoundary]="'mind-map'" (cdkDragEnded)="onNodeDragEnd($event)"  class="position-absolute node" [nodeSettings]=node></node>
 }
+
+<div class="mindMapUiContainer">
+
+    <div class="bottomUiContainer">
+        <div class="d-flex flex-row buttonConatiner">
+            <div (click)="switchPanningMode(true)" class="btnIcon">  <i class="bi bi-arrows-move buttonIcon"  [ngClass]="{'selected':isMapPanningModeActive}"></i> </div>
+            <div (click)="switchPanningMode(false)" class="btnIcon" > <i class="bi bi-cursor-fill buttonIcon" [ngClass]="{'selected':!isMapPanningModeActive}"></i></div>
+        </div>
+    </div>
+</div>

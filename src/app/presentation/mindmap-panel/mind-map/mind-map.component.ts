@@ -1,6 +1,7 @@
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
 import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
+import { MapPanningService } from 'src/app/core/services/map-panning.service';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
 
 @Component({
@@ -10,14 +11,15 @@ import { MindMapService } from 'src/app/core/services/mind-map.service';
 })
 export class MindMapComponent implements OnInit {
 
+
   isNodeContextMenuVisible: boolean = false;
   nodeContextMenuPosition: { left: number; top: number } = { left: 0, top: 0 };
   nodes: NodeMindMap[] = []; 
   nodePositionDragTranslation: { x: number, y: number } = { x: 0, y: 0 };
-
+  isMapPanningModeActive:boolean=false;
  
 
-  constructor(private mindMapService:MindMapService) { }
+  constructor(private mindMapService:MindMapService, private panningService:MapPanningService) { }
 
   ngOnInit(): void {
     this.upadateMap();
@@ -25,6 +27,7 @@ export class MindMapComponent implements OnInit {
       next: this.upadateMap.bind(this)
     })
   }
+
 
 
 
@@ -44,6 +47,8 @@ export class MindMapComponent implements OnInit {
     this.diselectAllNodes();
   }
 
+
+
   onNodeDragEnd(event: CdkDragEnd) {
     let finalPostion=event.source.getFreeDragPosition();
     this.mindMapService.updateSelectedNodePosition(finalPostion)
@@ -51,7 +56,19 @@ export class MindMapComponent implements OnInit {
 
   }
 
+  switchPanningMode(newValue: boolean) {
+    this.isMapPanningModeActive=newValue;
+    if(this.isMapPanningModeActive){
+      this.mindMapService.diselectAllNodes();
+      this.panningService.setNewCursorMode('grab');
+      
+    }
+    else{
+      this.panningService.setNewCursorMode('default');
+    }
+    this.panningService.setMapPanningMode(newValue);
 
+  }
 
   closeNodeContextMenu() {
     
