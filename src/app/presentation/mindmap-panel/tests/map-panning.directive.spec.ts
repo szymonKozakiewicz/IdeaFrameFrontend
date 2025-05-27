@@ -10,7 +10,7 @@ import { NodeSettingsComponent } from "../node-settings/node-settings.component"
 import { FormsModule } from "@angular/forms";
 
 
-fdescribe('MapPanningDirective (tested with mind map panel component', () => {
+describe('MapPanningDirective (tested with mind map panel component', () => {
     let directive: MapPanningDirective;
     let serviceMock:any;
     let component: MindMapComponent;
