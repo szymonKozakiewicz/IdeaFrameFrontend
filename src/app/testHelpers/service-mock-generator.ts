@@ -18,6 +18,7 @@ import { FileSystemItemWithPath } from "../core/domain/entities/file-item-with-p
 import { NodeCoordinates } from "../core/domain/entities/node-coordinates";
 import { NodeMindMap } from "../core/domain/entities/node-mind-map";
 import { Point } from "@angular/cdk/drag-drop";
+import { MapPanningService } from "../core/services/map-panning.service";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -164,6 +165,24 @@ export function getRegisterServiceMock() {
       updateMapAfterTranslation: jasmine.createSpy("updateMapAfterTranslation"),
     }
     return mindMapServiceMock as MindMapService;
+  }
+
+
+  export function getPanningMapMock()
+  {
+    const panningMapServiceMock: Pick<MapPanningService, keyof MapPanningService>={
+      updateCursor$: new Subject<string>(),
+      updateMapAfterTranslation$: new Subject<void>(),
+      getMapPanningMode: jasmine.createSpy("getMapPanningMode"),
+      getTranslatedNodeCoordinates: jasmine.createSpy("getTranslatedNodeCoordinates"),
+      setMapPanningMode: jasmine.createSpy("setMapPanningMode"),
+      setNewCursorMode: jasmine.createSpy("setNewCursorMode"),
+      initPanning: jasmine.createSpy("initPanning"),
+      updateCurrentMapTranslation: jasmine.createSpy("updateCurrentMapTranslation"),
+      finishTranslation: jasmine.createSpy("finishTranslation"),
+      getReversedTranlationOfCoordinates: jasmine.createSpy("getReversedTranlationOfCoordinates")
+    }
+    return panningMapServiceMock as MapPanningService;
   }
 
 

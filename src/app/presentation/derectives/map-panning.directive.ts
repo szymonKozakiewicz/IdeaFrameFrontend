@@ -5,13 +5,13 @@ import { MindMapService } from "src/app/core/services/mind-map.service";
 @Directive({
     selector: '[mapPanning]'
 })
-export class MapPanningDerective implements OnInit
+export class MapPanningDirective implements OnInit
 {
 
     panningStartPoint= { x: 0, y: 0 };
     translationStarted: boolean = false;
 
-    constructor(private elementRef: ElementRef,private panningService: MapPanningService) {
+    constructor(private panningService: MapPanningService) {
 
     }
 
@@ -49,9 +49,11 @@ export class MapPanningDerective implements OnInit
         this.finalizeTranslation(event);
     }
 
+
+
     @HostListener('mouseleave', ['$event'])
     onMouseLeave(event: MouseEvent): void {
-        this.finalizeTranslation(event);2
+        this.finalizeTranslation(event);
     }
 
     finalizeTranslation(event: MouseEvent){

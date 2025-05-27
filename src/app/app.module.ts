@@ -30,7 +30,7 @@ import { MindMapComponent } from './presentation/mindmap-panel/mind-map/mind-map
 import { NodeComponent } from './presentation/mindmap-panel/mind-map/node/node.component';
 import { AdjustTextAreaDirective } from './presentation/derectives/adjust-text-area.directive';
 import { CdkDragDrop, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
-import { MapPanningDerective } from './presentation/derectives/map-panning.directive';
+import { MapPanningDirective } from './presentation/derectives/map-panning.directive';
 
 
 @NgModule({
@@ -58,7 +58,7 @@ import { MapPanningDerective } from './presentation/derectives/map-panning.direc
     MindMapComponent,
     NodeComponent,
     AdjustTextAreaDirective,
-    MapPanningDerective
+    MapPanningDirective
   ],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule,CdkDrag, CdkDropList],
   bootstrap:[AppComponent],
