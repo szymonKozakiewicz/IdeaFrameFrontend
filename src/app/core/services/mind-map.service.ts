@@ -6,6 +6,10 @@ import { NodeCoordinates } from "../domain/entities/node-coordinates";
 import { Subject } from "rxjs";
 import { Point } from "@angular/cdk/drag-drop";
 import { MapPanningService } from "./map-panning.service";
+import { MindMapSaveDto } from "../dto/mind-map-save.dto";
+import { HttpClient } from "@angular/common/http";
+import { CustomHttpClient } from "src/app/infrastructure/http/custom-http-client";
+import { ApiEndpoints } from "src/app/infrastructure/http/api-endpoints";
 
 @Injectable({providedIn:'root'})
 export class MindMapService
@@ -23,7 +27,7 @@ export class MindMapService
     private selectedNode:NodeMindMap=this.defaultSelectedNode;
 
 
-    constructor(private panningService:MapPanningService) {
+    constructor(private panningService:MapPanningService, private clientHttp:CustomHttpClient) {
 
         this.panningService.updateMapAfterTranslation$.subscribe({
             next: this.updateMapAfterTranslation.bind(this)
@@ -94,8 +98,20 @@ export class MindMapService
     }
 
     saveMindMap() {
-        throw new Error('Method not implemented.');
+        
+        let mindMapSaveDTO= new MindMapSaveDto(this.currentFileItem,this.nodes);
+        this.clientHttp.post<MindMapSaveDto>(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
+            next:()=>{
+                console.log("Mind map saved successfully");
+            },
+            error:(error)=>{
+                console.error("Error saving mind map", error);
+            }
+        })
+        
     }
+
+
         
 
 }
