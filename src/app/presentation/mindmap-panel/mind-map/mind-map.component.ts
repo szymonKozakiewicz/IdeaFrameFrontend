@@ -17,6 +17,7 @@ export class MindMapComponent implements OnInit {
   nodes: NodeMindMap[] = []; 
   nodePositionDragTranslation: { x: number, y: number } = { x: 0, y: 0 };
   isMapPanningModeActive:boolean=false;
+  fileItemName: string = "";
  
 
   constructor(private mindMapService:MindMapService, private panningService:MapPanningService) { }
@@ -26,6 +27,8 @@ export class MindMapComponent implements OnInit {
     this.mindMapService.mindMapUpdated$.subscribe({
       next: this.upadateMap.bind(this)
     })
+    this.fileItemName=this.mindMapService.getFileItemName();
+    
   }
 
 
@@ -42,7 +45,6 @@ export class MindMapComponent implements OnInit {
 
   @HostListener("click", ["$event"])
   onEmptySpaceClicked(event: MouseEvent) {
-    event.stopPropagation();
     this.closeNodeContextMenu();
     this.diselectAllNodes();
   }

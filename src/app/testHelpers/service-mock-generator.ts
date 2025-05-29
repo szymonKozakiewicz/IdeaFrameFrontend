@@ -96,7 +96,7 @@ export function getRegisterServiceMock() {
       getFiles: jasmine.createSpy("getFiles"),
       setupModalForOperationAddFileItem: jasmine.createSpy("setupModalForOperationAddFileItem"),
       setFilteItemToChangeType: jasmine.createSpy("setFilteItemToChangeType"),
-      resetModal:jasmine.createSpy("resetModal") 
+      resetModal:jasmine.createSpy("resetModal")
     };
     return directoryServiceMock as DirectoryManagerService;
   }
@@ -163,6 +163,8 @@ export function getRegisterServiceMock() {
       updateSelectedNodeColor: jasmine.createSpy("updateSelectedNodeColor"),
       updateSelectedNodePosition: jasmine.createSpy("updateSelectedNodePosition"),
       updateMapAfterTranslation: jasmine.createSpy("updateMapAfterTranslation"),
+      getFileItemName: jasmine.createSpy("getFileItemName"),
+      saveMindMap: jasmine.createSpy("saveMindMap")
     }
     return mindMapServiceMock as MindMapService;
   }

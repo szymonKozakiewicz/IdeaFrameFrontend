@@ -8,7 +8,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: space-between;
 }
 
 .bottomUiContainer{
@@ -19,6 +19,17 @@
     margin-bottom: 2rem;
     
 }
+
+.topUiContainer{
+    margin-top: 2rem;
+    justify-content: right;
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    
+}
+
+
 
 .btnIcon{
     width: 2rem;

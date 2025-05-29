@@ -1,0 +1,16 @@
+<div class="fileItemMenuContainer">
+    <div data-testid="btnFileItem" (click)="openFileItemMenu($event)" class="fileItemContainer myLink">{{fileItemName}} <i class="bi bi-caret-down"></i> </div>
+    <div class="fileItemMenuBtnContainer" *ngIf="isFileItemMenuVisible">
+        <div class=" btnRow highlight myLink">
+            <a data-testid="btnSave" (click)="saveMap()" class="dropdown-item" >Save</a>
+        </div>
+        <div class=" btnRow highlight myLink">
+            <a (click)="closeMindMap()" data-testid="btnCloseMindMap" class="dropdown-item highlight" >Close file</a>
+        </div>
+        <div class=" btnRow highlight myLink">
+            <a (click)="closeFileItemMenu()" class="dropdown-item" >Close menu</a>
+        </div>
+        
+
+    </div>
+</div>

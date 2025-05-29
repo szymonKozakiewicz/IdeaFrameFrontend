@@ -44,7 +44,7 @@ export class FileItemComponent implements OnInit  {
     }else{
       if(this.isFileItemDisabled)
         return;
-      this.directoryService.openFile(this.fileItemName);
+      this.directoryService.openFile(this._fileItemName);
     }
   }
 

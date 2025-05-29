@@ -11,6 +11,7 @@ import { MapPanningService } from "./map-panning.service";
 export class MindMapService
 {
 
+
     public mindMapUpdated$:Subject<void>=new Subject<void>();
     public updateSelectedNodeInSettings$:Subject<NodeMindMap>=new Subject<NodeMindMap>();
     public updateSelectedNodeInNodeComponent$:Subject<void>=new Subject<void>();
@@ -87,5 +88,14 @@ export class MindMapService
         console.log("updateMapAfterTranslation called");
         this.mindMapUpdated$.next();
     }
+
+    getFileItemName(): string {
+        return this.currentFileItem.name;
+    }
+
+    saveMindMap() {
+        throw new Error('Method not implemented.');
+    }
+        
 
 }

@@ -5,14 +5,16 @@
 
 .settingsPanelContainer{
     padding-left: 0.5rem;
+
 }
 
 .settingsPanelAndLogoContainer{
     height: 100vh;
     padding:1rem;
     border-right: solid;
-    border-color:white
-    
+    border-color:white;
+    background-color: #86D58C;
+    z-index: 2;
 }
 
 .mapContainer{

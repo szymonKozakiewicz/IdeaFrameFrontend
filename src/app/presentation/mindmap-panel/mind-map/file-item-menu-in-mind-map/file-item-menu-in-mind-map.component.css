@@ -1,0 +1,49 @@
+.fileItemMenuContainer
+{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.fileItemContainer{
+    display: flex;
+    background-color: white;
+    border: solid 0.1rem #00000080;
+    box-shadow: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 2rem;
+    z-index: 2;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-width: 8rem;
+
+}
+
+.fileItemMenuBtnContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
+    margin-top:0.4rem;
+    background-color: #86D58C;
+}
+
+.highlight:hover{
+    background-color: #65d76e
+}
+
+.btnRow{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #86D58C;
+}
+
+.whiteLine{
+    background-color: white;
+    height: 0.1rem;
+}
