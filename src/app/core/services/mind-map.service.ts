@@ -44,7 +44,7 @@ export class MindMapService
     public addNewNode(coordinates:NodeCoordinates)
     {
         coordinates=this.panningService.getReversedTranlationOfCoordinates(coordinates);
-        let newNode=new NodeMindMap("","default name","#fffaf0",coordinates,true);
+        let newNode=new NodeMindMap("","default name","#fffaf0",coordinates,false);
         this.nodes.push(newNode);
         this.mindMapUpdated$.next();
     }
@@ -59,6 +59,7 @@ export class MindMapService
     public updateSelectedNodePosition(finalPostion: Readonly<Point>) {
         this.selectedNode.coordinates.x+=finalPostion.x;
         this.selectedNode.coordinates.y+=finalPostion.y;
+        this.selectedNode.wasEdited=true;
         this.updateSelectedNodeInNodeComponent$.next();
 
     }
@@ -80,16 +81,17 @@ export class MindMapService
 
     updateSelectedNodeName(nameInputValue: string) {
         this.selectedNode.name=nameInputValue;
+        this.selectedNode.wasEdited=true;
         this.updateSelectedNodeInNodeComponent$.next();
     }
 
     updateSelectedNodeColor(newValue: string) {
         this.selectedNode.color=newValue;
+        this.selectedNode.wasEdited=true;
         this.updateSelectedNodeInNodeComponent$.next();
     }
 
     updateMapAfterTranslation(){
-        console.log("updateMapAfterTranslation called");
         this.mindMapUpdated$.next();
     }
 
@@ -99,7 +101,10 @@ export class MindMapService
 
     saveMindMap() {
         
-        let mindMapSaveDTO= new MindMapSaveDto(this.currentFileItem,this.nodes);
+        let fileItemDto=this.currentFileItem.convertWithPathToFileItemDTO();
+        let nodesDTO=this.nodes.map(node => node.convertToNodeMindMapDTO());
+        let mindMapSaveDTO= new MindMapSaveDto(fileItemDto,nodesDTO);
+        
         this.clientHttp.post<MindMapSaveDto>(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
             next:()=>{
                 console.log("Mind map saved successfully");

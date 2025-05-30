@@ -1,3 +1,4 @@
+import { NodeMindMapDTO } from "../../dto/node-mind-map.dto";
 import { NodeCoordinates } from "./node-coordinates";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,6 +10,11 @@ export class NodeMindMap{
     {
 
 
+    }
+
+    public convertToNodeMindMapDTO()
+    {
+        return new NodeMindMapDTO(this.id,this.name,this.color,this.coordinates,this.wasEdited);
     }
 
  

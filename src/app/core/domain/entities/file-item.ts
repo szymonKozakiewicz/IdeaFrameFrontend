@@ -20,6 +20,8 @@ export class FileSystemItem{
     {
         return new FileItemDTO(this.name,this.type,path)
     }
+    
+
 
 
 }
