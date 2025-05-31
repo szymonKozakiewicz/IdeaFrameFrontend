@@ -1,6 +1,7 @@
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
 import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
+import { OperationStatus } from 'src/app/core/enum/operation.status';
 import { MapPanningService } from 'src/app/core/services/map-panning.service';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
 
@@ -29,6 +30,10 @@ export class MindMapComponent implements OnInit {
 
     this.mindMapService.mindMapUpdated$.subscribe({
       next: this.upadateMap.bind(this)
+    })
+
+    this.mindMapService.mindMapSaveStatus$.subscribe({
+      next: this.mindMapSaveStatusChanged.bind(this)
     })
     this.fileItemName=this.mindMapService.getFileItemName();
     
@@ -59,6 +64,14 @@ export class MindMapComponent implements OnInit {
     this.mindMapService.updateSelectedNodePosition(finalPostion)
     this.nodePositionDragTranslation={ x: 0, y: 0 };
 
+  }
+
+  mindMapSaveStatusChanged(status: OperationStatus) {
+    if (status === OperationStatus.SUCCESS) {
+      this.isMindMapLoadingSpinnerVisible = false;
+    } else {
+      this.isMindMapLoadingSpinnerVisible = true;
+    }
   }
 
   switchPanningMode(newValue: boolean) {

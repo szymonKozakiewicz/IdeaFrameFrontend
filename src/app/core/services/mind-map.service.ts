@@ -13,6 +13,7 @@ import { ApiEndpoints } from "src/app/infrastructure/http/api-endpoints";
 import { NodeMindMapDTO } from "../dto/node-mind-map.dto";
 import { FileItemDTO } from "../dto/file-item.dto";
 import { NodeMindMapLoadDTO } from "../dto/node-mindmap-load.dto";
+import { OperationStatus } from "../enum/operation.status";
 
 @Injectable({providedIn:'root'})
 export class MindMapService
@@ -24,6 +25,7 @@ export class MindMapService
     public updateSelectedNodeInSettings$:Subject<NodeMindMap>=new Subject<NodeMindMap>();
     public updateSelectedNodeInNodeComponent$:Subject<void>=new Subject<void>();
     public diselectAllNodes$:Subject<void>=new Subject<void>();
+    public mindMapSaveStatus$:Subject<OperationStatus>=new Subject<OperationStatus>();
     private currentFileItem:FileSystemItemWithPath=new FileSystemItemWithPath("",FileItemType.FILE,"");
     private nodes:Array<NodeMindMap>=[];
   
@@ -114,10 +116,11 @@ export class MindMapService
         let nodesDTO=this.nodes.map(node => node.convertToNodeMindMapDTO());
         let mindMapSaveDTO= new MindMapSaveDto(fileItemDto,nodesDTO);
         this.setWasEditedPropertyToFalseForAllNodes();
+        this.mindMapSaveStatus$.next(OperationStatus.IN_PROGRESS);
         
         this.clientHttp.post(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
             next:()=>{
-                console.log("Mind map saved successfully");
+                this.mindMapSaveStatus$.next(OperationStatus.SUCCESS);
             },
             error:(error)=>{
                 console.error("Error saving mind map", error);

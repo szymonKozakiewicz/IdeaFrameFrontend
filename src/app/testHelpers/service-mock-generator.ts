@@ -164,7 +164,8 @@ export function getRegisterServiceMock() {
       updateSelectedNodePosition: jasmine.createSpy("updateSelectedNodePosition"),
       updateMapAfterTranslation: jasmine.createSpy("updateMapAfterTranslation"),
       getFileItemName: jasmine.createSpy("getFileItemName"),
-      saveMindMap: jasmine.createSpy("saveMindMap")
+      saveMindMap: jasmine.createSpy("saveMindMap"),
+      loadMindMapFromBakcend: jasmine.createSpy("loadMindMapFromBakcend")
     }
     return mindMapServiceMock as MindMapService;
   }
