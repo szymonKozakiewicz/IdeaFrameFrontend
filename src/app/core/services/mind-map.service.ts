@@ -118,10 +118,8 @@ export class MindMapService
         this.setWasEditedPropertyToFalseForAllNodes();
         this.mindMapSaveStatus$.next(OperationStatus.IN_PROGRESS);
         
-        this.clientHttp.post(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
-            next:()=>{
-                this.mindMapSaveStatus$.next(OperationStatus.SUCCESS);
-            },
+        this.clientHttp.post<NodeMindMapLoadDTO[]>(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
+            next:this.finaliseSavingMindMap.bind(this),
             error:(error)=>{
                 console.error("Error saving mind map", error);
             }
@@ -143,6 +141,11 @@ export class MindMapService
                 console.error("Error loading minamap data from backend", error);
             }
         })
+    }
+
+    finaliseSavingMindMap(nodesDTO: NodeMindMapLoadDTO[]){
+        this.saveNodesFromBackend(nodesDTO);
+        this.mindMapSaveStatus$.next(OperationStatus.SUCCESS);
     }
 
     private saveNodesFromBackend(nodesDTO: NodeMindMapLoadDTO[]) {
