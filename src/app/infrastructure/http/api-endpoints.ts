@@ -14,4 +14,5 @@ export class ApiEndpoints {
     static readonly REMOVE_FILEITEM=`${ApiEndpoints.BASE_URL}/api/Directory/removeFileItem`;  
     static readonly MOVE_FILEITEM=`${ApiEndpoints.BASE_URL}/api/Directory/moveFileItem`; 
     static readonly SAVE_MINDMAP=`${ApiEndpoints.BASE_URL}/api/MindMap/saveMindMap`;
+    static readonly LOAD_MINDMAP=`${ApiEndpoints.BASE_URL}/api/MindMap/loadMindMap`;
   }

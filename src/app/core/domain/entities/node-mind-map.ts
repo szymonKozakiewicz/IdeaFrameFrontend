@@ -1,4 +1,5 @@
 import { NodeMindMapDTO } from "../../dto/node-mind-map.dto";
+import { NodeMindMapLoadDTO } from "../../dto/node-mindmap-load.dto";
 import { NodeCoordinates } from "./node-coordinates";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,6 +16,12 @@ export class NodeMindMap{
     public convertToNodeMindMapDTO()
     {
         return new NodeMindMapDTO(this.id,this.name,this.color,this.coordinates,this.wasEdited);
+    }
+
+    public static build(nodeDTO:NodeMindMapLoadDTO): NodeMindMap {
+        let coordinates=new NodeCoordinates(nodeDTO.coordinates.x,nodeDTO.coordinates.y);
+        let node=new NodeMindMap(nodeDTO.id,nodeDTO.name,nodeDTO.color,coordinates,false)
+        return node;
     }
 
  

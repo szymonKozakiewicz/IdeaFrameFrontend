@@ -10,10 +10,14 @@ import { MindMapSaveDto } from "../dto/mind-map-save.dto";
 import { HttpClient } from "@angular/common/http";
 import { CustomHttpClient } from "src/app/infrastructure/http/custom-http-client";
 import { ApiEndpoints } from "src/app/infrastructure/http/api-endpoints";
+import { NodeMindMapDTO } from "../dto/node-mind-map.dto";
+import { FileItemDTO } from "../dto/file-item.dto";
+import { NodeMindMapLoadDTO } from "../dto/node-mindmap-load.dto";
 
 @Injectable({providedIn:'root'})
 export class MindMapService
 {
+
 
 
     public mindMapUpdated$:Subject<void>=new Subject<void>();
@@ -59,11 +63,16 @@ export class MindMapService
     public updateSelectedNodePosition(finalPostion: Readonly<Point>) {
         this.selectedNode.coordinates.x+=finalPostion.x;
         this.selectedNode.coordinates.y+=finalPostion.y;
-        this.selectedNode.wasEdited=true;
+        this.setNodeAsUpdated();
         this.updateSelectedNodeInNodeComponent$.next();
 
     }
 
+
+    private setNodeAsUpdated() {
+        if (this.selectedNode.id.length > 0)
+            this.selectedNode.wasEdited = true;
+    }
 
     diselectAllNodes() {
        this.diselectAllNodes$.next();
@@ -81,13 +90,13 @@ export class MindMapService
 
     updateSelectedNodeName(nameInputValue: string) {
         this.selectedNode.name=nameInputValue;
-        this.selectedNode.wasEdited=true;
+        this.setNodeAsUpdated();
         this.updateSelectedNodeInNodeComponent$.next();
     }
 
     updateSelectedNodeColor(newValue: string) {
         this.selectedNode.color=newValue;
-        this.selectedNode.wasEdited=true;
+        this.setNodeAsUpdated();
         this.updateSelectedNodeInNodeComponent$.next();
     }
 
@@ -104,8 +113,9 @@ export class MindMapService
         let fileItemDto=this.currentFileItem.convertWithPathToFileItemDTO();
         let nodesDTO=this.nodes.map(node => node.convertToNodeMindMapDTO());
         let mindMapSaveDTO= new MindMapSaveDto(fileItemDto,nodesDTO);
+        this.setWasEditedPropertyToFalseForAllNodes();
         
-        this.clientHttp.post<MindMapSaveDto>(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
+        this.clientHttp.post(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
             next:()=>{
                 console.log("Mind map saved successfully");
             },
@@ -114,6 +124,27 @@ export class MindMapService
             }
         })
         
+    }
+
+    private setWasEditedPropertyToFalseForAllNodes() {
+        for (let node of this.nodes) {
+            node.wasEdited = false;
+        }
+    }
+
+    loadMindMapFromBakcend() {
+        let fileItemDto=this.currentFileItem.convertWithPathToFileItemDTO();
+        this.clientHttp.post<NodeMindMapLoadDTO[]>(ApiEndpoints.LOAD_MINDMAP, fileItemDto).subscribe({
+            next: this.saveNodesFromBackend.bind(this),
+            error:(error)=>{
+                console.error("Error loading minamap data from backend", error);
+            }
+        })
+    }
+
+    private saveNodesFromBackend(nodesDTO: NodeMindMapLoadDTO[]) {
+        this.nodes=nodesDTO.map(nodeDTO=> NodeMindMap.build(nodeDTO));
+        this.mindMapUpdated$.next();
     }
 
 

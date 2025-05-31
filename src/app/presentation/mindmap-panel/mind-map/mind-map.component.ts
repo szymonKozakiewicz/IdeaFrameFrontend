@@ -18,12 +18,15 @@ export class MindMapComponent implements OnInit {
   nodePositionDragTranslation: { x: number, y: number } = { x: 0, y: 0 };
   isMapPanningModeActive:boolean=false;
   fileItemName: string = "";
+  isMindMapLoadingSpinnerVisible: boolean = true;
  
 
   constructor(private mindMapService:MindMapService, private panningService:MapPanningService) { }
 
   ngOnInit(): void {
-    this.upadateMap();
+    this.initMindMap();
+    
+
     this.mindMapService.mindMapUpdated$.subscribe({
       next: this.upadateMap.bind(this)
     })
@@ -82,8 +85,13 @@ export class MindMapComponent implements OnInit {
     
   }
 
+  initMindMap(){
+    this.mindMapService.loadMindMapFromBakcend();
+  }
+
   private upadateMap() {
     this.nodes = this.mindMapService.getNodes();
+    this.isMindMapLoadingSpinnerVisible = false;
   }
 
 }
