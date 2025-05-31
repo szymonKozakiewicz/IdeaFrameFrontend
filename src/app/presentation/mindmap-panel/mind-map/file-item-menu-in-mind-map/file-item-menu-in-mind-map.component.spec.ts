@@ -18,7 +18,7 @@ import { RenameFileItemService } from 'src/app/core/services/rename-file-item.se
 import { AuthorisationService } from 'src/app/core/services/authorisation.service';
 import { of } from 'rxjs';
 
-fdescribe('FileItemMenuInMindMapComponent', () => {
+describe('FileItemMenuInMindMapComponent', () => {
   let component: FileItemMenuInMindMapComponent;
   let fixture: ComponentFixture<FileItemMenuInMindMapComponent>;
   let mindMapServiceMock:any;

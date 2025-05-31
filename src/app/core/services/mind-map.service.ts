@@ -143,7 +143,7 @@ export class MindMapService
         })
     }
 
-    finaliseSavingMindMap(nodesDTO: NodeMindMapLoadDTO[]){
+    private finaliseSavingMindMap(nodesDTO: NodeMindMapLoadDTO[]){
         this.saveNodesFromBackend(nodesDTO);
         this.mindMapSaveStatus$.next(OperationStatus.SUCCESS);
     }

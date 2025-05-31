@@ -19,6 +19,7 @@ import { NodeCoordinates } from "../core/domain/entities/node-coordinates";
 import { NodeMindMap } from "../core/domain/entities/node-mind-map";
 import { Point } from "@angular/cdk/drag-drop";
 import { MapPanningService } from "../core/services/map-panning.service";
+import { NodeMindMapLoadDTO } from "../core/dto/node-mindmap-load.dto";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -165,7 +166,9 @@ export function getRegisterServiceMock() {
       updateMapAfterTranslation: jasmine.createSpy("updateMapAfterTranslation"),
       getFileItemName: jasmine.createSpy("getFileItemName"),
       saveMindMap: jasmine.createSpy("saveMindMap"),
-      loadMindMapFromBakcend: jasmine.createSpy("loadMindMapFromBakcend")
+      loadMindMapFromBakcend: jasmine.createSpy("loadMindMapFromBakcend"),
+      mindMapSaveStatus$: new Subject<OperationStatus>(),
+
     }
     return mindMapServiceMock as MindMapService;
   }
@@ -183,7 +186,8 @@ export function getRegisterServiceMock() {
       initPanning: jasmine.createSpy("initPanning"),
       updateCurrentMapTranslation: jasmine.createSpy("updateCurrentMapTranslation"),
       finishTranslation: jasmine.createSpy("finishTranslation"),
-      getReversedTranlationOfCoordinates: jasmine.createSpy("getReversedTranlationOfCoordinates")
+      getReversedTranlationOfCoordinates: jasmine.createSpy("getReversedTranlationOfCoordinates"),
+      resetTranslation: jasmine.createSpy("getReversedTranlationOfCoordinates")
     }
     return panningMapServiceMock as MapPanningService;
   }

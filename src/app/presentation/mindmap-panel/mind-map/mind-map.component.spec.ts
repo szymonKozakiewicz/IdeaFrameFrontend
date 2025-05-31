@@ -12,6 +12,7 @@ import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
 import { By } from '@angular/platform-browser';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { NodeComponent } from './node/node.component';
+import { FileItemMenuInMindMapComponent } from './file-item-menu-in-mind-map/file-item-menu-in-mind-map.component';
 
 describe('MindMapComponent', () => {
   let component: MindMapComponent;
@@ -21,7 +22,7 @@ describe('MindMapComponent', () => {
   beforeEach(async () => {
       mindMapServiceMock=getMindMapMock();
     await TestBed.configureTestingModule({
-      declarations: [MindMapComponent,LogoComponent,NodeComponent],
+      declarations: [MindMapComponent,LogoComponent,NodeComponent, FileItemMenuInMindMapComponent],
       providers: [
         {provide: MindMapService ,useValue: mindMapServiceMock}
       ],
@@ -64,5 +65,11 @@ describe('MindMapComponent', () => {
 
     
   })
+
+  it("should call loadMindMapFromBakcend from service after component init", () => {
+    //assert
+    expect(mindMapServiceMock.loadMindMapFromBakcend).toHaveBeenCalled();
+   }
+  )
 
 });

@@ -1,13 +1,16 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MapPanningDirective } from "../../derectives/map-panning.directive";
 import { MapPanningService } from "src/app/core/services/map-panning.service";
-import { getPanningMapMock } from "src/app/testHelpers/service-mock-generator";
+import { getMindMapMock, getPanningMapMock } from "src/app/testHelpers/service-mock-generator";
 import { MindMapComponent } from "../mind-map/mind-map.component";
 import { MindmapPanelComponent } from "../mindmap-panel.component";
 import { getElementByTestId } from "src/app/testHelpers/data-testid-selector";
 import { LogoComponent } from "src/app/presentation/logo/logo.component";
 import { NodeSettingsComponent } from "../node-settings/node-settings.component";
 import { FormsModule } from "@angular/forms";
+import { MindMapService } from "src/app/core/services/mind-map.service";
+import { FileItemComponent } from "../../user-panel/directory-managager/directory-manager-panel/file-item/file-item.component";
+import { FileItemMenuInMindMapComponent } from "../mind-map/file-item-menu-in-mind-map/file-item-menu-in-mind-map.component";
 
 
 describe('MapPanningDirective (tested with mind map panel component', () => {
@@ -22,10 +25,11 @@ describe('MapPanningDirective (tested with mind map panel component', () => {
         
         
        await TestBed.configureTestingModule({
-         declarations: [MapPanningDirective,MindMapComponent,MindmapPanelComponent,LogoComponent,NodeSettingsComponent],
+         declarations: [MapPanningDirective,MindMapComponent,MindmapPanelComponent,LogoComponent,NodeSettingsComponent,FileItemMenuInMindMapComponent],
          providers: [
            {provide: MapPanningService, useValue:serviceMock},
-           {provide: MapPanningDirective, useClass: MapPanningDirective}
+           {provide: MapPanningDirective, useClass: MapPanningDirective},
+           {provide:MindMapService, useValue:getMindMapMock()}
          ],
          imports: [FormsModule]
        })

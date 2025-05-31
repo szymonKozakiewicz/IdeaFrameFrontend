@@ -100,6 +100,7 @@ export class MindMapComponent implements OnInit {
 
   initMindMap(){
     this.mindMapService.loadMindMapFromBakcend();
+    this.panningService.resetTranslation();
   }
 
   private upadateMap() {

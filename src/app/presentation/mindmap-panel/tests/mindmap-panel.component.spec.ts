@@ -7,6 +7,7 @@ import { MindMapComponent } from '../mind-map/mind-map.component';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
 import { getMindMapMock } from 'src/app/testHelpers/service-mock-generator';
 import { FormsModule } from '@angular/forms';
+import { FileItemMenuInMindMapComponent } from '../mind-map/file-item-menu-in-mind-map/file-item-menu-in-mind-map.component';
 
 describe('MindmapPanelComponent', () => {
   let component: MindmapPanelComponent;
@@ -15,7 +16,7 @@ describe('MindmapPanelComponent', () => {
   beforeEach(async () => {
     mindMapServiceMock=getMindMapMock();
     await TestBed.configureTestingModule({
-      declarations: [MindmapPanelComponent,LogoComponent,NodeSettingsComponent,MindMapComponent],
+      declarations: [MindmapPanelComponent,LogoComponent,NodeSettingsComponent,MindMapComponent,FileItemMenuInMindMapComponent],
       providers: [
         {provide: MindMapService ,useValue: mindMapServiceMock}
       ],

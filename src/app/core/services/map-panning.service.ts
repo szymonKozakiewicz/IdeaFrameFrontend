@@ -9,6 +9,7 @@ export class MapPanningService{
 
 
 
+
     public updateCursor$=new Subject<string>()
     public updateMapAfterTranslation$=new Subject<void>();
     private isMapPanningModeActive:boolean=false;
@@ -68,6 +69,10 @@ export class MapPanningService{
         let reversedX=coordinates.x-this.currentMapTranslation.x;
         let reversedY=coordinates.y-this.currentMapTranslation.y;
         return new NodeCoordinates(reversedX,reversedY);
+    }
+
+    resetTranslation() {
+        this.currentMapTranslation = { x: 0, y: 0 };
     }
 
 }
