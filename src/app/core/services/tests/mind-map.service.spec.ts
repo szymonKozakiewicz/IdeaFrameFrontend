@@ -60,6 +60,26 @@ describe('mind map service', () => {
     }))
 
 
+    it("should tigger subject mindMapUpdated$ after save method loadMindMapFromBakcend was triggered ",fakeAsync(()=>{
+        //arrange
+        let subjectTriggered=false;
+
+        httpClientMock.post.and.returnValue(of([]))
+
+        mindMapService.mindMapUpdated$.subscribe((status)=>{
+            subjectTriggered=true;
+        });
+        
+        //act
+        mindMapService.loadMindMapFromBakcend();
+        tick();
+
+        //assert
+        expect(subjectTriggered).toEqual(true);
+
+    }))
+
+
 
 
    
