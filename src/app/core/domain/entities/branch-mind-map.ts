@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class BranchMindMap{
     uiId:string=uuidv4();
 
-    constructor(public id:string,public source:NodeMindMap,public target:NodeMindMap, public color:string) {
+    constructor(public id:string,public source:NodeMindMap,public target:NodeMindMap) {
 
     }
 
@@ -15,7 +15,12 @@ export class BranchMindMap{
         let defaultSource=NodeMindMap.buildDefault();
         let defaultSource2=NodeMindMap.buildDefault();
         defaultSource2.coordinates=new NodeCoordinates(500,500);
-        return new BranchMindMap("", defaultSource,defaultSource2,"")
+        return new BranchMindMap("", defaultSource,defaultSource2)
+    }
+
+    public getColor()
+    {
+        return this.target.color;
     }
 
     public getBranchCoordinates():BranchCoordinates

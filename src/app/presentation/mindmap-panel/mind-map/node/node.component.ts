@@ -58,6 +58,10 @@ export class NodeComponent implements OnInit,AfterViewInit {
   @HostListener("click", ["$event"])
   onNodeSelect(event: MouseEvent) {
     event.stopPropagation();
+    if(this.branchService.isBranchModeActive())
+    {
+      this.branchService.finaliseBranchCreation(this.nodeSettings)
+    }
    
   }
 

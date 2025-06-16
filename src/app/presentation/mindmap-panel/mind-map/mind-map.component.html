@@ -7,7 +7,7 @@
 
 
 @for (branch of branches; track branch.id) {
-    <branch class="branch"></branch>
+    <branch [branchSettings]="branch" class="branch"></branch>
 }
 
 <branch class="branch" *ngIf="this.isBranchCreateModeActive" [branchSettings]="creatBranch"></branch>

@@ -47,6 +47,7 @@ export class MindMapComponent implements OnInit {
       next:this.branchCreateModeChanged.bind(this)
     })
     this.fileItemName=this.mindMapService.getFileItemName();
+    this.branches=this.branchService.getBranches()
     
   }
 
@@ -58,7 +59,7 @@ export class MindMapComponent implements OnInit {
     event.preventDefault();
     this.isNodeContextMenuVisible=true;
     this.nodeContextMenuPosition= { left: event.offsetX, top: event.offsetY};
-  
+    this.branchService.deactivateBranchCreateMode()
   }
 
 
@@ -66,6 +67,7 @@ export class MindMapComponent implements OnInit {
   onEmptySpaceClicked(event: MouseEvent) {
     this.closeNodeContextMenu();
     this.diselectAllNodes();
+    
   }
 
   @HostListener("mousemove", ["$event"])

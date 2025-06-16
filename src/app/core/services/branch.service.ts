@@ -23,6 +23,12 @@ export class BranchService{
         this.branchCreateModeChanged$.next(true)
     }
 
+    public deactivateBranchCreateMode()
+    {
+        this.isBranchCreateModeActive=false;
+        this.branchCreateModeChanged$.next(false)
+    }
+
     public updateBranchCreateTargetCoordinates(coordinates:NodeCoordinates)
     {
         let tempBranchTarget=NodeMindMap.buildDefault();
@@ -32,6 +38,10 @@ export class BranchService{
         
     }
 
+    public getBranches()
+    {
+        return this.branches;
+    }
 
     public isBranchModeActive()
     {
@@ -41,8 +51,19 @@ export class BranchService{
     public getInitialCreateBranch(): BranchMindMap
     {
         
-        let branch=new BranchMindMap("",this.newBranchSource,this.newBranchSource,"#446eff");
+        let branch=new BranchMindMap("",this.newBranchSource,this.newBranchSource);
         this.createBranch=branch
         return branch;
+    }
+
+    public finaliseBranchCreation(targetNode:NodeMindMap)
+    {
+        const sourceSameAsTarget = this.newBranchSource.uiId === targetNode.uiId;
+        if(sourceSameAsTarget)
+            return;
+        this.deactivateBranchCreateMode()
+        let newBranch=new BranchMindMap("",this.newBranchSource,targetNode)
+        this.branches.push(newBranch)
+
     }
 }

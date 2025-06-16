@@ -105,12 +105,14 @@ export class MindMapService
         this.selectedNode.name=nameInputValue;
         this.setNodeAsUpdated();
         this.updateSelectedNodeInNodeComponent$.next();
+        
     }
 
     updateSelectedNodeColor(newValue: string) {
         this.selectedNode.color=newValue;
         this.setNodeAsUpdated();
         this.updateSelectedNodeInNodeComponent$.next();
+        this.branchService.branchChanged$.next();
     }
 
     updateMapAfterTranslation(){

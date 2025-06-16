@@ -33,7 +33,7 @@ export class BranchComponent {
     this.top=coordinates.startPoint.y+"px";
     this.lenght=coordinates.lenght+"px"
     this.rotation="rotate("+coordinates.angle+"deg)"
-    this.backgroundColor=this._branch.color
+    this.backgroundColor=this._branch.getColor();
     
     branchService.branchChanged$.subscribe(
       {
@@ -50,7 +50,7 @@ export class BranchComponent {
     this.top=coordinates.startPoint.y+"px";
     this.lenght=coordinates.lenght+"px"
     this.rotation="rotate("+coordinates.angle+"deg)"
-    this.backgroundColor=this._branch.color
+    this.backgroundColor=this._branch.getColor()
 
   }
 
