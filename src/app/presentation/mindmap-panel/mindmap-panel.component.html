@@ -5,7 +5,7 @@
             <node-settings></node-settings>
         </div>
     </div>
-    <div class="mapContainer d-flex flex-column">
+    <div class="mapContainer d-flex flex-column" [ngStyle]="{'background-color':mapBackgroundStyle}">
         <mind-map data-testid="mind-map" mapPanning class="h-100 position-relative user-select-none overflow-hidden"></mind-map>
     </div>
 </div>

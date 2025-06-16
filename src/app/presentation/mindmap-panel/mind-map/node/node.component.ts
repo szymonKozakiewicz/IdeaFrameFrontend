@@ -17,6 +17,7 @@ export class NodeComponent implements OnInit,AfterViewInit {
   nodeSettings:NodeMindMap=new NodeMindMap("","","#fffaf0",new NodeCoordinates(0,0),false);
   isSelected:boolean=false;
   isPlusVisible:boolean=false;  
+  mapBackgroundStyle=""
 
   @HostBinding("style.left") positionX= '0px';
   @HostBinding("style.top") positionY= '0px';
@@ -51,6 +52,7 @@ export class NodeComponent implements OnInit,AfterViewInit {
     this.mindMapService.mindMapUpdated$.subscribe({
       next: this.updateUi.bind(this)
     })
+    this.mapBackgroundStyle=this.mindMapService.getMapBakcgroundColor();
   }
 
   @HostListener("click", ["$event"])

@@ -29,7 +29,7 @@ export class MindMapService
     public mindMapSaveStatus$:Subject<OperationStatus>=new Subject<OperationStatus>();
     private currentFileItem:FileSystemItemWithPath=new FileSystemItemWithPath("",FileItemType.FILE,"");
     private nodes:Array<NodeMindMap>=[];
-  
+    private mapBackgroundColor:string="#C1A7A7";
     private defaultSelectedNode:NodeMindMap=new NodeMindMap("","","#fffaf0",new NodeCoordinates(0,0),true);
     private selectedNode:NodeMindMap=this.defaultSelectedNode;
 
@@ -91,6 +91,11 @@ export class MindMapService
     public isAnySpecialModeActive()
     {
         return this.branchService.isBranchModeActive() || this.panningService.getMapPanningMode()
+    }
+
+    public getMapBakcgroundColor()
+    {
+        return this.mapBackgroundColor;
     }
 
 
