@@ -2,7 +2,7 @@
 <node-context-menu [nodeMenuPosition]="nodeContextMenuPosition"  *ngIf="isNodeContextMenuVisible"></node-context-menu>
 
 @for(node of nodes; track node.uiId) {
-    <node *ngIf="!isMindMapLoadingSpinnerVisible" data-testid="node" cdkDrag [cdkDragFreeDragPosition]="nodePositionDragTranslation" [cdkDragDisabled]="isMapPanningModeActive" [cdkDragBoundary]="'mind-map'" (cdkDragEnded)="onNodeDragEnd($event)"  class="position-absolute node" [nodeSettings]=node></node>
+    <node *ngIf="!isMindMapLoadingSpinnerVisible" data-testid="node" cdkDrag [cdkDragFreeDragPosition]="nodePositionDragTranslation" [cdkDragDisabled]="isMapPanningModeActive" [cdkDragBoundary]="'mind-map'" (cdkDragEnded)="onNodeDragEnd($event)"   class="position-absolute node" [nodeSettings]=node></node>
 }
 
 

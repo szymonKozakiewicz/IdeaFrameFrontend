@@ -18,6 +18,7 @@ import { CoordinatesConverterHelper } from './coordinates-converter-helper';
 export class MindMapComponent implements OnInit {
 
 
+
   isNodeContextMenuVisible: boolean = false;
   nodeContextMenuPosition: { left: number; top: number } = { left: 0, top: 0 };
   nodes: NodeMindMap[] = []; 
@@ -94,8 +95,11 @@ export class MindMapComponent implements OnInit {
     let finalPostion=event.source.getFreeDragPosition();
     this.mindMapService.updateSelectedNodePosition(finalPostion)
     this.nodePositionDragTranslation={ x: 0, y: 0 };
+    this.branchService.branchChanged$.next();
 
   }
+
+
 
   mindMapSaveStatusChanged(status: OperationStatus) {
     if (status === OperationStatus.SUCCESS) {
