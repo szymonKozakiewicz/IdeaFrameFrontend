@@ -25,4 +25,8 @@ export class NodeMindMap{
     }
 
  
+    public static buildDefault(): NodeMindMap {
+        let defultCordinates=new NodeCoordinates(0,0)
+        return new NodeMindMap("","","",defultCordinates,false);
+    }
 }

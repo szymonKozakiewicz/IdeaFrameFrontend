@@ -4,6 +4,13 @@
 @for(node of nodes; track node.uiId) {
     <node *ngIf="!isMindMapLoadingSpinnerVisible" data-testid="node" cdkDrag [cdkDragFreeDragPosition]="nodePositionDragTranslation" [cdkDragDisabled]="isMapPanningModeActive" [cdkDragBoundary]="'mind-map'" (cdkDragEnded)="onNodeDragEnd($event)"  class="position-absolute node" [nodeSettings]=node></node>
 }
+
+
+@for (branch of branches; track branch.id) {
+    <branch class="branch"></branch>
+}
+
+<branch class="branch" *ngIf="this.isBranchCreateModeActive" [branchSettings]="creatBranch"></branch>
 <div *ngIf="isMindMapLoadingSpinnerVisible" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center w-100 h-100">
     <div class="spinner-border yellow-spinner" role="status"></div>
     <div class="mt-2 loading">Processing..</div>

@@ -1,9 +1,14 @@
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
-import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, OnInit } from '@angular/core';
+import { BranchCoordinates } from 'src/app/core/domain/entities/branch-coordinates';
+import { BranchMindMap } from 'src/app/core/domain/entities/branch-mind-map';
+import { NodeCoordinates } from 'src/app/core/domain/entities/node-coordinates';
 import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
 import { OperationStatus } from 'src/app/core/enum/operation.status';
+import { BranchService } from 'src/app/core/services/branch.service';
 import { MapPanningService } from 'src/app/core/services/map-panning.service';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
+import { CoordinatesConverterHelper } from './coordinates-converter-helper';
 
 @Component({
   selector: 'mind-map',
@@ -16,13 +21,16 @@ export class MindMapComponent implements OnInit {
   isNodeContextMenuVisible: boolean = false;
   nodeContextMenuPosition: { left: number; top: number } = { left: 0, top: 0 };
   nodes: NodeMindMap[] = []; 
+  branches:BranchMindMap[]=[];
   nodePositionDragTranslation: { x: number, y: number } = { x: 0, y: 0 };
   isMapPanningModeActive:boolean=false;
   fileItemName: string = "";
   isMindMapLoadingSpinnerVisible: boolean = true;
+  isBranchCreateModeActive=false
+  creatBranch=BranchMindMap.buildDefault();
  
 
-  constructor(private mindMapService:MindMapService, private panningService:MapPanningService) { }
+  constructor(private mindMapService:MindMapService, private panningService:MapPanningService, private branchService:BranchService,private elementRef: ElementRef) { }
 
   ngOnInit(): void {
     this.initMindMap();
@@ -34,6 +42,9 @@ export class MindMapComponent implements OnInit {
 
     this.mindMapService.mindMapSaveStatus$.subscribe({
       next: this.mindMapSaveStatusChanged.bind(this)
+    })
+    this.branchService.branchCreateModeChanged$.subscribe({
+      next:this.branchCreateModeChanged.bind(this)
     })
     this.fileItemName=this.mindMapService.getFileItemName();
     
@@ -57,7 +68,25 @@ export class MindMapComponent implements OnInit {
     this.diselectAllNodes();
   }
 
+  @HostListener("mousemove", ["$event"])
+  onMouseMove(event:MouseEvent)
+  {
+ 
+    if(!this.branchService.isBranchModeActive())
+      return
+    let x=event.offsetX;
+    let y=event.offsetY;
+    
+    let clickCoordinates=CoordinatesConverterHelper.convertClientToOffset(event.clientX,event.clientY,this.elementRef.nativeElement)
+    this.branchService.updateBranchCreateTargetCoordinates(clickCoordinates)
+  }
 
+  branchCreateModeChanged(currentState:boolean)
+  {
+    this.isBranchCreateModeActive=currentState;
+    if(currentState)
+      this.creatBranch=this.branchService.getInitialCreateBranch()
+  }
 
   onNodeDragEnd(event: CdkDragEnd) {
     let finalPostion=event.source.getFreeDragPosition();

@@ -14,6 +14,7 @@ import { NodeMindMapDTO } from "../dto/node-mind-map.dto";
 import { FileItemDTO } from "../dto/file-item.dto";
 import { NodeMindMapLoadDTO } from "../dto/node-mindmap-load.dto";
 import { OperationStatus } from "../enum/operation.status";
+import { BranchService } from "./branch.service";
 
 @Injectable({providedIn:'root'})
 export class MindMapService
@@ -33,7 +34,7 @@ export class MindMapService
     private selectedNode:NodeMindMap=this.defaultSelectedNode;
 
 
-    constructor(private panningService:MapPanningService, private clientHttp:CustomHttpClient) {
+    constructor(private panningService:MapPanningService,private branchService: BranchService, private clientHttp:CustomHttpClient) {
 
         this.panningService.updateMapAfterTranslation$.subscribe({
             next: this.updateMapAfterTranslation.bind(this)
@@ -87,7 +88,12 @@ export class MindMapService
         this.updateSelectedNodeInSettings$.next(node);
     }
 
-    
+    public isAnySpecialModeActive()
+    {
+        return this.branchService.isBranchModeActive() || this.panningService.getMapPanningMode()
+    }
+
+
 
 
     updateSelectedNodeName(nameInputValue: string) {
@@ -142,6 +148,8 @@ export class MindMapService
             }
         })
     }
+
+    
 
     private finaliseSavingMindMap(nodesDTO: NodeMindMapLoadDTO[]){
         this.saveNodesFromBackend(nodesDTO);

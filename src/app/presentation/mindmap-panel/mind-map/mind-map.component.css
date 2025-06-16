@@ -1,5 +1,6 @@
 .node{
     z-index: 1;
+    transform: translate(-50%, -50%)
 }
 
 .mindMapUiContainer{
@@ -64,5 +65,16 @@
 .buttonIcon:hover{
     color: black;
 }
+
+
+.branch
+{
+    position:absolute;
+    height: 0.2rem;
+    background-color: black;
+    transform-origin: 0 0;
+    border-radius: 5rem;
+}
+
 
 

@@ -1,15 +1,17 @@
-import { Component, Host, HostBinding, HostListener, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Host, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { NodeCoordinates } from 'src/app/core/domain/entities/node-coordinates';
 import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
+import { BranchService } from 'src/app/core/services/branch.service';
 import { MapPanningService } from 'src/app/core/services/map-panning.service';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
+import { CoordinatesConverterHelper } from '../coordinates-converter-helper';
 
 @Component({
   selector: 'node',
   templateUrl: './node.component.html',
   styleUrl: './node.component.css'
 })
-export class NodeComponent implements OnInit {
+export class NodeComponent implements OnInit,AfterViewInit {
   nodeStyle= {backgroundColor: '#fffaf0', borderColor:'#fffaf0'};
   nodeName="";
   nodeSettings:NodeMindMap=new NodeMindMap("","","#fffaf0",new NodeCoordinates(0,0),false);
@@ -26,9 +28,14 @@ export class NodeComponent implements OnInit {
     this.updateUi();
   }
   
-  constructor(private mindMapService:MindMapService, private panningService:MapPanningService){
+  constructor(private mindMapService:MindMapService, private panningService:MapPanningService,private branchService:BranchService, private elementRef:ElementRef,private changeDetectorRef: ChangeDetectorRef){
 
   }
+  ngAfterViewInit(): void {
+    
+  }
+
+  
 
   ngOnInit(): void {
     this.updateUi();
@@ -79,15 +86,35 @@ export class NodeComponent implements OnInit {
    
   }
 
+  onPlusClick(event: MouseEvent) {
+    event.stopPropagation();
+    if(this.mindMapService.isAnySpecialModeActive())
+      return;
+    let isMapPanningModeActive=this.panningService.getMapPanningMode();
+    if(isMapPanningModeActive)
+      return;
+    this.branchService.activateBranchCreateMode(this.nodeSettings)
+    
+  }
+
+  onPlusDown(event:MouseEvent)
+  {
+    event.stopPropagation();
+  }
+
 
 
   updateUi()
   {
 
-    let translatedNodeCordinates=this.panningService.getTranslatedNodeCoordinates(this.nodeSettings.coordinates);
-    this.positionX= translatedNodeCordinates.x + 'px';
-    this.positionY = translatedNodeCordinates.y + 'px';
     this.nodeName=this.nodeSettings.name;
+    this.changeDetectorRef.detectChanges();
+    let translatedNodeCordinates=this.panningService.getTranslatedNodeCoordinates(this.nodeSettings.coordinates);
+    
+    let centeredCoordinates=CoordinatesConverterHelper.getCenteredCoordinates(translatedNodeCordinates,this.elementRef.nativeElement)
+    this.positionX= centeredCoordinates.x + 'px';
+    this.positionY = centeredCoordinates.y + 'px';
+
     this.nodeStyle.backgroundColor = this.nodeSettings.color+"96"; 
     this.nodeStyle.borderColor = this.nodeSettings.color;
     
