@@ -29,4 +29,10 @@ export class NodeMindMap{
         let defultCordinates=new NodeCoordinates(0,0)
         return new NodeMindMap("","","",defultCordinates,false);
     }
+
+    public clone()
+    {
+        let coordinatesCopy=this.coordinates.clone();
+        return new NodeMindMap(this.id,this.name,this.color,coordinatesCopy,this.wasEdited)
+    }
 }

@@ -3,4 +3,9 @@ export class NodeCoordinates{
     {
 
     }
+
+    public clone()
+    {
+        return new  NodeCoordinates(this.x,this.y);
+    }
 }

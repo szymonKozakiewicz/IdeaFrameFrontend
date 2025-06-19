@@ -4,6 +4,7 @@ import { NodeMindMap } from "../domain/entities/node-mind-map";
 import { Subject } from "rxjs";
 import { BranchCoordinates } from "../domain/entities/branch-coordinates";
 import { NodeCoordinates } from "../domain/entities/node-coordinates";
+import { MapPanningService } from "./map-panning.service";
 
 @Injectable({providedIn:'root'})
 export class BranchService{
@@ -15,6 +16,10 @@ export class BranchService{
     
     private newBranchSource:NodeMindMap=NodeMindMap.buildDefault();
     private createBranch=BranchMindMap.buildDefault();
+    private createBranchForUi=BranchMindMap.buildDefault();
+
+    constructor(private panningService:MapPanningService)
+    {}
 
     public activateBranchCreateMode(newBranchSource:NodeMindMap)
     {
@@ -34,6 +39,7 @@ export class BranchService{
         let tempBranchTarget=NodeMindMap.buildDefault();
         tempBranchTarget.coordinates=coordinates;
         this.createBranch.target=tempBranchTarget;
+        this.updateCreateBranchForUi();
         this.branchChanged$.next();
         
     }
@@ -51,9 +57,12 @@ export class BranchService{
     public getInitialCreateBranch(): BranchMindMap
     {
         
-        let branch=new BranchMindMap("",this.newBranchSource,this.newBranchSource);
+        let branch=new BranchMindMap("",this.newBranchSource,this.newBranchSource.clone());
         this.createBranch=branch
-        return branch;
+   
+        this.createBranchForUi=this.createBranch.clone();
+        return this.createBranchForUi;
+
     }
 
     public finaliseBranchCreation(targetNode:NodeMindMap)
@@ -65,5 +74,10 @@ export class BranchService{
         let newBranch=new BranchMindMap("",this.newBranchSource,targetNode)
         this.branches.push(newBranch)
 
+    }
+
+    
+    private updateCreateBranchForUi() {
+        this.createBranchForUi.target.coordinates = this.panningService.getReversedTranlationOfCoordinates(this.createBranch.target.coordinates);
     }
 }

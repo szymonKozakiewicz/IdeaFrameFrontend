@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input } from '@angular/core';
 import { BranchMindMap } from 'src/app/core/domain/entities/branch-mind-map';
 import { BranchService } from 'src/app/core/services/branch.service';
+import { MapPanningService } from 'src/app/core/services/map-panning.service';
 
 @Component({
   selector: 'branch',
@@ -26,9 +27,11 @@ export class BranchComponent {
 
 
 
-  constructor(private branchService:BranchService)
+  constructor(private branchService:BranchService, private panningService:MapPanningService)
   {
     let coordinates=this._branch.getBranchCoordinates();
+    let translatedStartCoordinates=this.panningService.getTranslatedNodeCoordinates(coordinates.startPoint);
+    coordinates.startPoint=translatedStartCoordinates
     this.left=coordinates.startPoint.x+"px";
     this.top=coordinates.startPoint.y+"px";
     this.lenght=coordinates.lenght+"px"
@@ -40,12 +43,20 @@ export class BranchComponent {
         next: this.updateUI.bind(this)
       }
     )
+    panningService.updateMapAfterTranslation$.subscribe(
+      {
+        next: this.updateUI.bind(this)
+      }
+    )
+    
   }
 
   updateUI()
   {
     
     let coordinates=this._branch.getBranchCoordinates();
+    let translatedStartCoordinates=this.panningService.getTranslatedNodeCoordinates(coordinates.startPoint);
+    coordinates.startPoint=translatedStartCoordinates
     this.left=coordinates.startPoint.x+"px";
     this.top=coordinates.startPoint.y+"px";
     this.lenght=coordinates.lenght+"px"

@@ -34,6 +34,13 @@ export class BranchMindMap{
         return coordinates
 
     }
+
+    public clone()
+    {
+        let source=this.source.clone()
+        let target=this.target.clone()
+        return new BranchMindMap(this.id,source,target)
+    }
 }
 
 
