@@ -59,7 +59,9 @@ export class MindMapComponent implements OnInit {
   openNodeContextMenu(event: MouseEvent) {
     event.preventDefault();
     this.isNodeContextMenuVisible=true;
-    this.nodeContextMenuPosition= { left: event.offsetX, top: event.offsetY};
+    
+    let clickOffsetPostion=CoordinatesConverterHelper.convertClientToOffset(event.clientX,event.clientY,this.elementRef.nativeElement)
+    this.nodeContextMenuPosition= { left: clickOffsetPostion.x, top: clickOffsetPostion.y};
     this.branchService.deactivateBranchCreateMode()
   }
 
@@ -77,8 +79,7 @@ export class MindMapComponent implements OnInit {
  
     if(!this.branchService.isBranchModeActive())
       return
-    let x=event.offsetX;
-    let y=event.offsetY;
+
     
     let clickCoordinates=CoordinatesConverterHelper.convertClientToOffset(event.clientX,event.clientY,this.elementRef.nativeElement)
     this.branchService.updateBranchCreateTargetCoordinates(clickCoordinates)
@@ -96,6 +97,7 @@ export class MindMapComponent implements OnInit {
     this.mindMapService.updateSelectedNodePosition(finalPostion)
     this.nodePositionDragTranslation={ x: 0, y: 0 };
     this.branchService.branchChanged$.next();
+    
 
   }
 

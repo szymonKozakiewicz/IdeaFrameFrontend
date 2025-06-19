@@ -1,6 +1,7 @@
 import { Directive, ElementRef, HostBinding, HostListener, OnInit } from "@angular/core";
 import { MapPanningService } from "src/app/core/services/map-panning.service";
 import { MindMapService } from "src/app/core/services/mind-map.service";
+import { CoordinatesConverterHelper } from "../mindmap-panel/mind-map/coordinates-converter-helper";
 
 @Directive({
     selector: '[mapPanning]'
@@ -11,7 +12,7 @@ export class MapPanningDirective implements OnInit
     panningStartPoint= { x: 0, y: 0 };
     translationStarted: boolean = false;
 
-    constructor(private panningService: MapPanningService) {
+    constructor(private panningService: MapPanningService, private elementRef:ElementRef) {
 
     }
 
@@ -29,7 +30,8 @@ export class MapPanningDirective implements OnInit
         if (!isInPanningmode) {
             return;
         }
-        this.panningStartPoint = { x: event.offsetX, y: event.offsetY };
+        let clickOffsetPostion=CoordinatesConverterHelper.convertClientToOffset(event.clientX,event.clientY,this.elementRef.nativeElement)
+        this.panningStartPoint = { x: clickOffsetPostion.x, y: clickOffsetPostion.y };
         this.panningService.initPanning();
         this.translationStarted = true;
         this.cursorStyle = 'grabbing !important';
@@ -40,7 +42,8 @@ export class MapPanningDirective implements OnInit
         if (!this.translationStarted) {
             return;
         }
-        const currentPoint = { x: event.offsetX, y: event.offsetY };
+        let clickOffsetPostion=CoordinatesConverterHelper.convertClientToOffset(event.clientX,event.clientY,this.elementRef.nativeElement)
+        const currentPoint = { x: clickOffsetPostion.x, y: clickOffsetPostion.y };
         this.panningService.updateCurrentMapTranslation(this.panningStartPoint,currentPoint)
     }
 
@@ -61,7 +64,8 @@ export class MapPanningDirective implements OnInit
         if (!this.translationStarted) {
             return;
         }
-        const currentPoint = { x: event.offsetX, y: event.offsetY };
+        let clickOffsetPostion=CoordinatesConverterHelper.convertClientToOffset(event.clientX,event.clientY,this.elementRef.nativeElement)
+        const currentPoint = { x: clickOffsetPostion.x, y: clickOffsetPostion.y};
         this.panningService.finishTranslation(this.panningStartPoint,currentPoint)
         this.translationStarted = false;
         this.panningService.setNewCursorMode('grab');
