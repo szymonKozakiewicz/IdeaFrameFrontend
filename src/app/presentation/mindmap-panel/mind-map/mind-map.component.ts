@@ -29,6 +29,7 @@ export class MindMapComponent implements OnInit {
   isMindMapLoadingSpinnerVisible: boolean = true;
   isBranchCreateModeActive=false
   creatBranch=BranchMindMap.buildDefault();
+  
  
 
   constructor(private mindMapService:MindMapService, private panningService:MapPanningService, private branchService:BranchService,private elementRef: ElementRef) { }
@@ -68,6 +69,11 @@ export class MindMapComponent implements OnInit {
 
   @HostListener("click", ["$event"])
   onEmptySpaceClicked(event: MouseEvent) {
+    if(this.branchService.isBranchModeActive())
+    {
+      let newNodeCoordinates=CoordinatesConverterHelper.convertClientToOffset(event.clientX,event.clientY,this.elementRef.nativeElement)
+      this.mindMapService.finaliseBranchCreationWithCreationNewNode(newNodeCoordinates)
+    }
     this.closeNodeContextMenu();
     this.diselectAllNodes();
     

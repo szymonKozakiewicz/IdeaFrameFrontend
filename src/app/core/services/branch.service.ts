@@ -25,6 +25,7 @@ export class BranchService{
     {
         this.isBranchCreateModeActive=true;
         this.newBranchSource=newBranchSource;
+        this.createBranch=new BranchMindMap("",this.newBranchSource,this.newBranchSource.clone());
         this.branchCreateModeChanged$.next(true)
     }
 
@@ -57,13 +58,14 @@ export class BranchService{
     public getInitialCreateBranch(): BranchMindMap
     {
         
-        let branch=new BranchMindMap("",this.newBranchSource,this.newBranchSource.clone());
-        this.createBranch=branch
+
    
         this.createBranchForUi=this.createBranch.clone();
         return this.createBranchForUi;
 
     }
+
+
 
     public finaliseBranchCreation(targetNode:NodeMindMap)
     {

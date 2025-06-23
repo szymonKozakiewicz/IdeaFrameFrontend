@@ -168,7 +168,9 @@ export function getRegisterServiceMock() {
       saveMindMap: jasmine.createSpy("saveMindMap"),
       loadMindMapFromBakcend: jasmine.createSpy("loadMindMapFromBakcend"),
       mindMapSaveStatus$: new Subject<OperationStatus>(),
-
+      finaliseBranchCreationWithCreationNewNode:jasmine.createSpy("finaliseBranchCreationWithCreationNewNode"),
+      isAnySpecialModeActive:jasmine.createSpy("isAnySpecialModeActive"),
+      getMapBakcgroundColor:jasmine.createSpy("getMapBakcgroundColor") 
     }
     return mindMapServiceMock as MindMapService;
   }

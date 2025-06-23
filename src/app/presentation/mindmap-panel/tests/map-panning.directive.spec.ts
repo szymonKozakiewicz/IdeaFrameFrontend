@@ -11,6 +11,7 @@ import { FormsModule } from "@angular/forms";
 import { MindMapService } from "src/app/core/services/mind-map.service";
 import { FileItemComponent } from "../../user-panel/directory-managager/directory-manager-panel/file-item/file-item.component";
 import { FileItemMenuInMindMapComponent } from "../mind-map/file-item-menu-in-mind-map/file-item-menu-in-mind-map.component";
+import { ElementRef } from "@angular/core";
 
 
 describe('MapPanningDirective (tested with mind map panel component', () => {
@@ -19,6 +20,9 @@ describe('MapPanningDirective (tested with mind map panel component', () => {
     let component: MindMapComponent;
     let fixture: ComponentFixture<MindmapPanelComponent>;
     let mapPanningDirective: MapPanningDirective;
+    const mockElementRef = {
+      nativeElement: document.createElement('div')
+  };
     beforeEach(async () => {
         
         serviceMock=getPanningMapMock();
@@ -29,7 +33,8 @@ describe('MapPanningDirective (tested with mind map panel component', () => {
          providers: [
            {provide: MapPanningService, useValue:serviceMock},
            {provide: MapPanningDirective, useClass: MapPanningDirective},
-           {provide:MindMapService, useValue:getMindMapMock()}
+           {provide:MindMapService, useValue:getMindMapMock()},
+           {provide: ElementRef, useValue: mockElementRef}
          ],
          imports: [FormsModule]
        })

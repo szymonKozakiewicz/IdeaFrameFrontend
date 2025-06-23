@@ -54,6 +54,15 @@ export class MindMapService
         let newNode=new NodeMindMap("","default name","#fffaf0",coordinates,false);
         this.nodes.push(newNode);
         this.mindMapUpdated$.next();
+        return newNode;
+    }
+
+    public finaliseBranchCreationWithCreationNewNode(coordinates:NodeCoordinates){
+        let newNode=this.addNewNode(coordinates)
+        let createBranch=this.branchService.getInitialCreateBranch();
+        let newNodeColor=createBranch.source.color;
+        newNode.color=newNodeColor;
+        this.branchService.finaliseBranchCreation(newNode)
     }
 
     public getNodes()

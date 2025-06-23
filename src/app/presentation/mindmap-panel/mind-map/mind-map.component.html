@@ -10,6 +10,8 @@
     <branch [branchSettings]="branch" class="branch"></branch>
 }
 
+
+
 <branch class="branch" *ngIf="this.isBranchCreateModeActive" [branchSettings]="creatBranch"></branch>
 <div *ngIf="isMindMapLoadingSpinnerVisible" class="d-flex flex-column flex-grow-1 justify-content-center align-items-center w-100 h-100">
     <div class="spinner-border yellow-spinner" role="status"></div>
