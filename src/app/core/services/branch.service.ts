@@ -57,8 +57,6 @@ export class BranchService{
 
     public getInitialCreateBranch(): BranchMindMap
     {
-        
-
    
         this.createBranchForUi=this.createBranch.clone();
         return this.createBranchForUi;

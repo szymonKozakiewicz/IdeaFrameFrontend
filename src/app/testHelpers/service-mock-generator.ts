@@ -20,6 +20,8 @@ import { NodeMindMap } from "../core/domain/entities/node-mind-map";
 import { Point } from "@angular/cdk/drag-drop";
 import { MapPanningService } from "../core/services/map-panning.service";
 import { NodeMindMapLoadDTO } from "../core/dto/node-mindmap-load.dto";
+import { BranchService } from "../core/services/branch.service";
+import { BranchMindMap } from "../core/domain/entities/branch-mind-map";
 
 export function getRegisterServiceMock() {
     let registerSubjectForMock = new Subject<OperationStatus>();
@@ -192,6 +194,22 @@ export function getRegisterServiceMock() {
       resetTranslation: jasmine.createSpy("getReversedTranlationOfCoordinates")
     }
     return panningMapServiceMock as MapPanningService;
+  }
+
+  export function getBranchServiceMock()
+  {
+    const branchServiceMock: Pick<BranchService, keyof BranchService> = {
+      isBranchModeActive: jasmine.createSpy("isBranchModeActive"),
+      finaliseBranchCreation: jasmine.createSpy("finaliseBranchCreation"),
+      branchCreateModeChanged$: new Subject<boolean>(),
+      branchChanged$: new Subject<void>(),
+      activateBranchCreateMode: jasmine.createSpy("activateBranchCreateMode"),
+      deactivateBranchCreateMode: jasmine.createSpy("deactivateBranchCreateMode"),
+      updateBranchCreateTargetCoordinates: jasmine.createSpy("updateBranchCreateTargetCoordinates"),
+      getBranches: jasmine.createSpy("getBranches"),
+      getInitialCreateBranch: jasmine.createSpy("getInitialCreateBranch")
+    }
+    return branchServiceMock as BranchService;
   }
 
 
