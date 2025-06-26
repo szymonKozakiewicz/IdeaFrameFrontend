@@ -1,3 +1,4 @@
+import { BranchMindMapDTO } from "../../dto/branch.dto";
 import { BranchCoordinates } from "./branch-coordinates";
 import { NodeCoordinates } from "./node-coordinates";
 import { NodeMindMap } from "./node-mind-map";
@@ -6,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class BranchMindMap{
     uiId:string=uuidv4();
 
-    constructor(public id:string,public source:NodeMindMap,public target:NodeMindMap) {
+    constructor(public id:string,public source:NodeMindMap,public target:NodeMindMap,public wasEdited:boolean) {
 
     }
 
@@ -15,7 +16,7 @@ export class BranchMindMap{
         let defaultSource=NodeMindMap.buildDefault();
         let defaultSource2=NodeMindMap.buildDefault();
         defaultSource2.coordinates=new NodeCoordinates(500,500);
-        return new BranchMindMap("", defaultSource,defaultSource2)
+        return new BranchMindMap("", defaultSource,defaultSource2,false)
     }
 
     public getColor()
@@ -39,7 +40,14 @@ export class BranchMindMap{
     {
         let source=this.source.clone()
         let target=this.target.clone()
-        return new BranchMindMap(this.id,source,target)
+        return new BranchMindMap(this.id,source,target,this.wasEdited)
+    }
+
+    public convertToBranchMindMapDTO()
+    {
+        let targetDTO=this.target.convertToNodeForBranchSaveDTO()
+        let sourceDTO=this.source.convertToNodeForBranchSaveDTO();
+        return new BranchMindMapDTO(this.id,sourceDTO,targetDTO,this.wasEdited);
     }
 }
 

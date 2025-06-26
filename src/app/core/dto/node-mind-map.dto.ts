@@ -5,7 +5,7 @@ export class NodeMindMapDTO{
 
    
 
-    constructor(public id:string,public name:string,public color:string,public coordinates: NodeCoordinates, public wasEdited:boolean)
+    constructor(public id:string,public name:string,public color:string,public coordinates: NodeCoordinates, public wasEdited:boolean,public uiId:string)
     {
 
 

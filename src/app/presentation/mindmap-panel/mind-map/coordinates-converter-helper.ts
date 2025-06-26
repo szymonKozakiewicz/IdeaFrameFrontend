@@ -6,8 +6,8 @@ export class CoordinatesConverterHelper
     {
         const rect = element.getBoundingClientRect();
 
-        const offsetX = x - rect.left;
-        const offsetY = y - rect.top;
+        const offsetX = Math.round(x - rect.left);
+        const offsetY =Math.round( y - rect.top);
         
         return new NodeCoordinates(offsetX,offsetY)
         

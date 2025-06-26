@@ -5,9 +5,11 @@ import { Subject } from "rxjs";
 import { BranchCoordinates } from "../domain/entities/branch-coordinates";
 import { NodeCoordinates } from "../domain/entities/node-coordinates";
 import { MapPanningService } from "./map-panning.service";
+import { BranchLoadDTO } from "../dto/branch-load.dto";
 
 @Injectable({providedIn:'root'})
 export class BranchService{
+
     
     public branchCreateModeChanged$=new Subject<boolean>();
     public branchChanged$=new Subject<void>();
@@ -25,7 +27,7 @@ export class BranchService{
     {
         this.isBranchCreateModeActive=true;
         this.newBranchSource=newBranchSource;
-        this.createBranch=new BranchMindMap("",this.newBranchSource,this.newBranchSource.clone());
+        this.createBranch=new BranchMindMap("",this.newBranchSource,this.newBranchSource.clone(),false);
         this.branchCreateModeChanged$.next(true)
     }
 
@@ -33,6 +35,18 @@ export class BranchService{
     {
         this.isBranchCreateModeActive=false;
         this.branchCreateModeChanged$.next(false)
+    }
+
+    public saveBranchesFromBackend(branches: BranchLoadDTO[], nodes: NodeMindMap[]) {
+        this.branches = [];
+        for (const branch of branches) {
+            const sourceNode = nodes.find(node => node.id === branch.sourceId);
+            const targetNode = nodes.find(node => node.id === branch.targetId);
+            if (sourceNode && targetNode) {
+                const newBranch = new BranchMindMap(branch.id, sourceNode, targetNode, false);
+                this.branches.push(newBranch);
+            }
+        }
     }
 
     public updateBranchCreateTargetCoordinates(coordinates:NodeCoordinates)
@@ -71,7 +85,7 @@ export class BranchService{
         if(sourceSameAsTarget)
             return;
         this.deactivateBranchCreateMode()
-        let newBranch=new BranchMindMap("",this.newBranchSource,targetNode)
+        let newBranch=new BranchMindMap("",this.newBranchSource,targetNode,false)
         this.branches.push(newBranch)
 
     }

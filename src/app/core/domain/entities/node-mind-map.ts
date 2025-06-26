@@ -1,3 +1,4 @@
+import { NodeForBranchSaveDto } from "../../dto/node-branch-save.dto";
 import { NodeMindMapDTO } from "../../dto/node-mind-map.dto";
 import { NodeMindMapLoadDTO } from "../../dto/node-mindmap-load.dto";
 import { NodeCoordinates } from "./node-coordinates";
@@ -15,7 +16,18 @@ export class NodeMindMap{
 
     public convertToNodeMindMapDTO()
     {
-        return new NodeMindMapDTO(this.id,this.name,this.color,this.coordinates,this.wasEdited);
+        return new NodeMindMapDTO(this.id,this.name,this.color,this.coordinates,this.wasEdited,this.uiId);
+    }
+
+    
+    public convertToNodeMindMapLoadDTO()
+    {
+        return new NodeMindMapLoadDTO(this.id,this.name,this.color,this.coordinates);
+    }
+
+    public convertToNodeForBranchSaveDTO(){
+        return new NodeForBranchSaveDto(this.id,this.uiId)
+
     }
 
     public static build(nodeDTO:NodeMindMapLoadDTO): NodeMindMap {

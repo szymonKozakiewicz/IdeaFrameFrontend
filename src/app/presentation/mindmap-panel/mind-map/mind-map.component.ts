@@ -148,6 +148,7 @@ export class MindMapComponent implements OnInit {
 
   private upadateMap() {
     this.nodes = this.mindMapService.getNodes();
+    this.branches = this.branchService.getBranches();
     this.isMindMapLoadingSpinnerVisible = false;
   }
 

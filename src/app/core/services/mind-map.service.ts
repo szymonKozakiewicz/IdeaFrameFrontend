@@ -15,6 +15,7 @@ import { FileItemDTO } from "../dto/file-item.dto";
 import { NodeMindMapLoadDTO } from "../dto/node-mindmap-load.dto";
 import { OperationStatus } from "../enum/operation.status";
 import { BranchService } from "./branch.service";
+import { MindMapLoadDto } from "../dto/mind-map-load.dto";
 
 @Injectable({providedIn:'root'})
 export class MindMapService
@@ -136,11 +137,12 @@ export class MindMapService
         
         let fileItemDto=this.currentFileItem.convertWithPathToFileItemDTO();
         let nodesDTO=this.nodes.map(node => node.convertToNodeMindMapDTO());
-        let mindMapSaveDTO= new MindMapSaveDto(fileItemDto,nodesDTO);
+        let branchesDTO=this.branchService.getBranches().map(branch => branch.convertToBranchMindMapDTO());
+        let mindMapSaveDTO= new MindMapSaveDto(fileItemDto,nodesDTO,branchesDTO);
         this.setWasEditedPropertyToFalseForAllNodes();
         this.mindMapSaveStatus$.next(OperationStatus.IN_PROGRESS);
         
-        this.clientHttp.post<NodeMindMapLoadDTO[]>(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
+        this.clientHttp.post<MindMapLoadDto>(ApiEndpoints.SAVE_MINDMAP, mindMapSaveDTO).subscribe({
             next:this.finaliseSavingMindMap.bind(this),
             error:(error)=>{
                 console.error("Error saving mind map", error);
@@ -157,19 +159,26 @@ export class MindMapService
 
     loadMindMapFromBakcend() {
         let fileItemDto=this.currentFileItem.convertWithPathToFileItemDTO();
-        this.clientHttp.post<NodeMindMapLoadDTO[]>(ApiEndpoints.LOAD_MINDMAP, fileItemDto).subscribe({
-            next: this.saveNodesFromBackend.bind(this),
+        this.clientHttp.post<MindMapLoadDto>(ApiEndpoints.LOAD_MINDMAP, fileItemDto).subscribe({
+            next: this.saveNodesAndBranchesFromBackend.bind(this),
             error:(error)=>{
                 console.error("Error loading minamap data from backend", error);
             }
         })
     }
 
-    
+    private saveNodesAndBranchesFromBackend(mindMapLoadDto:MindMapLoadDto ) {
+        this.saveNodesFromBackend(mindMapLoadDto.nodes);
+        this.branchService.saveBranchesFromBackend(mindMapLoadDto.branches,this.nodes);
+        this.mindMapUpdated$.next();
+        
+    }
 
-    private finaliseSavingMindMap(nodesDTO: NodeMindMapLoadDTO[]){
-        this.saveNodesFromBackend(nodesDTO);
+    private finaliseSavingMindMap(mindMapLoadDTO:MindMapLoadDto){
+        this.saveNodesFromBackend(mindMapLoadDTO.nodes);
+        this.branchService.saveBranchesFromBackend(mindMapLoadDTO.branches,this.nodes);
         this.mindMapSaveStatus$.next(OperationStatus.SUCCESS);
+        this.mindMapUpdated$.next();
     }
 
     private saveNodesFromBackend(nodesDTO: NodeMindMapLoadDTO[]) {
