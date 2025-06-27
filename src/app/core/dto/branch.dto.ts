@@ -7,7 +7,7 @@ import { NodeForBranchSaveDto } from './node-branch-save.dto';
 export class BranchMindMapDTO{
 
 
-    constructor(public id:string,public source:NodeForBranchSaveDto,public target:NodeForBranchSaveDto,public wasEdited:boolean) {
+    constructor(public id:string,public source:NodeForBranchSaveDto,public target:NodeForBranchSaveDto,public wasEdited:boolean, public isDeleted:boolean) {  
 
     }
 

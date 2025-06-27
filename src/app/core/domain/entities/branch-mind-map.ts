@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class BranchMindMap{
     uiId:string=uuidv4();
 
-    constructor(public id:string,public source:NodeMindMap,public target:NodeMindMap,public wasEdited:boolean) {
+    constructor(public id:string,public source:NodeMindMap,public target:NodeMindMap,public wasEdited:boolean, public isDeleted:boolean=false) {
 
     }
 
@@ -47,7 +47,7 @@ export class BranchMindMap{
     {
         let targetDTO=this.target.convertToNodeForBranchSaveDTO()
         let sourceDTO=this.source.convertToNodeForBranchSaveDTO();
-        return new BranchMindMapDTO(this.id,sourceDTO,targetDTO,this.wasEdited);
+        return new BranchMindMapDTO(this.id,sourceDTO,targetDTO,this.wasEdited, this.isDeleted);
     }
 }
 

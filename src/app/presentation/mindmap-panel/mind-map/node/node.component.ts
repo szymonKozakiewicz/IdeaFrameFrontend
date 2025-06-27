@@ -5,6 +5,7 @@ import { BranchService } from 'src/app/core/services/branch.service';
 import { MapPanningService } from 'src/app/core/services/map-panning.service';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
 import { CoordinatesConverterHelper } from '../coordinates-converter-helper';
+import { MindMapContextMenuMode } from 'src/app/core/enum/mind-map-context-menu-mode.enum';
 
 @Component({
   selector: 'node',
@@ -64,6 +65,17 @@ export class NodeComponent implements OnInit,AfterViewInit {
     }
    
   }
+
+
+  @HostListener('contextmenu', ['$event'])
+  openNodeContextMenu(event: MouseEvent) {
+    event.preventDefault();
+
+    this.selectNode();
+    this.mindMapService.setMindMapContextMenuMode(MindMapContextMenuMode.NODE);
+
+  }
+
 
 
 

@@ -10,6 +10,9 @@ import { BranchLoadDTO } from "../dto/branch-load.dto";
 @Injectable({providedIn:'root'})
 export class BranchService{
 
+
+
+
     
     public branchCreateModeChanged$=new Subject<boolean>();
     public branchChanged$=new Subject<void>();
@@ -19,6 +22,9 @@ export class BranchService{
     private newBranchSource:NodeMindMap=NodeMindMap.buildDefault();
     private createBranch=BranchMindMap.buildDefault();
     private createBranchForUi=BranchMindMap.buildDefault();
+    private selectedBranch:BranchMindMap=BranchMindMap.buildDefault();
+
+
 
     constructor(private panningService:MapPanningService)
     {}
@@ -35,6 +41,37 @@ export class BranchService{
     {
         this.isBranchCreateModeActive=false;
         this.branchCreateModeChanged$.next(false)
+    }
+
+    public removeBrenchesConnectedToNode(nodeUiId: string) {
+        let branchesConnectedToNode: BranchMindMap[]=this.branches.filter(branch => branch.source.uiId === nodeUiId || branch.target.uiId === nodeUiId);
+
+        this.removeNotSavedBranches(branchesConnectedToNode);
+        this.setSavedBranchesAsToDelete(branchesConnectedToNode);
+    }
+
+    public setSelectedBranch(newSelectedBranch: BranchMindMap) {
+        this.selectedBranch=newSelectedBranch;
+    }
+
+    public removeSelectedBranch() {
+        if(this.selectedBranch.id === "")
+            this.branches = this.branches.filter(branch => branch.uiId !== this.selectedBranch.uiId);
+        else {
+            this.selectedBranch.isDeleted = true;
+        }
+    }
+
+    private setSavedBranchesAsToDelete(branchesConnectedToNode: BranchMindMap[]) {
+        for (const branch of branchesConnectedToNode) {
+            branch.isDeleted = true;
+        }
+    }
+
+    private removeNotSavedBranches(branchesConnectedToNode: BranchMindMap[]) {
+        let notSavedBranchesToRemove: BranchMindMap[] = branchesConnectedToNode.filter(branch => branch.id === "");
+        const idsToRemove = new Set(notSavedBranchesToRemove.map(b => b.id));
+        this.branches = this.branches.filter(branch => !idsToRemove.has(branch.id));
     }
 
     public saveBranchesFromBackend(branches: BranchLoadDTO[], nodes: NodeMindMap[]) {

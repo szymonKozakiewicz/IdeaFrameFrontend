@@ -1,7 +1,9 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, HostListener, Input } from '@angular/core';
 import { BranchMindMap } from 'src/app/core/domain/entities/branch-mind-map';
+import { MindMapContextMenuMode } from 'src/app/core/enum/mind-map-context-menu-mode.enum';
 import { BranchService } from 'src/app/core/services/branch.service';
 import { MapPanningService } from 'src/app/core/services/map-panning.service';
+import { MindMapService } from 'src/app/core/services/mind-map.service';
 
 @Component({
   selector: 'branch',
@@ -27,7 +29,7 @@ export class BranchComponent {
 
 
 
-  constructor(private branchService:BranchService, private panningService:MapPanningService)
+  constructor(private branchService:BranchService,private mindMapService:MindMapService, private panningService:MapPanningService)
   {
     let coordinates=this._branch.getBranchCoordinates();
     let translatedStartCoordinates=this.panningService.getTranslatedNodeCoordinates(coordinates.startPoint);
@@ -49,6 +51,18 @@ export class BranchComponent {
       }
     )
     
+  }
+  
+  @HostListener('contextmenu', ['$event'])
+  openNodeContextMenu(event: MouseEvent) {
+    event.preventDefault();
+
+    this.selectBranch();
+    this.mindMapService.setMindMapContextMenuMode(MindMapContextMenuMode.BRANCH);
+
+  }
+  selectBranch() {
+    this.branchService.setSelectedBranch(this._branch);
   }
 
   updateUI()

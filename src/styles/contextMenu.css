@@ -24,6 +24,11 @@
     background-color: #86d58c5e;
   }
 
+  .redHighlight:hover
+  {
+    background-color: #de0a0a50;
+  }
+
   .contextMenuPanel{
     border: solid 1px #77B6EA;
   }    

@@ -1,6 +1,7 @@
 <div class="dropdown context-menu-absolute"  [ngStyle]="nodeMenuPositionStyle" >
     <div class="dropdown-menu show contextMenuPanel" >  
-      <a data-testid="nodeCreateBtn" class="dropdown-item greenHighlight myLink" (click)="addNewNode()"><i class="text-success">+</i>Create node</a>
-
+      <a *ngIf="isNormalModeActive()" data-testid="nodeCreateBtn" class="dropdown-item greenHighlight myLink" (click)="addNewNode()"><i class="text-success">+</i>Create node</a>
+      <a *ngIf="isNodeModeActive()" data-testid="nodeCreateBtn" class="dropdown-item redHighlight myLink" (click)="removeNode()"><i class="text-danger">-</i>Delete node</a>
+      <a *ngIf="isBranchModeActive()" data-testid="nodeCreateBtn" class="dropdown-item redHighlight myLink" (click)="removeBranch()"><i class="text-danger">-</i>Delete node</a>
     </div>
 </div>

@@ -9,6 +9,7 @@ import { BranchService } from 'src/app/core/services/branch.service';
 import { MapPanningService } from 'src/app/core/services/map-panning.service';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
 import { CoordinatesConverterHelper } from './coordinates-converter-helper';
+import { MindMapContextMenuMode } from 'src/app/core/enum/mind-map-context-menu-mode.enum';
 
 @Component({
   selector: 'mind-map',
@@ -19,8 +20,9 @@ export class MindMapComponent implements OnInit {
 
 
 
-  isNodeContextMenuVisible: boolean = false;
-  nodeContextMenuPosition: { left: number; top: number } = { left: 0, top: 0 };
+  isMindMapContextMenuVisible: boolean = false;
+  mindMapContextMenuPosition: { left: number; top: number } = { left: 0, top: 0 };
+  mindMapContextMenuMode: MindMapContextMenuMode = MindMapContextMenuMode.NORMAL;
   nodes: NodeMindMap[] = []; 
   branches:BranchMindMap[]=[];
   nodePositionDragTranslation: { x: number, y: number } = { x: 0, y: 0 };
@@ -28,6 +30,7 @@ export class MindMapComponent implements OnInit {
   fileItemName: string = "";
   isMindMapLoadingSpinnerVisible: boolean = true;
   isBranchCreateModeActive=false
+  
   creatBranch=BranchMindMap.buildDefault();
   
  
@@ -57,12 +60,12 @@ export class MindMapComponent implements OnInit {
 
 
   @HostListener("contextmenu", ["$event"])
-  openNodeContextMenu(event: MouseEvent) {
+  openMindMapContextMenu(event: MouseEvent) {
     event.preventDefault();
-    this.isNodeContextMenuVisible=true;
-    
+    this.isMindMapContextMenuVisible=true;
+    this.mindMapContextMenuMode=this.mindMapService.getAndResetMindMapContextMenuMode()
     let clickOffsetPostion=CoordinatesConverterHelper.convertClientToOffset(event.clientX,event.clientY,this.elementRef.nativeElement)
-    this.nodeContextMenuPosition= { left: clickOffsetPostion.x, top: clickOffsetPostion.y};
+    this.mindMapContextMenuPosition= { left: clickOffsetPostion.x, top: clickOffsetPostion.y};
     this.branchService.deactivateBranchCreateMode()
   }
 
@@ -133,7 +136,7 @@ export class MindMapComponent implements OnInit {
 
   closeNodeContextMenu() {
     
-    this.isNodeContextMenuVisible=false;
+    this.isMindMapContextMenuVisible=false;
   }
 
   diselectAllNodes() {

@@ -16,10 +16,14 @@ import { NodeMindMapLoadDTO } from "../dto/node-mindmap-load.dto";
 import { OperationStatus } from "../enum/operation.status";
 import { BranchService } from "./branch.service";
 import { MindMapLoadDto } from "../dto/mind-map-load.dto";
+import { MindMapContextMenuMode } from "../enum/mind-map-context-menu-mode.enum";
 
 @Injectable({providedIn:'root'})
 export class MindMapService
 {
+
+
+
 
 
 
@@ -33,7 +37,7 @@ export class MindMapService
     private mapBackgroundColor:string="#C1A7A7";
     private defaultSelectedNode:NodeMindMap=new NodeMindMap("","","#fffaf0",new NodeCoordinates(0,0),true);
     private selectedNode:NodeMindMap=this.defaultSelectedNode;
-
+    private mindMapContextMenuMode:MindMapContextMenuMode=MindMapContextMenuMode.NORMAL;
 
     constructor(private panningService:MapPanningService,private branchService: BranchService, private clientHttp:CustomHttpClient) {
 
@@ -58,6 +62,8 @@ export class MindMapService
         return newNode;
     }
 
+
+
     public finaliseBranchCreationWithCreationNewNode(coordinates:NodeCoordinates){
         let newNode=this.addNewNode(coordinates)
         let createBranch=this.branchService.getInitialCreateBranch();
@@ -72,6 +78,12 @@ export class MindMapService
         
     }
 
+    public getAndResetMindMapContextMenuMode(): MindMapContextMenuMode {
+        let tempMode=this.mindMapContextMenuMode;
+        this.mindMapContextMenuMode=MindMapContextMenuMode.NORMAL;
+        return tempMode;
+    }
+
 
     public updateSelectedNodePosition(finalPostion: Readonly<Point>) {
         this.selectedNode.coordinates.x+=finalPostion.x;
@@ -80,6 +92,26 @@ export class MindMapService
         this.updateSelectedNodeInNodeComponent$.next();
 
     }
+
+    removeSelectedBranch() {
+        this.branchService.removeSelectedBranch();
+        this.mindMapUpdated$.next();
+    }
+
+    public removeSelectedNode() {
+        this.branchService.removeBrenchesConnectedToNode(this.selectedNode.uiId);
+        const nodeNotSaved = this.selectedNode.id === "";
+        if(nodeNotSaved)
+        {
+            this.nodes = this.nodes.filter(node => node.uiId !== this.selectedNode.uiId);
+        }
+        else{
+            this.selectedNode.isDeleted=true;
+        }
+        this.mindMapUpdated$.next();
+  
+    }
+  
 
 
     private setNodeAsUpdated() {
@@ -97,6 +129,12 @@ export class MindMapService
         this.selectedNode=node;
         this.updateSelectedNodeInSettings$.next(node);
     }
+
+    setMindMapContextMenuMode(newMode:MindMapContextMenuMode) {
+        this.mindMapContextMenuMode=newMode;
+    }
+
+
 
     public isAnySpecialModeActive()
     {

@@ -1,13 +1,19 @@
 
-<node-context-menu [nodeMenuPosition]="nodeContextMenuPosition"  *ngIf="isNodeContextMenuVisible"></node-context-menu>
+<node-context-menu [nodeMenuPosition]="mindMapContextMenuPosition"  *ngIf="isMindMapContextMenuVisible" [contextMenuMode]="mindMapContextMenuMode"></node-context-menu>
 
 @for(node of nodes; track node.uiId) {
-    <node *ngIf="!isMindMapLoadingSpinnerVisible" data-testid="node" cdkDrag [cdkDragFreeDragPosition]="nodePositionDragTranslation" [cdkDragDisabled]="isMapPanningModeActive" [cdkDragBoundary]="'mind-map'" (cdkDragEnded)="onNodeDragEnd($event)"   class="position-absolute node" [nodeSettings]=node></node>
+    @if(!node.isDeleted && !isMindMapLoadingSpinnerVisible){
+        <node data-testid="node" cdkDrag [cdkDragFreeDragPosition]="nodePositionDragTranslation" [cdkDragDisabled]="isMapPanningModeActive" [cdkDragBoundary]="'mind-map'" (cdkDragEnded)="onNodeDragEnd($event)"   class="position-absolute node" [nodeSettings]=node></node>
+    }
+
 }
 
 
 @for (branch of branches; track branch.id) {
-    <branch [branchSettings]="branch" class="branch"></branch>
+    @if(!branch.isDeleted && !isMindMapLoadingSpinnerVisible) {
+        <branch  [branchSettings]="branch" class="branch"></branch>
+    }
+
 }
 
 
