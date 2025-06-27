@@ -1,22 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { min } from 'rxjs';
 import { NodeMindMap } from 'src/app/core/domain/entities/node-mind-map';
 import { MindMapService } from 'src/app/core/services/mind-map.service';
 
 @Component({
-  selector: 'node-settings',
-  templateUrl: './node-settings.component.html',
-  styleUrl: './node-settings.component.css'
+  selector: 'branch-settings',
+  templateUrl: './branch-settings.component.html',
+  styleUrl: './branch-settings.component.css'
 })
-export class NodeSettingsComponent implements OnInit {
+export class BranchSettingsComponent implements OnInit {
 
 
-  nameInputValue: string = "";
-  isAnyNodeSelected: boolean = false;
-  nodeColor: string = "#fffaf0";
-  
+  public isAnyNodeSelected: boolean = false;
+  public branchColor: string = "#fffaf0";
+
   constructor(private mindMapService: MindMapService) { 
-    
+  
   }
 
   ngOnInit(): void {
@@ -26,32 +24,21 @@ export class NodeSettingsComponent implements OnInit {
     this.mindMapService.diselectAllNodes$.subscribe({
       next: this.diselectNode.bind(this)
     })
-
-    
   }
 
   showCurrentSettingsForSelectedNode(selectedNode:NodeMindMap){
     this.isAnyNodeSelected=true;
-
-    this.nameInputValue=selectedNode.name;
-    this.nodeColor=selectedNode.color;
+    this.branchColor=selectedNode.color;
   }
 
-  nodeNameChange(newValue: string) {
-    this.mindMapService.updateSelectedNodeName(newValue);
-  }
-
-  nodeColorChange(newValue: string) {
-    this.mindMapService.updateSelectedNodeColor(newValue);
-  }
-  
   diselectNode() {
     this.isAnyNodeSelected = false;
-    this.nameInputValue = "";
-    this.nodeColor = "#fffaf0";
+    this.branchColor = "#fffaf0";
   }
 
-
-
+  branchColorChange(newValue: string) {
+    this.mindMapService.updateSelectedBranchColor(newValue);
+  }
+  
 
 }

@@ -22,11 +22,6 @@ import { MindMapContextMenuMode } from "../enum/mind-map-context-menu-mode.enum"
 export class MindMapService
 {
 
-
-
-
-
-
     public mindMapUpdated$:Subject<void>=new Subject<void>();
     public updateSelectedNodeInSettings$:Subject<NodeMindMap>=new Subject<NodeMindMap>();
     public updateSelectedNodeInNodeComponent$:Subject<void>=new Subject<void>();
@@ -60,6 +55,15 @@ export class MindMapService
         this.nodes.push(newNode);
         this.mindMapUpdated$.next();
         return newNode;
+    }
+
+    updateSelectedBranchColor(newValue: string) {
+        this.branchService.updateSelectedBranchColor(newValue,this.selectedNode);
+        this.updateSelectedNodeColor(newValue);
+        this.mindMapUpdated$.next();
+        this.updateSelectedNodeInSettings$.next(this.selectedNode);
+        
+
     }
 
 
@@ -128,6 +132,7 @@ export class MindMapService
         this.diselectAllNodes$.next();
         this.selectedNode=node;
         this.updateSelectedNodeInSettings$.next(node);
+        
     }
 
     setMindMapContextMenuMode(newMode:MindMapContextMenuMode) {

@@ -11,8 +11,6 @@ import { BranchLoadDTO } from "../dto/branch-load.dto";
 export class BranchService{
 
 
-
-
     
     public branchCreateModeChanged$=new Subject<boolean>();
     public branchChanged$=new Subject<void>();
@@ -62,16 +60,53 @@ export class BranchService{
         }
     }
 
-    private setSavedBranchesAsToDelete(branchesConnectedToNode: BranchMindMap[]) {
-        for (const branch of branchesConnectedToNode) {
-            branch.isDeleted = true;
+    public updateSelectedBranchColor(newColorValue: string, selectedNode:NodeMindMap) {
+        
+        let nodesInBranch:NodeMindMap[]=this.getAllNodesInBranch(selectedNode);
+        for( const node of nodesInBranch) {
+            node.color = newColorValue;
         }
+
+
     }
 
-    private removeNotSavedBranches(branchesConnectedToNode: BranchMindMap[]) {
-        let notSavedBranchesToRemove: BranchMindMap[] = branchesConnectedToNode.filter(branch => branch.id === "");
-        const idsToRemove = new Set(notSavedBranchesToRemove.map(b => b.id));
-        this.branches = this.branches.filter(branch => !idsToRemove.has(branch.id));
+    private getAllNodesInBranch(selectedNode: NodeMindMap) {
+        const previousBranchColor= selectedNode.color;
+        let nodesInBranch: NodeMindMap[] = [];
+        let nodesToCheckWhichCanHaveChildren: NodeMindMap[] = [];
+        nodesToCheckWhichCanHaveChildren.push(selectedNode);
+        while (nodesToCheckWhichCanHaveChildren.length > 0) {
+            this.collectChildsOfNextNodeInList(nodesToCheckWhichCanHaveChildren, nodesInBranch,previousBranchColor);
+        }
+        return nodesInBranch;
+    }
+
+    private collectChildsOfNextNodeInList(nodesWhichCanHaveChildrenToCheck: NodeMindMap[], nodesInBranch: NodeMindMap[],previousBranchColor:string) {
+        let nodeToCheckForChildren = nodesWhichCanHaveChildrenToCheck.pop();
+        if (!nodeToCheckForChildren) {
+            return;
+        }
+        let childNodes: NodeMindMap[] = this.getChildNodesOfNode(nodeToCheckForChildren);
+        let childrenWhichCanBeAddedToBranch = this.filterChildrenWhichCanBeAddedToBranch(childNodes, nodesInBranch,previousBranchColor);
+        nodesWhichCanHaveChildrenToCheck.push(...childrenWhichCanBeAddedToBranch);
+        nodesInBranch.push(...childrenWhichCanBeAddedToBranch);
+    }
+
+    private getChildNodesOfNode(selectedNode: NodeMindMap) {
+        let branchesComingFromNode: BranchMindMap[] = this.branches.filter(branch => branch.source.uiId === selectedNode.uiId);
+        let childNodes: NodeMindMap[] = branchesComingFromNode.map(branch => branch.target);
+        return childNodes;
+    }
+
+    private filterChildrenWhichCanBeAddedToBranch(childNodes: NodeMindMap[],  nodesInBranch: NodeMindMap[],previousBranchColor:string) {
+        let setOfKeysOfNocdesInBranch:Set<string> =new Set<string>(nodesInBranch.map(node => node.uiId));
+        let resultNodes: NodeMindMap[] = [];
+        for (const childNode of childNodes) {
+            if (!setOfKeysOfNocdesInBranch.has(childNode.uiId) && childNode.color === previousBranchColor) {
+                resultNodes.push(childNode);
+            }
+        }
+        return resultNodes;
     }
 
     public saveBranchesFromBackend(branches: BranchLoadDTO[], nodes: NodeMindMap[]) {
@@ -126,6 +161,23 @@ export class BranchService{
         this.branches.push(newBranch)
 
     }
+
+
+
+
+    private setSavedBranchesAsToDelete(branchesConnectedToNode: BranchMindMap[]) {
+        for (const branch of branchesConnectedToNode) {
+            branch.isDeleted = true;
+        }
+    }
+
+    private removeNotSavedBranches(branchesConnectedToNode: BranchMindMap[]) {
+        let notSavedBranchesToRemove: BranchMindMap[] = branchesConnectedToNode.filter(branch => branch.id === "");
+        const idsToRemove = new Set(notSavedBranchesToRemove.map(b => b.id));
+        this.branches = this.branches.filter(branch => !idsToRemove.has(branch.id));
+    }
+
+
 
     
     private updateCreateBranchForUi() {

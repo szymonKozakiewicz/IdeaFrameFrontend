@@ -33,6 +33,7 @@ import { CdkDragDrop, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { MapPanningDirective } from './presentation/derectives/map-panning.directive';
 import { FileItemMenuInMindMapComponent } from './presentation/mindmap-panel/mind-map/file-item-menu-in-mind-map/file-item-menu-in-mind-map.component';
 import { BranchComponent } from './presentation/mindmap-panel/mind-map/branch/branch.component';
+import { BranchSettingsComponent } from './presentation/mindmap-panel/branch-settings/branch-settings.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { BranchComponent } from './presentation/mindmap-panel/mind-map/branch/br
     AdjustTextAreaDirective,
     MapPanningDirective,
     FileItemMenuInMindMapComponent,
-    BranchComponent
+    BranchComponent,
+    BranchSettingsComponent
   ],
   imports: [BrowserModule,AppRoutingModule, FormsModule,ReactiveFormsModule,HttpClientModule,CdkDrag, CdkDropList],
   bootstrap:[AppComponent],
